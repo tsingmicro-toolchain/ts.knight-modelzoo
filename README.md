@@ -8,7 +8,7 @@
 
 &emsp;&emsp;TS.Knight整体框架如下图所示。
 
-![](media/1.jpg#pic_center)
+![](https://user-images.githubusercontent.com/46103969/200753726-7c57db84-e344-4548-9e70-4106b4a4d928.png)
 
 -   Knight量化工具(Knight-Quantize): 基于少量数据(比如图片、语音、文本等类型) 量化浮点模型。
 -   Knight RNE编译器(Knight-RNE-Compiler): 编译量化模型，产生RNE执行的指令配置文件。
@@ -20,7 +20,7 @@
 
 ## 开发流程
 
-![](media/2.jpg#pic_center)
+![](https://user-images.githubusercontent.com/46103969/200753736-fc476406-0d2f-49c4-bf76-32f3ec08bd58.png)
 
 1.  用户使用Knight量化工具将提前训练好的浮点模型量化成IR定点模型。
 2.  用户使用Knight RNE编译器将IR定点模型编译成芯片部署资源(cfg和weight资源)。
@@ -33,19 +33,19 @@
 
 ### 模型量化
 
-![](media/3.jpg#pic_center)
+![](https://user-images.githubusercontent.com/46103969/200753745-f0323647-6fc4-46aa-9844-31d882d966d8.png)
 
 &emsp;&emsp;ONNX量化工具支持对ONNX/PaddlePaddle/Caffe/Pytorch/Tensorflow五种格式浮点模型的量化。其中PaddlePaddle，Caffe，Pytorch和Tensorflow格式的模型需要先转换为ONNX模型后再进行模型量化。ONNX量化工具通过加载用户提供的量化数据集和ONNX浮点模型开展量化，量化完成后生成ONNX格式的IR定点模型提供给下游编译器使用。ONNX量化工具默认用int8方式量化。
 
 ### 模型编译
 
-![](media/4.png#pic_center)
+![](https://user-images.githubusercontent.com/46103969/200753752-38ac8d69-c3a0-417b-85fa-5cd8ac5ccea1.png)
 
 &emsp;&emsp;ONNX编译工具支持对ONNX/Caffe格式量化好的定点模型进行编译，如果编译成功会生成cfg和weight文件，如果编译失败会有错误编码提示。编译后的文件通过模拟器产生仿真数据。
 
 ### 板端模拟
 
-![](media/5.jpg#pic_center)
+![](https://user-images.githubusercontent.com/46103969/200753717-cae654e7-1490-4d27-baf8-26816489f4a3.png)
 
 &emsp;&emsp;RNE模拟器工具的主旨是通过Linux PC软件模拟硬件的运行情况，根据编译器生成的网络指令部署文件和网络权重部署文件，进行网络推理与功能验证。
 &emsp;&emsp;RNE模拟器的原理是模拟硬件算子的处理，根据指令数据决定算子的组合，每个算子根据输入数据、权重数据、量化数据进行数据处理，从而实现整网络的推理。

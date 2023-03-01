@@ -15,7 +15,7 @@ example_ocrv3/
 ├── models
 └── data
 ```
-- 启动容器后，请切换目录到/TS-Knight/Quantize/Onnx/（命令为：cd /TS-Knight/Quantize/Onnx/）
+- **启动容器后，请切换目录到/TS-Knight/Quantize/Onnx/（命令为：cd /TS-Knight/Quantize/Onnx/）**
 
 
 ### OCR_DET 检测网络
@@ -45,7 +45,7 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_det/ocr
 
 # 拷贝模型到指定目录
 cp /my_project/quant/ocrv3_det/ocrv3_det_quantize.onnx /my_project/quant/to_compiler/ocrv3_det/
-cp /my_project/quant/ocrv3_det/dump/float/0001:input/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/input.npy
+cp /my_project/quant/ocrv3_det/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/input.npy
 ```
 
 
@@ -103,7 +103,7 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_cls/ocr
 
 # 拷贝模型到指定目录
 cp /my_project/quant/ocrv3_cls/ocrv3_cls_quantize.onnx /my_project/quant/to_compiler/ocrv3_cls/
-cp /my_project/quant/ocrv3_cls/dump/float/0001:input/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/input.npy
+cp /my_project/quant/ocrv3_cls/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/input.npy
 ```
 
 
@@ -161,7 +161,7 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_rec/ocr
 
 # 拷贝模型到指定目录
 cp /my_project/quant/ocrv3_rec/ocrv3_rec_quantize.onnx /my_project/quant/to_compiler/ocrv3_rec/
-cp /my_project/quant/ocrv3_rec/dump/float/0001:input/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/input.npy
+cp /my_project/quant/ocrv3_rec/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/input.npy
 ```
 
 
@@ -197,9 +197,9 @@ Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3
 
 |  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) |
 |-------------|-----------|----------|----------|-----------|--------------------|
-| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    3.2911ms        |
+| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    90.2911ms        |
 | OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.3425ms        |
-| OCR_REC     | 0.655      | 0.655      | 0.649     | 2077    |    10.4567ms       |
+| OCR_REC     | 0.655      | 0.655      | 0.649     | 2077    |    19.4567ms       |
 
 ## 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到

@@ -203,5 +203,5 @@ Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3
 
 ## 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到
-- 附OCR_DET_512x896 paddle 浮点精度![image](https://user-images.githubusercontent.com/7539692/221813030-d3f08b1f-3533-4062-a88f-6662140fd4d4.png)
+- 附OCR_DET_512x896 paddle 浮点精度(与表格第一行onnx浮点精度一致)![image](https://user-images.githubusercontent.com/7539692/221813030-d3f08b1f-3533-4062-a88f-6662140fd4d4.png)
 

@@ -76,7 +76,7 @@ Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_det/si
 mkdir -p /my_project/quant/to_compiler/ocrv3_det/profiling_dir
 
 #分析网络
-Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_quantize_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_det/profiling_dir/
+Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_r.weight --config /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_det/profiling_dir/
 ```
 
 ### OCR_CLS 分类网络
@@ -137,7 +137,7 @@ Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_cls/si
 mkdir -p /my_project/quant/to_compiler/ocrv3_cls/profiling_dir
 
 #分析网络
-Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_quantize_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_cls/profiling_dir/
+Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_r.weight --config /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_cls/profiling_dir/
 ```
 
 ### OCR_REC 识别网络
@@ -198,7 +198,7 @@ Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_rec/si
 mkdir -p /my_project/quant/to_compiler/ocrv3_rec/profiling_dir
 
 #分析网络
-Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_quantize_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_rec/profiling_dir/
+Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_r.weight --config /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_rec/profiling_dir/
 ```
 
 

@@ -70,7 +70,7 @@ mkdir -p /my_project/quant/to_compiler/ocrv3_det/simulator_dir
 python3 /TS-Knight-software/tools/npy2bin.py --input /my_project/quant/to_compiler/ocrv3_det/input.npy --output /my_project/quant/to_compiler/ocrv3_det/simulator_dir/input.bin
 
 #模拟网络
-Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_det/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_quantize_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_det/simulator_dir/ -fmt nchw
+Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_det/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_det/simulator_dir/ -fmt nchw
 
 #性能分析器
 mkdir -p /my_project/quant/to_compiler/ocrv3_det/profiling_dir
@@ -131,7 +131,7 @@ mkdir -p /my_project/quant/to_compiler/ocrv3_cls/simulator_dir
 python3 /TS-Knight-software/tools/npy2bin.py --input /my_project/quant/to_compiler/ocrv3_cls/input.npy --output /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/input.bin
 
 #模拟网络
-Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_quantize_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/ -fmt nchw
+Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/ -fmt nchw
 
 #性能分析器
 mkdir -p /my_project/quant/to_compiler/ocrv3_cls/profiling_dir
@@ -192,7 +192,7 @@ mkdir -p /my_project/quant/to_compiler/ocrv3_rec/simulator_dir
 python3 /TS-Knight-software/tools/npy2bin.py --input /my_project/quant/to_compiler/ocrv3_rec/input.npy --output /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/input.bin
 
 #模拟网络
-Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_quantize_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/ -fmt nchw
+Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_quantize_r.weight --config /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/ -fmt nchw
 
 #性能分析器
 mkdir -p /my_project/quant/to_compiler/ocrv3_rec/profiling_dir

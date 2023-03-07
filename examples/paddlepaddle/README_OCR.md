@@ -55,8 +55,10 @@ cp /my_project/quant/ocrv3_det/dump/float/0001:x/batch_0.npy /my_project/quant/t
 mkdir -p /my_project/quant/to_compiler/ocrv3_det/compile_dir
 
 # 编译网络
-使用caffe编译：Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.prototxt --weight /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.weight --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
-使用onnx编译： Knight --chip TX5368A rne-compile --onnx /my_project/quant/to_compiler/ocrv3_det/ocrv3_det_quantize.onnx --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
+- 使用caffe编译：
+Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.prototxt --weight /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.weight --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
+- 使用onnx编译： 
+# Knight --chip TX5368A rne-compile --onnx /my_project/quant/to_compiler/ocrv3_det/ocrv3_det_quantize.onnx --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
 ```
 
 - __模拟__
@@ -114,8 +116,10 @@ cp /my_project/quant/ocrv3_cls/dump/float/0001:x/batch_0.npy /my_project/quant/t
 mkdir -p /my_project/quant/to_compiler/ocrv3_cls/compile_dir
 
 # 编译网络
-使用caffe编译：Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.prototxt --weight /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.weight --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
-使用onnx编译： Knight --chip TX5368A rne-compile --onnx /my_project/quant/to_compiler/ocrv3_cls/ocrv3_cls_quantize.onnx --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
+- 使用caffe编译：
+Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.prototxt --weight /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.weight --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
+- 使用onnx编译： 
+# Knight --chip TX5368A rne-compile --onnx /my_project/quant/to_compiler/ocrv3_cls/ocrv3_cls_quantize.onnx --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
 ```
 
 - __模拟__
@@ -173,8 +177,10 @@ cp /my_project/quant/ocrv3_rec/dump/float/0001:x/batch_0.npy /my_project/quant/t
 mkdir -p /my_project/quant/to_compiler/ocrv3_rec/compile_dir
 
 # 编译网络
-使用caffe编译：Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.prototxt --weight /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.weight --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
-使用onnx编译：Knight --chip TX5368A rne-compile --onnx /my_project/quant/to_compiler/ocrv3_rec/ocrv3_rec_quantize.onnx --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
+- 使用caffe编译：
+Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.prototxt --weight /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.weight --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
+- 使用onnx编译：
+# Knight --chip TX5368A rne-compile --onnx /my_project/quant/to_compiler/ocrv3_rec/ocrv3_rec_quantize.onnx --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
 ```
 
 - __模拟__

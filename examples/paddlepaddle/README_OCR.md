@@ -53,6 +53,7 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_det/ocr
 
 # 拷贝模型到指定目录
 cp /my_project/quant/ocrv3_det/ocrv3_det_quantize.onnx /my_project/quant/to_compiler/ocrv3_det/
+cp -r /my_project/quant/ocrv3_det/caffe_model /my_project/quant/to_compiler/ocrv3_det/
 cp /my_project/quant/ocrv3_det/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/input.npy
 cp /my_project/quant/ocrv3_det/dump/quant/0150\:sigmoid_0.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/output.npy
 ```
@@ -130,6 +131,7 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_cls/ocr
 
 # 拷贝模型到指定目录
 cp /my_project/quant/ocrv3_cls/ocrv3_cls_quantize.onnx /my_project/quant/to_compiler/ocrv3_cls/
+cp -r /my_project/quant/ocrv3_cls/caffe_model /my_project/quant/to_compiler/ocrv3_cls/
 cp /my_project/quant/ocrv3_cls/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/input.npy
 cp /my_project/quant/ocrv3_cls/dump/quant/0112\:softmax_0.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/output.npy
 ```
@@ -207,6 +209,7 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_rec/ocr
 
 # 拷贝模型到指定目录
 cp /my_project/quant/ocrv3_rec/ocrv3_rec_quantize.onnx /my_project/quant/to_compiler/ocrv3_rec/
+cp -r /my_project/quant/ocrv3_rec/caffe_model /my_project/quant/to_compiler/ocrv3_rec/
 cp /my_project/quant/ocrv3_rec/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/input.npy
 cp /my_project/quant/ocrv3_rec/dump/quant/0136\:softmax_2.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/output.npy
 ```

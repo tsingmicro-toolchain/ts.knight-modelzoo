@@ -17,6 +17,13 @@ example_ocrv3/
 ```
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
 
+## Benchmark(数据集来自官网提供和整理)
+
+|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) |
+|-------------|-----------|----------|----------|-----------|--------------------|
+| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    90.2911ms        |
+| OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.3425ms        |
+| OCR_REC     | 0.655      | 0.655      | 0.650     | 2077    |    19.4567ms       |
 
 ### OCR_DET 检测网络
 
@@ -248,13 +255,6 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_rec/dump/quant/0136\:sof
         <img src=https://user-images.githubusercontent.com/7539692/223621360-8b855a68-87b3-4eba-8179-de2b9fa2f5cd.png />
 </div>
 
-## Benchmark(数据集来自官网提供和整理)
-
-|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) |
-|-------------|-----------|----------|----------|-----------|--------------------|
-| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    90.2911ms        |
-| OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.3425ms        |
-| OCR_REC     | 0.655      | 0.655      | 0.650     | 2077    |    19.4567ms       |
 
 ## 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到

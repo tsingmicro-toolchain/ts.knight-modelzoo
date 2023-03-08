@@ -257,7 +257,7 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_rec/dump/quant/0136\:sof
 |-------------|-----------|----------|----------|-----------|--------------------|
 | OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    90.2911ms        |
 | OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.3425ms        |
-| OCR_REC     | 0.655      | 0.655      | 0.649     | 2077    |    19.4567ms       |
+| OCR_REC     | 0.655      | 0.655      | 0.650     | 2077    |    19.4567ms       |
 
 ## 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到

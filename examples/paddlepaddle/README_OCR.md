@@ -6,7 +6,7 @@
 
 ```
 docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -v $localhost_dir/example_ocrv3:/TS-Knight/Quantize/Onnx/example -w /TS-Knight/Quantize/Onnx/ -it knight-1.1.0.7-for-paddle-ocrv3:6.0 /bin/bash
+docker run -v $localhost_dir/example_ocrv3:/TS-Knight/Quantize/Onnx/example -w /TS-Knight/Quantize/Onnx/ -it knight-1.1.0.7-for-paddle-ocrv3:7.0 /bin/bash
 ```
 
 &emsp;&emsp;其中docker镜像的tar包和example_ocrv3目录为下载的压缩包解压出来的，localhost_dir 为解压出来的本地目录，存放模型权重和量化数据集，目录结构如下：

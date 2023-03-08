@@ -47,7 +47,16 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_det/ocr
 cp /my_project/quant/ocrv3_det/ocrv3_det_quantize.onnx /my_project/quant/to_compiler/ocrv3_det/
 cp /my_project/quant/ocrv3_det/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/input.npy
 ```
-
+<div align=center>
+浮点结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223619517-4b088963-a843-4b5a-aeeb-f98d8a3e3f2f.png />  
+<br>量化结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223619436-390fbd93-877c-4ad9-bd2e-d801ea3ba18a.png />
+<br>浮点结果（全量数据）<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223619202-85c128a5-a2d1-43a0-a557-7411a992bfc2.png />
+<br>量化结果（全量数据）<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223618984-1b4ef8d1-bf17-418f-a916-4866b3aa908e.png />
+</div>
 
 - __编译__
 
@@ -81,6 +90,11 @@ Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3
 #数据比对
 python3 sim2quant_compare.py -q /my_project/quant/ocrv3_det/dump/quant/0150\:sigmoid_0.tmp_0/batch_0.npy -s /my_project/quant/to_compiler/ocrv3_det/simulator_dir/result_0_p.txt
 ```
+<div align=center>
+对比结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223620619-ea50918f-345d-45cf-83db-f3e5288681bd.png />
+</div>
+
 
 ### OCR_CLS 分类网络
 
@@ -111,7 +125,16 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_cls/ocr
 cp /my_project/quant/ocrv3_cls/ocrv3_cls_quantize.onnx /my_project/quant/to_compiler/ocrv3_cls/
 cp /my_project/quant/ocrv3_cls/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/input.npy
 ```
-
+<div align=center>
+浮点结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223619814-ffa14486-8384-4f5d-bb98-2da0e848716d.png />  
+<br>量化结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223620109-14b330fe-c12c-4c8d-8617-547fd8598886.png />
+<br>浮点结果（全量数据）<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223612673-60145f5d-c7ca-47a3-95cd-d623f69366aa.png />
+<br>量化结果（全量数据）<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223620183-f0603421-90a0-4370-9c3b-7eb0ef22b146.png />
+</div>
 
 - __编译__
 
@@ -144,7 +167,12 @@ Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3
 
 #数据比对
 python3 sim2quant_compare.py -q /my_project/quant/ocrv3_cls/dump/quant/0112\:softmax_0.tmp_0/batch_0.npy -s /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/result_0_p.txt
+
 ```
+<div align=center>
+对比结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223613165-2bc69c6c-3c0a-498e-8f70-7b5918df62ed.png />
+</div>
 
 ### OCR_REC 识别网络
 
@@ -175,7 +203,16 @@ python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_rec/ocr
 cp /my_project/quant/ocrv3_rec/ocrv3_rec_quantize.onnx /my_project/quant/to_compiler/ocrv3_rec/
 cp /my_project/quant/ocrv3_rec/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/input.npy
 ```
-
+<div align=center>
+浮点结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223621114-3e729bf5-889d-4249-a4f3-83c998a8fa1d.png />  
+<br>量化结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223621039-1e519d14-9113-43d1-a029-0ae6cb478be5.pn />
+<br>浮点结果（全量数据）<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223620897-d1c1830e-4da2-4601-9a5b-6101bfbcf4bf.png />
+<br>量化结果（全量数据）<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223620820-4d460222-f564-4812-933f-0e41996c9b76.png />
+</div>
 
 - __编译__
 
@@ -209,7 +246,10 @@ Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3
 #数据比对
 python3 sim2quant_compare.py -q /my_project/quant/ocrv3_rec/dump/quant/0136\:softmax_2.tmp_0/batch_0.npy -s /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/result_0_p.txt
 ```
-
+<div align=center>
+对比结果<br>
+        <img src=https://user-images.githubusercontent.com/7539692/223613165-2bc69c6c-3c0a-498e-8f70-7b5918df62ed.png />
+</div>
 
 ## Benchmark(数据集来自官网提供和整理)
 

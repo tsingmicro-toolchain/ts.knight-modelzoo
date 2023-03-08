@@ -207,7 +207,7 @@ cp /my_project/quant/ocrv3_rec/dump/float/0001:x/batch_0.npy /my_project/quant/t
 浮点结果<br>
         <img src=https://user-images.githubusercontent.com/7539692/223621114-3e729bf5-889d-4249-a4f3-83c998a8fa1d.png />  
 <br>量化结果<br>
-        <img src=https://user-images.githubusercontent.com/7539692/223621039-1e519d14-9113-43d1-a029-0ae6cb478be5.pn />
+        <img src=https://user-images.githubusercontent.com/7539692/223621039-1e519d14-9113-43d1-a029-0ae6cb478be5.png />
 <br>浮点结果（全量数据）<br>
         <img src=https://user-images.githubusercontent.com/7539692/223620897-d1c1830e-4da2-4601-9a5b-6101bfbcf4bf.png />
 <br>量化结果（全量数据）<br>
@@ -248,7 +248,7 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_rec/dump/quant/0136\:sof
 ```
 <div align=center>
 对比结果<br>
-        <img src=https://user-images.githubusercontent.com/7539692/223613165-2bc69c6c-3c0a-498e-8f70-7b5918df62ed.png />
+        <img src=https://user-images.githubusercontent.com/7539692/223621360-8b855a68-87b3-4eba-8179-de2b9fa2f5cd.png />
 </div>
 
 ## Benchmark(数据集来自官网提供和整理)

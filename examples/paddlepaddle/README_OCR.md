@@ -6,7 +6,7 @@
 
 ```
 docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -v $localhost_dir/example_ocrv3:/TS-Knight/Quantize/Onnx/example -it knight-1.1.0.7-for-paddle-ocrv3:2.0/bin/bash
+docker run -v $localhost_dir/example_ocrv3:/TS-Knight/Quantize/Onnx/example -w /TS-Knight/Quantize/Onnx/ -it knight-1.1.0.7-for-paddle-ocrv3:6.0 /bin/bash
 ```
 
 &emsp;&emsp;其中docker镜像的tar包和example_ocrv3目录为下载的压缩包解压出来的，localhost_dir 为解压出来的本地目录，存放模型权重和量化数据集，目录结构如下：
@@ -15,7 +15,7 @@ example_ocrv3/
 ├── models
 └── data
 ```
-- **启动容器后，请切换目录到/TS-Knight/Quantize/Onnx/（命令为：cd /TS-Knight/Quantize/Onnx/）**
+- **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
 
 
 ### OCR_DET 检测网络

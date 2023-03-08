@@ -1,3 +1,11 @@
+## Benchmark(数据集来自官网提供和整理)
+
+|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) |
+|-------------|-----------|----------|----------|-----------|--------------------|
+| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    90.2911ms        |
+| OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.3425ms        |
+| OCR_REC     | 0.655      | 0.655      | 0.650     | 2077    |    19.4567ms       |
+
 ## 环境准备
 
 - 通过百度网盘下载example_ocrv3的模型权重和数据集 [下载地址](https://pan.baidu.com/s/1T1t-2410GT5oj8F0IJ417w?pwd=398k)
@@ -17,15 +25,8 @@ example_ocrv3/
 ```
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
 
-## Benchmark(数据集来自官网提供和整理)
 
-|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) |
-|-------------|-----------|----------|----------|-----------|--------------------|
-| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    90.2911ms        |
-| OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.3425ms        |
-| OCR_REC     | 0.655      | 0.655      | 0.650     | 2077    |    19.4567ms       |
-
-### OCR_DET 检测网络
+## OCR_DET 检测网络
 
 - __网络说明__
 ```
@@ -102,7 +103,7 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_det/dump/quant/0150\:sig
 </div>
 
 
-### OCR_CLS 分类网络
+## OCR_CLS 分类网络
 
 - __网络说明__
 ```
@@ -179,7 +180,7 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_cls/dump/quant/0112\:sof
         <img src=https://user-images.githubusercontent.com/7539692/223613165-2bc69c6c-3c0a-498e-8f70-7b5918df62ed.png />
 </div>
 
-### OCR_REC 识别网络
+## OCR_REC 识别网络
 
 - __网络说明__
 ```

@@ -77,7 +77,7 @@ mkdir -p /my_project/quant/to_compiler/ocrv3_det/compile_dir
 Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.prototxt --weight /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.weight --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
 ```
 
-- __模拟(废弃勿用)__
+- __模拟(注：有硬件测试了，该步略过)__
 
 ```
 mkdir -p /my_project/quant/to_compiler/ocrv3_det/simulator_dir
@@ -160,7 +160,7 @@ mkdir -p /my_project/quant/to_compiler/ocrv3_cls/compile_dir
 Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.prototxt --weight /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.weight --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
 ```
 
-- __模拟(废弃勿用)__
+- __模拟(注：有硬件测试了，该步略过)__
 
 ```
 mkdir -p /my_project/quant/to_compiler/ocrv3_cls/simulator_dir
@@ -243,7 +243,7 @@ mkdir -p /my_project/quant/to_compiler/ocrv3_rec/compile_dir
 Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.prototxt --weight /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.weight --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
 ```
 
-- __模拟(废弃勿用)__
+- __模拟(注：有硬件测试了，该步略过)__
 
 ```
 mkdir -p /my_project/quant/to_compiler/ocrv3_rec/simulator_dir

@@ -14,7 +14,7 @@
 
 ```
 docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -w /TS-Knight/Quantize/Onnx/ --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:7.0 /bin/bash
+docker run -w /TS-Knight/Quantize/Onnx/ --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:9.0 /bin/bash
 ```
 
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
@@ -23,9 +23,9 @@ docker run -w /TS-Knight/Quantize/Onnx/ --ipc=host -it knight-1.1.0.7-for-paddle
 ## OCR_DET 检测网络
 
 - __网络说明__
-```
-该网络对目标进行检测，指标为 precision、recall和hmean
-```
+
+  - 该网络对目标进行检测，指标为 precision、recall和hmean
+  - 以下逐步介绍工作流程；`读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh`
 
 - __数据预处理__
 ```
@@ -106,9 +106,9 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_det/dump/quant/0150\:sig
 ## OCR_CLS 分类网络
 
 - __网络说明__
-```
-该网络对目标进行2分类，指标为accuracy
-```
+
+  - 该网络对目标进行2分类，指标为accuracy
+  - 以下逐步介绍工作流程；`读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_cls.sh`
 
 - __数据预处理__
 ```
@@ -189,9 +189,9 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_cls/dump/quant/0112\:sof
 ## OCR_REC 识别网络
 
 - __网络说明__
-```
-该网络对目标进行识别，指标为 accuracy 和 edit distiance
-```
+
+  - 该网络对目标进行识别，指标为 accuracy 和 edit distiance
+  - 以下逐步介绍工作流程；`读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_rec.sh`
 
 - __数据预处理__
 ```

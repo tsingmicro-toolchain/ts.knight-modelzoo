@@ -14,15 +14,9 @@
 
 ```
 docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -v ~/paddle_ocrv3/example_ocrv3:/TS-Knight/Quantize/Onnx/example -w /TS-Knight/Quantize/Onnx/ -it knight-1.1.0.7-for-paddle-ocrv3:7.0 /bin/bash
+docker run -w /TS-Knight/Quantize/Onnx/ --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:7.0 /bin/bash
 ```
 
-&emsp;&emsp;其中docker镜像的tar包和example_ocrv3目录为下载的压缩包解压出来的，localhost_dir 为解压出来的本地目录，存放模型权重和量化数据集，目录结构如下：
-```
-example_ocrv3/
-├── models
-└── data
-```
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
 
 
@@ -31,6 +25,11 @@ example_ocrv3/
 - __网络说明__
 ```
 该网络对目标进行检测，指标为 precision、recall和hmean
+```
+
+- __数据预处理__
+```
+python example/ocrv3_process/pre_post_process.py -c example/configs/ch_PP-OCRv3_det_cml.yml -d example/data/images_ocrv3 -s example/data
 ```
 
 - __量化__
@@ -111,6 +110,11 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_det/dump/quant/0150\:sig
 该网络对目标进行2分类，指标为accuracy
 ```
 
+- __数据预处理__
+```
+python example/ocrv3_process/pre_post_process.py -c example/configs/cls_mv3.yml -d example/data/images_ocrv3 -s example/data
+```
+
 - __量化__
 
 ```
@@ -187,6 +191,11 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_cls/dump/quant/0112\:sof
 - __网络说明__
 ```
 该网络对目标进行识别，指标为 accuracy 和 edit distiance
+```
+
+- __数据预处理__
+```
+python example/ocrv3_process/pre_post_process.py -c example/configs/en_PP-OCRv3_rec.yml -d example/data/images_ocrv3 -s example/data
 ```
 
 - __量化__

@@ -24,7 +24,8 @@ docker run -w /TS-Knight/Quantize/Onnx/ --ipc=host -it knight-1.1.0.7-for-paddle
 - __网络说明__
 
   - 该网络对目标进行检测，指标为 precision、recall和hmean
-  - 以下逐步介绍该网络的工作流程及执行命令；`读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh 运行该网络所有命令`
+  - 以下逐步介绍该网络的工作流程及执行命令；
+  - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh 运行该网络所有命令***
 
 - __数据预处理__
 ```
@@ -107,7 +108,8 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_det/dump/quant/0150\:sig
 - __网络说明__
 
   - 该网络对目标进行2分类，指标为accuracy
-  - 以下逐步介绍该网络的工作流程及执行命令；`读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_cls.sh 运行该网络所有命令`
+  - 以下逐步介绍该网络的工作流程及执行命令；
+  - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_cls.sh 运行该网络所有命令***
 
 - __数据预处理__
 ```
@@ -190,7 +192,8 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_cls/dump/quant/0112\:sof
 - __网络说明__
 
   - 该网络对目标进行识别，指标为 accuracy 和 edit distiance
-  - 以下逐步介绍该网络的工作流程及执行命令；`读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_rec.sh 运行该网络所有命令`
+  - 以下逐步介绍该网络的工作流程及执行命令；
+  - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_rec.sh 运行该网络所有命令***
 
 - __数据预处理__
 ```

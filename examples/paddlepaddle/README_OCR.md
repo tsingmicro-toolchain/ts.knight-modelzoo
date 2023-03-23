@@ -267,6 +267,20 @@ python3 sim2quant_compare.py -q /my_project/quant/ocrv3_rec/dump/quant/0136\:sof
         <img src=https://user-images.githubusercontent.com/7539692/223621360-8b855a68-87b3-4eba-8179-de2b9fa2f5cd.png />
 </div>
 
+## 硬件测试
+- __环境准备__
+  - ssh ubuntu@10.11.1.190 (password: 123456)
+  - **切换到工作目录：cd /home/ubuntu/example_ocrv3**
+
+- __数据预处理__
+  - 执行预处理脚本：bash scripts/preprocess.sh
+  - 当前目录下的data文件夹会生成 all_bins 和 all_pd 两个文件夹，分别存放 作为硬件输入的bin文件 以及 用于后处理（含有图像数据和label）的tensor文件；
+
+- __硬件测试__
+  - @wanggangqiang 补充硬件执行命令
+
+- __后处理__
+  - 执行后处理脚本：bash scripts/postprocess.sh
 
 ## 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到

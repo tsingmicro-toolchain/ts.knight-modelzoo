@@ -14,7 +14,7 @@
 
 ```
 docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:9.0 /bin/bash
+docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:10 /bin/bash
 ```
 
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**

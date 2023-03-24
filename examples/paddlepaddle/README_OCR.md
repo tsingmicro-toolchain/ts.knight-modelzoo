@@ -14,7 +14,7 @@
 
 ```
 docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -w /TS-Knight/Quantize/Onnx/ --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:9.0 /bin/bash
+docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:9.0 /bin/bash
 ```
 
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
@@ -73,35 +73,11 @@ cp /my_project/quant/ocrv3_det/dump/quant/0150\:sigmoid_0.tmp_0/batch_0.npy /my_
 ```
 mkdir -p /my_project/quant/to_compiler/ocrv3_det/compile_dir
 
-# 编译网络
-- 使用caffe编译：
+# 编译网络(使用caffe编译)
 Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.prototxt --weight /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.weight --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
+
+cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
 ```
-
-- __模拟(注：有硬件测试了，该步略过)__
-
-```
-mkdir -p /my_project/quant/to_compiler/ocrv3_det/simulator_dir
-
-# 输入数据转换成模拟器运行需要的二级制文件
-python3 /TS-Knight-software/tools/npy2bin.py --input /my_project/quant/to_compiler/ocrv3_det/input.npy --output /my_project/quant/to_compiler/ocrv3_det/simulator_dir/input.bin
-
-#模拟网络
-Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_det/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_r.weight --config /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_det/simulator_dir/ -fmt nchw
-
-#性能分析器
-mkdir -p /my_project/quant/to_compiler/ocrv3_det/profiling_dir
-
-#分析网络
-Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_r.weight --config /my_project/quant/to_compiler/ocrv3_det/compile_dir/ocrv3_det_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_det/profiling_dir/
-
-#数据比对
-python3 sim2quant_compare.py -q /my_project/quant/ocrv3_det/dump/quant/0150\:sigmoid_0.tmp_0/batch_0.npy -s /my_project/quant/to_compiler/ocrv3_det/simulator_dir/result_0_p.txt
-```
-<div align=center>
-对比结果<br>
-        <img src=https://user-images.githubusercontent.com/7539692/223620619-ea50918f-345d-45cf-83db-f3e5288681bd.png />
-</div>
 
 
 ## OCR_CLS 分类网络
@@ -157,36 +133,11 @@ cp /my_project/quant/ocrv3_cls/dump/quant/0112\:softmax_0.tmp_0/batch_0.npy /my_
 ```
 mkdir -p /my_project/quant/to_compiler/ocrv3_cls/compile_dir
 
-# 编译网络
-- 使用caffe编译：
+# 编译网络(使用caffe编译)
 Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.prototxt --weight /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.weight --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
+
+cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
 ```
-
-- __模拟(注：有硬件测试了，该步略过)__
-
-```
-mkdir -p /my_project/quant/to_compiler/ocrv3_cls/simulator_dir
-
-# 输入数据转换成模拟器运行需要的二级制文件
-python3 /TS-Knight-software/tools/npy2bin.py --input /my_project/quant/to_compiler/ocrv3_cls/input.npy --output /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/input.bin
-
-#模拟网络
-Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_r.weight --config /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/ -fmt nchw
-
-#性能分析器
-mkdir -p /my_project/quant/to_compiler/ocrv3_cls/profiling_dir
-
-#分析网络
-Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_r.weight --config /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ocrv3_cls_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_cls/profiling_dir/
-
-#数据比对
-python3 sim2quant_compare.py -q /my_project/quant/ocrv3_cls/dump/quant/0112\:softmax_0.tmp_0/batch_0.npy -s /my_project/quant/to_compiler/ocrv3_cls/simulator_dir/result_0_p.txt
-
-```
-<div align=center>
-对比结果<br>
-        <img src=https://user-images.githubusercontent.com/7539692/223613165-2bc69c6c-3c0a-498e-8f70-7b5918df62ed.png />
-</div>
 
 ## OCR_REC 识别网络
 
@@ -241,38 +192,16 @@ cp /my_project/quant/ocrv3_rec/dump/quant/0136\:softmax_2.tmp_0/batch_0.npy /my_
 ```
 mkdir -p /my_project/quant/to_compiler/ocrv3_rec/compile_dir
 
-# 编译网络
-- 使用caffe编译：
+# 编译网络(使用caffe编译)
 Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.prototxt --weight /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.weight --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
+
+cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
 ```
 
-- __模拟(注：有硬件测试了，该步略过)__
-
-```
-mkdir -p /my_project/quant/to_compiler/ocrv3_rec/simulator_dir
-
-# 输入数据转换成模拟器运行需要的二级制文件
-python3 /TS-Knight-software/tools/npy2bin.py --input /my_project/quant/to_compiler/ocrv3_rec/input.npy --output /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/input.bin
-
-#模拟网络
-Knight --chip TX5368A rne-sim --input /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/input.bin --weight /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_r.weight --config /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/ -fmt nchw
-
-#性能分析器
-mkdir -p /my_project/quant/to_compiler/ocrv3_rec/profiling_dir
-
-#分析网络
-Knight --chip TX5368A rne-profiling --weight /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_r.weight --config /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ocrv3_rec_r.cfg --outpath /my_project/quant/to_compiler/ocrv3_rec/profiling_dir/
-
-#数据比对
-python3 sim2quant_compare.py -q /my_project/quant/ocrv3_rec/dump/quant/0136\:softmax_2.tmp_0/batch_0.npy -s /my_project/quant/to_compiler/ocrv3_rec/simulator_dir/result_0_p.txt
-```
-<div align=center>
-对比结果<br>
-        <img src=https://user-images.githubusercontent.com/7539692/223621360-8b855a68-87b3-4eba-8179-de2b9fa2f5cd.png />
-</div>
 
 ## 硬件测试
 - __环境准备__
+  - 导出 wx_paddle@192.168.1.10:/data/examples/baidu_qa_ocrv3 目录里的 to_compiler文件夹，用于硬件测试；
   - ssh ubuntu@10.11.1.190 (password: 123456)
   - **切换到工作目录：cd /home/ubuntu/example_ocrv3**
 

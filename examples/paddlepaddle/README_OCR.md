@@ -26,7 +26,8 @@ docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/e
 
   - 该网络对目标进行检测，指标为 precision、recall和hmean
   - 以下逐步介绍该网络的工作流程及执行命令；
-  - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh 运行该网络所有命令(同目录下ocrv3_all.sh可运行3个网络所有命令)***
+  - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh 运行该网络所有命令
+  - `注：同目录下ocrv3_all.sh可运行3个网络所有命令`
 
 - __数据预处理__
 ```
@@ -87,6 +88,7 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
   - 该网络对目标进行2分类，指标为accuracy
   - 以下逐步介绍该网络的工作流程及执行命令；
   - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_cls.sh 运行该网络所有命令***
+  - `注：同目录下ocrv3_all.sh可运行3个网络所有命令`
 
 - __数据预处理__
 ```
@@ -146,6 +148,7 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
   - 该网络对目标进行识别，指标为 accuracy 和 edit distiance
   - 以下逐步介绍该网络的工作流程及执行命令；
   - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_rec.sh 运行该网络所有命令***
+  - `注：同目录下ocrv3_all.sh可运行3个网络所有命令`
 
 - __数据预处理__
 ```

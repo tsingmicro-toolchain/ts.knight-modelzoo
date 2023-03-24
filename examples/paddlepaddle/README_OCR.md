@@ -8,7 +8,8 @@
 
 ## 环境准备
 
-- 请联系[技术支持](../../README.md#技术讨论)获取需要用到的knight docker镜像
+- 请联系[技术支持](../../README.md#技术讨论)获取需要用到的VPN、账号、knight docker镜像
+- ssh wx_paddle@192.168.1.10
 - 启动docker容器:
 
 ```

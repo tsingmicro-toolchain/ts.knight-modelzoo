@@ -14,7 +14,7 @@
 
 ```
 docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:10 /bin/bash
+docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:1.0 /bin/bash
 ```
 
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
@@ -26,7 +26,7 @@ docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/e
 
   - 该网络对目标进行检测，指标为 precision、recall和hmean
   - 以下逐步介绍该网络的工作流程及执行命令；
-  - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh 运行该网络所有命令***
+  - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh 运行该网络所有命令(同目录下ocrv3_all.sh可运行3个网络所有命令)***
 
 - __数据预处理__
 ```

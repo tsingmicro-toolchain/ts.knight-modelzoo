@@ -212,8 +212,9 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
 - __硬件测试__
   - @wanggangqiang 补充硬件执行命令
 
-- __后处理__
-  - 执行后处理脚本：bash scripts/postprocess.sh
+- __后处理__ 
+  - 执行所有网络的后处理脚本：bash scripts/postprocess_all.sh
+  - 也可3个网络分开执行后处理脚本：bash scripts/postprocess_det.sh & bash scripts/postprocess_cls.sh & bash scripts/postprocess_rec.sh
 
 ## 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到

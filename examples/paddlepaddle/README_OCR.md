@@ -214,6 +214,10 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
 ## 硬件测试
 - __环境准备__
   - **导出 wx_paddle@192.168.1.10:/data/examples/baidu_qa_ocrv3 目录里的 to_compiler文件夹**
+    - 执行导出命令：bash /dev-server-ftp/export_data.sh -d /data/examples/baidu_qa_ocrv3/to_compiler/ -c "百度提测：导出模型文件到板端"
+    - 到ftp://192.168.100.38:2121/目录下获取导出的文件，如下图所示<br>
+      ![image](https://user-images.githubusercontent.com/7539692/227904697-f7c353d9-4415-453e-83fb-24849b323052.png)
+
   - 进入python脚本运行环境（简称ubuntu环境）：ssh ubuntu@10.11.1.190 (password: 123456)，**切换到工作目录：cd /home/ubuntu/example_ocrv3**
   - 将第一步导出的to_compiler文件夹整个 放到 ubuntu@10.11.1.190:/home/ubuntu/example_ocrv3 目录下，得到/home/ubuntu/example_ocrv3/to_compiler目录
 

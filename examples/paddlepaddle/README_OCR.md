@@ -17,7 +17,9 @@ docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
 docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:1.0 /bin/bash
 ```
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
-- **数据和模型：** 由于涉及到的模型及数据的大小较小（几十M），因此已被打包到镜像（容器）目录 /TS-Knight/Quantize/Onnx/example下的data和models文件夹；
+- **数据和模型：** 由于3个OCR模型及其数据的大小较小（几十M），因此已被打包到镜像（容器）目录 /TS-Knight/Quantize/Onnx/example下的data和models文件夹；
+- 工作目录说明：<br>
+  ![image](https://user-images.githubusercontent.com/7539692/227886407-84648b1e-1ea6-47fd-b916-aea0b01049bc.png)
 
 
 ## OCR_DET 检测网络

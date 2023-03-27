@@ -20,6 +20,13 @@ docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/e
 - **数据和模型：** 由于3个OCR模型及其数据的大小较小（几十M），因此已被打包到镜像（容器）目录 /TS-Knight/Quantize/Onnx/example下的data和models文件夹；
 - 工作目录说明：<br>
   ![image](https://user-images.githubusercontent.com/7539692/227886407-84648b1e-1ea6-47fd-b916-aea0b01049bc.png)
+- 量化命令（集成转换工具）解析：
+  - 举例：如下命令，会将paddle模型转为onnx，并对onnx模型进行量化定点；该过程输出转换浮点精度和量化精度
+    - python run_quantization.py -f paddle -r all -ch TX511 -od -if infer_ocr_det_model -m example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdmodel -w example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdiparams -s /my_project/quant/ocrv3_det/ -bs 1 -i 50 -qm kl -is 1 3 512 896  --dump
+  - 主要参数解析：
+    - "-f paddle"：指定要转换的框架为paddle；"-r all"：表示执行转换、量化、转IR3个过程；"-od"：表示输出反量化为浮点
+    - "-m xxx.pdmodel"：指定paddle模型路径；"-w xxx.pdiparams"：指定paddle模型权重路径；"-s xxx"：指定量化模型保存路径；
+    - "-qm kl"：指定量化系数计算方式；"-is"：指定输入形状，不可随意指定；"--dump"：指定保存浮点结果、量化结果等用于对比；
 
 
 ## OCR_DET 检测网络
@@ -29,7 +36,7 @@ docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/e
   - 该网络对目标进行检测，指标为 precision、recall和hmean
   - 以下逐步介绍该网络的工作流程及执行命令；
   - ***读者也可以在 /TS-Knight/Quantize/Onnx/ 目录下直接执行 bash scripts/ocrv3_det.sh 运行该网络所有命令***
-  - `注：同目录下ocrv3_all.sh可运行3个网络所有命令`
+  - `注：同目录下ocrv3_all.sh可一次性运行3个网络所有命令`
 
 - __数据预处理__
 ```

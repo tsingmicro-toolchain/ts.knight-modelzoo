@@ -204,23 +204,35 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
 
 ## 硬件测试
 - __环境准备__
-  - 导出 wx_paddle@192.168.1.10:/data/examples/baidu_qa_ocrv3 目录里的 to_compiler文件夹，用于硬件测试；
-  - ssh ubuntu@10.11.1.190 (password: 123456)
-  - **切换到工作目录：cd /home/ubuntu/example_ocrv3**
+  - **导出 wx_paddle@192.168.1.10:/data/examples/baidu_qa_ocrv3 目录里的 to_compiler文件夹**
+  - 进入python脚本运行环境（简称ubuntu环境）：ssh ubuntu@10.11.1.190 (password: 123456)，**切换到工作目录：cd /home/ubuntu/example_ocrv3**
+  - 将第一步导出的to_compiler文件夹整个 放到 ubuntu@10.11.1.190:/home/ubuntu/example_ocrv3 目录下，得到/home/ubuntu/example_ocrv3/to_compiler目录**
 
 - __数据预处理__
   - 执行预处理脚本：bash scripts/preprocess.sh
   - 当前目录下的data文件夹会生成 all_bins 和 all_pd 两个文件夹，分别存放 作为硬件输入的bin文件 以及 用于后处理（含有图像数据和label）的tensor文件；
 
-- __硬件测试__
-  - @wanggangqiang 补充硬件执行命令
+- __硬件上运行模型__
+  - 编译模型：./scripts/process_build_demo.sh，预期结果如下：
+    ![企业微信截图_16798868195832](https://user-images.githubusercontent.com/7539692/227873268-b592ddca-16cc-4f94-967c-ee3aef2fa9c6.png)
+  - 让硬件运行模型：
+    - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.250 (password: root)；
+    - **切换到工作目录：cd /root/example_ocrv3**，注意硬件环境已通过 /root/example_ocrv3 挂载 ubuntu环境的 /home/ubuntu/example_ocrv3
+    - 执行硬件上运行模型的脚本：./scripts/process_run_demo.sh，预期结果如下：
+      ![企业微信截图_16798868726277](https://user-images.githubusercontent.com/7539692/227876081-841ee6fd-0645-4489-86e7-2668341e659d.png)
 
 - __后处理__ 
-  - 执行所有网络的后处理脚本：bash scripts/postprocess_all.sh
+  - 返回ubuntu环境，**切换到工作目录：cd /home/ubuntu/example_ocrv3**
+  - 执行所有网络的后处理脚本：bash scripts/postprocess.sh，得到3个网络的精度
   - 也可3个网络分开执行后处理脚本：
-    - bash scripts/postprocess_det.sh 
-    - bash scripts/postprocess_cls.sh 
-    - bash scripts/postprocess_rec.sh
+    - bash scripts/postprocess.sh ocr_det 
+    - bash scripts/postprocess.sh ocr_cls
+    - bash scripts/postprocess.sh ocr_rec
+  - 预期结果如下(det/cls/rec)：
+    ![image](https://user-images.githubusercontent.com/7539692/227878069-38f55d38-3a81-40c0-8b6e-a8a684c28980.png)
+    ![image](https://user-images.githubusercontent.com/7539692/227878154-3ef221f8-84e6-40fe-bd49-3cde86eaa5ab.png)
+    ![image](https://user-images.githubusercontent.com/7539692/227878263-8bdedaeb-03dd-467b-adbb-01471aafb877.png)
+
 
 ## 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到

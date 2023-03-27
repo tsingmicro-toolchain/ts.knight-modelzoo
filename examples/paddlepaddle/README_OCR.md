@@ -232,7 +232,8 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
     - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.250 (password: root)；
     - **切换到工作目录：cd /root/example_ocrv3**，注意硬件环境已通过 /root/example_ocrv3 挂载 ubuntu环境的 /home/ubuntu/example_ocrv3
     - 执行硬件上运行模型的脚本：./scripts/process_run_demo.sh，预期结果如下：
-      ![image](https://user-images.githubusercontent.com/7539692/227880319-c9633bdb-4edc-4bb4-a338-e46b5301c2c5.png)
+      ![image](https://user-images.githubusercontent.com/7539692/227923332-24ecf4e6-8002-4c39-b278-71224f040ca9.png)
+
 
 
 - __后处理__ 

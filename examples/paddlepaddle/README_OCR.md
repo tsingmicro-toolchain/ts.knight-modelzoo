@@ -1,4 +1,15 @@
-## Benchmark(数据集来自官网提供和整理)
+## 目录
+- [1. Benchmark](#1-benchmark数据集来自官网提供和整理)
+- [2. 环境准备](#2-环境准备)
+- [3. OCR_DET 检测网络](#3-ocrdet-检测网络)
+- [4. OCR_CLS 分类网络](#4-ocrcls-分类网络)
+- [5. OCR_REC 分类网络](#5-ocrrec-识别网络)
+- [6. 硬件测试](#6-硬件测试)
+- [7. 其他说明](#7-其他说明)
+
+----
+
+## 1. Benchmark(数据集来自官网提供和整理)
 
 |  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) |
 |-------------|-----------|----------|----------|-----------|--------------------|
@@ -6,30 +17,39 @@
 | OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.542ms        |
 | OCR_REC     | 0.655      | 0.655      | 0.649     | 2077    |    19.456ms       |
 
-## 环境准备
+----
 
-- 请联系[技术支持](../../README.md#技术讨论)获取需要用到的VPN、账号、knight docker镜像
-- 上述配置步骤请参考提测文档-安装步骤；配置完成后进入服务器（即安装步骤第3步）：ssh wx_paddle@192.168.1.10
+## 2. 环境准备
+
+- 请联系[技术支持](../../README.md#技术讨论)获取需要用到的VPN、账号、knight docker镜像（百度提测无需该步）
+- 配置环境：
+  - 安装VPN，解压‘OPENVPN - ITO.zip’，参考其中文档进行安装，VPN用户名：wx_paddle   VPN密码：x1fykfb1Qt
+  - 安装VMware-Horizon，参考文档《清微-vdi》，vdi用户名：wx_paddle   vdi密码：1234qwe!@#
+  - 通过VMware-Horizon登录远程虚拟机，进入后通过MobaXterm登录服务器192.168.1.10（ssh wx_paddle@192.168.1.10），用户名：wx_paddle  密码：123qwe!@#
 - 启动docker容器:
 
-```
-docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
-docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:1.0 /bin/bash
-```
+  ```
+  docker load -i TS.Knight-1.1.0.7-for-paddle-ocrv3.tar.gz
+  docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/examples/baidu_qa_ocrv3 --ipc=host -it knight-1.1.0.7-for-paddle-ocrv3:1.0 /bin/bash
+  ```
 - **启动容器后，使用上述命令会自动切换目录到/TS-Knight/Quantize/Onnx/（没有的话请执行 cd /TS-Knight/Quantize/Onnx/）**
 - **数据和模型：** 由于3个OCR模型及其数据的大小较小（几十M），因此已被打包到镜像（容器）目录 /TS-Knight/Quantize/Onnx/example下的data和models文件夹；
 - 工作目录说明：<br>
   ![image](https://user-images.githubusercontent.com/7539692/227886407-84648b1e-1ea6-47fd-b916-aea0b01049bc.png)
 - 量化命令（集成转换工具）解析：
   - 举例：如下命令，会将paddle模型转为onnx，并对onnx模型进行量化定点；该过程输出转换浮点精度和量化精度
-    - python run_quantization.py -f paddle -r all -ch TX511 -od -if infer_ocr_det_model -m example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdmodel -w example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdiparams -s /my_project/quant/ocrv3_det/ -bs 1 -i 50 -qm kl -is 1 3 512 896  --dump
+    ``` 
+    python run_quantization.py -f paddle -r all -ch TX511 -od -if infer_ocr_det_model -m example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdmodel -w example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdiparams -s /my_project/quant/ocrv3_det/ -bs 1 -i 50 -qm kl -is 1 3 512 896  --dump 
+    ```
+    
   - 主要参数解析：
     - "-f paddle"：指定要转换的框架为paddle；"-r all"：表示执行转换、量化、转IR3个过程；"-od"：表示输出反量化为浮点
     - "-m xxx.pdmodel"：指定paddle模型路径；"-w xxx.pdiparams"：指定paddle模型权重路径；"-s xxx"：指定量化模型保存路径；
     - "-qm kl"：指定量化系数计算方式；"-is"：指定输入形状，不可随意指定；"--dump"：指定保存浮点结果、量化结果等用于对比；
 
+----
 
-## OCR_DET 检测网络
+## 3. OCR_DET 检测网络
 
 - __网络说明__
 
@@ -39,34 +59,34 @@ docker run -w /TS-Knight/Quantize/Onnx/ -v /data/examples/baidu_qa_ocrv3:/data/e
   - `注：同目录下ocrv3_all.sh可一次性运行3个网络所有命令`
 
 - __数据预处理__
-```
-python example/ocrv3_process/pre_post_process.py -c example/configs/ch_PP-OCRv3_det_cml.yml -d example/data/images_ocrv3 -s example/data
-```
+  ```
+  python example/ocrv3_process/pre_post_process.py -c example/configs/ch_PP-OCRv3_det_cml.yml -d example/data/images_ocrv3 -s example/data
+  ```
 
 - __量化__
 
-```
-# 创建模型目录
-mkdir -p /my_project/quant/ocrv3_det
-mkdir -p /my_project/quant/to_compiler/ocrv3_det
+  ```
+  # 创建模型目录
+  mkdir -p /my_project/quant/ocrv3_det
+  mkdir -p /my_project/quant/to_compiler/ocrv3_det
 
-# 获取飞桨模型
-/TS-Knight/Quantize/Onnx/example/models/ch_PP-OCRv3_det_infer_512x896/
-（说明：我们下载了paddle官方ch_PP-OCRv3_det模型（链接见文末）；限于编译器对tensor大小的要求，我们将模型input shape设置为[1,3,512,896]；这与官方推荐的shape=[1,3,746,1312]有所差别）
+  # 获取飞桨模型
+  /TS-Knight/Quantize/Onnx/example/models/ch_PP-OCRv3_det_infer_512x896/
+  （说明：我们下载了paddle官方ch_PP-OCRv3_det模型（链接见文末）；限于编译器对tensor大小的要求，我们将模型input shape设置为[1,3,512,896]；这与官方推荐的shape=[1,3,746,1312]有所差别）
 
-# 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
-python run_quantization.py -f paddle -r all -ch TX511 -od -if infer_ocr_det_model -m example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdmodel -w example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdiparams -s /my_project/quant/ocrv3_det/ -bs 1 -i 50 -qm kl -is 1 3 512 896  --dump
+  # 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
+  python run_quantization.py -f paddle -r all -ch TX511 -od -if infer_ocr_det_model -m example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdmodel -w example/models/ch_PP-OCRv3_det_infer_512x896/ocrv3_det.pdiparams -s /my_project/quant/ocrv3_det/ -bs 1 -i 50 -qm kl -is 1 3 512 896  --dump
 
-# 执行推理命令,对转换模型和量化模型在整个测试集上进行推理（可并行执行）
-python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_det/ocrv3_det.onnx -if infer_ocr_det_model -bs 1 -i 500
-python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_det/ocrv3_det_quantize.onnx -if infer_ocr_det_model -bs 1 -i 500
+  # 执行推理命令,对转换模型和量化模型在整个测试集上进行推理（可并行执行）
+  python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_det/ocrv3_det.onnx -if infer_ocr_det_model -bs 1 -i 500
+  python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_det/ocrv3_det_quantize.onnx -if infer_ocr_det_model -bs 1 -i 500
 
-# 拷贝模型到指定目录
-cp /my_project/quant/ocrv3_det/ocrv3_det_quantize.onnx /my_project/quant/to_compiler/ocrv3_det/
-cp -r /my_project/quant/ocrv3_det/caffe_model /my_project/quant/to_compiler/ocrv3_det/
-cp /my_project/quant/ocrv3_det/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/input.npy
-cp /my_project/quant/ocrv3_det/dump/quant/0150\:sigmoid_0.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/output.npy
-```
+  # 拷贝模型到指定目录
+  cp /my_project/quant/ocrv3_det/ocrv3_det_quantize.onnx /my_project/quant/to_compiler/ocrv3_det/
+  cp -r /my_project/quant/ocrv3_det/caffe_model /my_project/quant/to_compiler/ocrv3_det/
+  cp /my_project/quant/ocrv3_det/dump/float/0001:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/input.npy
+  cp /my_project/quant/ocrv3_det/dump/quant/0150\:sigmoid_0.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_det/output.npy
+  ```
 <div align=center>
 浮点结果<br>
         <img src=https://user-images.githubusercontent.com/7539692/223619517-4b088963-a843-4b5a-aeeb-f98d8a3e3f2f.png />  
@@ -80,17 +100,18 @@ cp /my_project/quant/ocrv3_det/dump/quant/0150\:sigmoid_0.tmp_0/batch_0.npy /my_
 
 - __编译__
 
-```
-mkdir -p /my_project/quant/to_compiler/ocrv3_det/compile_dir
+  ```
+  mkdir -p /my_project/quant/to_compiler/ocrv3_det/compile_dir
 
-# 编译网络(使用caffe编译)
-Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.prototxt --weight /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.weight --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
+  # 编译网络(使用caffe编译)
+  Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.prototxt --weight /my_project/quant/ocrv3_det/caffe_model/ocrv3_det/ocrv3_det.weight --outpath /my_project/quant/to_compiler/ocrv3_det/compile_dir/ --general-process 1
 
-cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
-```
+  cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
+  ```
 
+----
 
-## OCR_CLS 分类网络
+## 4. OCR_CLS 分类网络
 
 - __网络说明__
 
@@ -100,34 +121,34 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
   - `注：同目录下ocrv3_all.sh可运行3个网络所有命令`
 
 - __数据预处理__
-```
-python example/ocrv3_process/pre_post_process.py -c example/configs/cls_mv3.yml -d example/data/images_ocrv3 -s example/data
-```
+  ```
+  python example/ocrv3_process/pre_post_process.py -c example/configs/cls_mv3.yml -d example/data/images_ocrv3 -s example/data
+  ```
 
 - __量化__
 
-```
-# 创建模型目录
-mkdir -p /my_project/quant/ocrv3_cls
-mkdir -p /my_project/quant/to_compiler/ocrv3_cls
+  ```
+  # 创建模型目录
+  mkdir -p /my_project/quant/ocrv3_cls
+  mkdir -p /my_project/quant/to_compiler/ocrv3_cls
 
-# 获取飞桨模型
-/TS-Knight/Quantize/Onnx/example/models/ch_ppocr_mobile_v2.0_cls_infer/
-（说明：我们下载了paddle官方ch_ppocr_mobile_v2.0_cls模型（链接见文末））
+  # 获取飞桨模型
+  /TS-Knight/Quantize/Onnx/example/models/ch_ppocr_mobile_v2.0_cls_infer/
+  （说明：我们下载了paddle官方ch_ppocr_mobile_v2.0_cls模型（链接见文末））
 
-# 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
-python run_quantization.py -f paddle -r all -ch TX511 -if infer_ocr_cls_model -m example/models/ch_ppocr_mobile_v2.0_cls_infer/ocrv3_cls.pdmodel -w example/models/ch_ppocr_mobile_v2.0_cls_infer/ocrv3_cls.pdiparams -s /my_project/quant/ocrv3_cls/ -bs 1 -i 10 -is -1 3 48 192 --dump
+  # 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
+  python run_quantization.py -f paddle -r all -ch TX511 -if infer_ocr_cls_model -m example/models/ch_ppocr_mobile_v2.0_cls_infer/ocrv3_cls.pdmodel -w example/models/ch_ppocr_mobile_v2.0_cls_infer/ocrv3_cls.pdiparams -s /my_project/quant/ocrv3_cls/ -bs 1 -i 10 -is -1 3 48 192 --dump
 
-# 执行推理命令,对转换模型和量化模型在整个测试集上进行推理（可并行执行）
-python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_cls/ocrv3_cls.onnx -if infer_ocr_cls_model -bs 1 -i 30
-python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_cls/ocrv3_cls_quantize.onnx -if infer_ocr_cls_model -bs 1 -i 30
+  # 执行推理命令,对转换模型和量化模型在整个测试集上进行推理（可并行执行）
+  python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_cls/ocrv3_cls.onnx -if infer_ocr_cls_model -bs 1 -i 30
+  python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_cls/ocrv3_cls_quantize.onnx -if infer_ocr_cls_model -bs 1 -i 30
 
-# 拷贝模型到指定目录
-cp /my_project/quant/ocrv3_cls/ocrv3_cls_quantize.onnx /my_project/quant/to_compiler/ocrv3_cls/
-cp -r /my_project/quant/ocrv3_cls/caffe_model /my_project/quant/to_compiler/ocrv3_cls/
-cp /my_project/quant/ocrv3_cls/dump/float/0001\:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/input.npy
-cp /my_project/quant/ocrv3_cls/dump/quant/0112\:softmax_0.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/output.npy
-```
+  # 拷贝模型到指定目录
+  cp /my_project/quant/ocrv3_cls/ocrv3_cls_quantize.onnx /my_project/quant/to_compiler/ocrv3_cls/
+  cp -r /my_project/quant/ocrv3_cls/caffe_model /my_project/quant/to_compiler/ocrv3_cls/
+  cp /my_project/quant/ocrv3_cls/dump/float/0001\:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/input.npy
+  cp /my_project/quant/ocrv3_cls/dump/quant/0112\:softmax_0.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_cls/output.npy
+  ```
 <div align=center>
 浮点结果<br>
         <img src=https://user-images.githubusercontent.com/7539692/223619814-ffa14486-8384-4f5d-bb98-2da0e848716d.png />  
@@ -141,16 +162,18 @@ cp /my_project/quant/ocrv3_cls/dump/quant/0112\:softmax_0.tmp_0/batch_0.npy /my_
 
 - __编译__
 
-```
-mkdir -p /my_project/quant/to_compiler/ocrv3_cls/compile_dir
+  ```
+  mkdir -p /my_project/quant/to_compiler/ocrv3_cls/compile_dir
 
-# 编译网络(使用caffe编译)
-Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.prototxt --weight /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.weight --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
+  # 编译网络(使用caffe编译)
+  Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.prototxt --weight /my_project/quant/ocrv3_cls/caffe_model/ocrv3_cls/ocrv3_cls.weight --outpath /my_project/quant/to_compiler/ocrv3_cls/compile_dir/ --general-process 1
 
-cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
-```
+  cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
+  ```
 
-## OCR_REC 识别网络
+----
+
+## 5. OCR_REC 识别网络
 
 - __网络说明__
 
@@ -160,34 +183,34 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
   - `注：同目录下ocrv3_all.sh可运行3个网络所有命令`
 
 - __数据预处理__
-```
-python example/ocrv3_process/pre_post_process.py -c example/configs/en_PP-OCRv3_rec.yml -d example/data/images_ocrv3 -s example/data
-```
+  ```
+  python example/ocrv3_process/pre_post_process.py -c example/configs/en_PP-OCRv3_rec.yml -d example/data/images_ocrv3 -s example/data
+  ```
 
 - __量化__
 
-```
-# 创建模型目录
-mkdir -p /my_project/quant/ocrv3_rec
-mkdir -p /my_project/quant/to_compiler/ocrv3_rec
+  ```
+  # 创建模型目录
+  mkdir -p /my_project/quant/ocrv3_rec
+  mkdir -p /my_project/quant/to_compiler/ocrv3_rec
 
-# 获取飞桨模型
-/TS-Knight/Quantize/Onnx/example/models/en_PP-OCRv3_rec_infer_retrain_relu_4dims/
-（说明：我们下载了paddle官方en_PP-OCRv3_rec模型（链接见文末）；限于编译器对tensor维度的要求，将原始模型内部5维操作改成4维操作，同时将hardswish替换成relu，并在官网提供数据上重训练，得到精度与原模型一致的新模型，再进行量化）
+  # 获取飞桨模型
+  /TS-Knight/Quantize/Onnx/example/models/en_PP-OCRv3_rec_infer_retrain_relu_4dims/
+  （说明：我们下载了paddle官方en_PP-OCRv3_rec模型（链接见文末）；限于编译器对tensor维度的要求，将原始模型内部5维操作改成4维操作，同时将hardswish替换成relu，并在官网提供数据上重训练，得到精度与原模型一致的新模型，再进行量化）
 
-# 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
-python run_quantization.py -f paddle -r all -ch TX511 -if infer_ocr_rec_model -m example/models/en_PP-OCRv3_rec_infer_retrain_relu_4dims/ocrv3_rec.pdmodel -w example/models/en_PP-OCRv3_rec_infer_retrain_relu_4dims/ocrv3_rec.pdiparams -s /my_project/quant/ocrv3_rec/ -bs 1 -i 300 -b 16 -qm min_max -is 1 3 48 320 --dump
+  # 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
+  python run_quantization.py -f paddle -r all -ch TX511 -if infer_ocr_rec_model -m example/models/en_PP-OCRv3_rec_infer_retrain_relu_4dims/ocrv3_rec.pdmodel -w example/models/en_PP-OCRv3_rec_infer_retrain_relu_4dims/ocrv3_rec.pdiparams -s /my_project/quant/ocrv3_rec/ -bs 1 -i 300 -b 16 -qm min_max -is 1 3 48 320 --dump
 
-# 执行推理命令,对转换模型和量化模型在整个测试集上进行推理（可并行执行）
-python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_rec/ocrv3_rec.onnx -if infer_ocr_rec_model -bs 1 -i 2100
-python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_rec/ocrv3_rec_quantize.onnx -if infer_ocr_rec_model -bs 1 -i 2100 -b 16
+  # 执行推理命令,对转换模型和量化模型在整个测试集上进行推理（可并行执行）
+  python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_rec/ocrv3_rec.onnx -if infer_ocr_rec_model -bs 1 -i 2100
+  python run_quantization.py -r infer -ch TX511 -m /my_project/quant/ocrv3_rec/ocrv3_rec_quantize.onnx -if infer_ocr_rec_model -bs 1 -i 2100 -b 16
 
-# 拷贝模型到指定目录
-cp /my_project/quant/ocrv3_rec/ocrv3_rec_quantize.onnx /my_project/quant/to_compiler/ocrv3_rec/
-cp -r /my_project/quant/ocrv3_rec/caffe_model /my_project/quant/to_compiler/ocrv3_rec/
-cp /my_project/quant/ocrv3_rec/dump/float/0001\:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/input.npy
-cp /my_project/quant/ocrv3_rec/dump/quant/0136\:softmax_2.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/output.npy
-```
+  # 拷贝模型到指定目录
+  cp /my_project/quant/ocrv3_rec/ocrv3_rec_quantize.onnx /my_project/quant/to_compiler/ocrv3_rec/
+  cp -r /my_project/quant/ocrv3_rec/caffe_model /my_project/quant/to_compiler/ocrv3_rec/
+  cp /my_project/quant/ocrv3_rec/dump/float/0001\:x/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/input.npy
+  cp /my_project/quant/ocrv3_rec/dump/quant/0136\:softmax_2.tmp_0/batch_0.npy /my_project/quant/to_compiler/ocrv3_rec/output.npy
+  ```
 <div align=center>
 浮点结果<br>
         <img src=https://user-images.githubusercontent.com/7539692/223621114-3e729bf5-889d-4249-a4f3-83c998a8fa1d.png />  
@@ -201,39 +224,42 @@ cp /my_project/quant/ocrv3_rec/dump/quant/0136\:softmax_2.tmp_0/batch_0.npy /my_
 
 - __编译__
 
-```
-mkdir -p /my_project/quant/to_compiler/ocrv3_rec/compile_dir
+  ```
+  mkdir -p /my_project/quant/to_compiler/ocrv3_rec/compile_dir
 
-# 编译网络(使用caffe编译)
-Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.prototxt --weight /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.weight --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
+  # 编译网络(使用caffe编译)
+  Knight --chip TX5368A rne-compile --net /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.prototxt --weight /my_project/quant/ocrv3_rec/caffe_model/ocrv3_rec/ocrv3_rec.weight --outpath /my_project/quant/to_compiler/ocrv3_rec/compile_dir/ --general-process 1
 
-cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
-```
+  cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
+  ```
 
+----
 
-## 硬件测试
+## 6. 硬件测试
 - __环境准备__
-  - **导出 wx_paddle@192.168.1.10:/data/examples/baidu_qa_ocrv3 目录里的 to_compiler文件夹**
+  - **导出 wx_paddle@192.168.1.10:/data/examples/baidu_qa_ocrv3 目录里的to_compiler文件夹给硬件使用**
     - 执行导出命令：bash /dev-server-ftp/export_data.sh -d /data/examples/baidu_qa_ocrv3/to_compiler/ -c "百度提测：导出模型文件到板端"
-    - 到ftp://192.168.100.38:2121/目录下获取导出的文件，如下图所示<br>
+    - win环境下到ftp://192.168.100.38:2121/目录下复制导出的文件到win本地任意目录，如下图所示<br>
       ![image](https://user-images.githubusercontent.com/7539692/227904697-f7c353d9-4415-453e-83fb-24849b323052.png)
+    - 解压缩导出的压缩包，得到里面的to_compiler文件夹<br>
+      ![image](https://user-images.githubusercontent.com/7539692/228107708-c9b1a578-3472-43c8-9bce-0188dc10692e.png)
+    - win环境起一个终端，验证能否进入python脚本运行环境（简称ubuntu环境）：ssh ubuntu@10.11.1.190 (password: 123456)
+    - win环境另起一个终端，执行命令：scp -r to_compiler ubuntu@10.11.1.190:/home/ubuntu/example_ocrv3，将解压缩的to_compiler文件夹整个放到example_ocrv3 目录下
 
-  - 进入python脚本运行环境（简称ubuntu环境）：ssh ubuntu@10.11.1.190 (password: 123456)，**切换到工作目录：cd /home/ubuntu/example_ocrv3**
-  - 将第一步导出的to_compiler文件夹整个 放到 ubuntu@10.11.1.190:/home/ubuntu/example_ocrv3 目录下，得到/home/ubuntu/example_ocrv3/to_compiler目录
+  - 在ubuntu环境下 **切换到工作目录：cd /home/ubuntu/example_ocrv3**（说明：需要内网环境（VMware）的操作到此为止，以下操作只需在有VPN的外网环境操作即可（即无需进入VMware操作））
 
 - __数据预处理__
   - 执行预处理脚本：bash scripts/preprocess.sh
   - 当前目录下的data文件夹会生成 all_bins 和 all_pd 两个文件夹，分别存放 作为硬件输入的bin文件 以及 用于后处理（含有图像数据和label）的tensor文件；
 
 - __硬件上运行模型__
-  - 编译模型：bash scripts/process_build_demo.sh，预期结果如下：
+  - 编译模型：bash scripts/process_build_demo.sh，预期结果如下：<br>
     ![企业微信截图_16798868195832](https://user-images.githubusercontent.com/7539692/227873268-b592ddca-16cc-4f94-967c-ee3aef2fa9c6.png)
   - 让硬件运行模型：
     - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.250 (password: root)；
     - **切换到工作目录：cd /root/example_ocrv3**，注意硬件环境已通过 /root/example_ocrv3 挂载 ubuntu环境的 /home/ubuntu/example_ocrv3
-    - 执行硬件上运行模型的脚本：./scripts/process_run_demo.sh，预期结果如下：
+    - 执行硬件上运行模型的脚本：./scripts/process_run_demo.sh，预期结果如下：<br>
       ![image](https://user-images.githubusercontent.com/7539692/227923332-24ecf4e6-8002-4c39-b278-71224f040ca9.png)
-
 
 
 - __后处理__ 
@@ -243,13 +269,14 @@ cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_ocrv3
     - bash scripts/postprocess.sh ocr_det 
     - bash scripts/postprocess.sh ocr_cls
     - bash scripts/postprocess.sh ocr_rec
-  - 预期结果如下(det/cls/rec)：
+  - 预期结果如下(det/cls/rec)：<br>
     ![image](https://user-images.githubusercontent.com/7539692/227878069-38f55d38-3a81-40c0-8b6e-a8a684c28980.png)
     ![image](https://user-images.githubusercontent.com/7539692/227878154-3ef221f8-84e6-40fe-bd49-3cde86eaa5ab.png)
     ![image](https://user-images.githubusercontent.com/7539692/227878263-8bdedaeb-03dd-467b-adbb-01471aafb877.png)
 
+----
 
-## 其他说明
+## 7. 其他说明
 - 上文提到的所有官方模型均可在 [官方OCRv3模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) 找到
 - 附OCR_DET_512x896 paddle 浮点精度(与表格第一行onnx浮点精度一致)![image](https://user-images.githubusercontent.com/7539692/221813030-d3f08b1f-3533-4062-a88f-6662140fd4d4.png)
 

@@ -23,7 +23,7 @@
 
 - 请联系[技术支持](../../README.md#技术讨论)获取需要用到的VPN、账号、knight docker镜像（百度提测无需该步）
 - 配置环境：
-  - 安装VPN，解压‘OPENVPN - ITO.zip’，参考其中文档进行安装，VPN用户名：wx_paddle   VPN密码：（见提测说明或咨询上述技术支持）
+  - 安装VPN，解压‘OPENVPN - ITO.zip’，参考其中文档进行安装，VPN用户名：wx_paddle   VPN密码：见提测说明或咨询技术支持
   - 安装VMware-Horizon，参考文档《清微-vdi》，vdi用户名：wx_paddle   vdi密码：
   - 通过VMware-Horizon登录远程虚拟机，进入后通过MobaXterm登录服务器192.168.1.10（ssh wx_paddle@192.168.1.10），用户名：wx_paddle  密码：
 - 启动docker容器:
@@ -246,7 +246,7 @@
     - win环境起一个终端，验证能否进入python脚本运行环境（简称ubuntu环境）：ssh ubuntu@10.11.1.190 (password: 123456)
     - win环境另起一个终端，执行命令：scp -r to_compiler ubuntu@10.11.1.190:/home/ubuntu/example_ocrv3，将解压缩的to_compiler文件夹整个放到example_ocrv3 目录下
 
-  - 在ubuntu环境下 **切换到工作目录：cd /home/ubuntu/example_ocrv3**（说明：需要内网环境（VMware）的操作到此为止，以下操作只需在有VPN的外网环境操作即可（即无需进入VMware操作））
+  - 在ubuntu环境下 **切换到工作目录：cd /home/ubuntu/example_ocrv3**（以下操作均在win环境终端，无需vmware内网环境）
 
 - __数据预处理__
   - 执行预处理脚本：bash scripts/preprocess.sh
@@ -256,7 +256,7 @@
   - 编译模型：bash scripts/process_build_demo.sh，预期结果如下：<br>
     ![企业微信截图_16798868195832](https://user-images.githubusercontent.com/7539692/227873268-b592ddca-16cc-4f94-967c-ee3aef2fa9c6.png)
   - 让硬件运行模型：
-    - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.250 (password: root)；
+    - win环境另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.250 (password: root)；
     - **切换到工作目录：cd /root/example_ocrv3**，注意硬件环境已通过 /root/example_ocrv3 挂载 ubuntu环境的 /home/ubuntu/example_ocrv3
     - 执行硬件上运行模型的脚本：./scripts/process_run_demo.sh，预期结果如下：<br>
       ![image](https://user-images.githubusercontent.com/7539692/227923332-24ecf4e6-8002-4c39-b278-71224f040ca9.png)

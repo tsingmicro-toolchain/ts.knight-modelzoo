@@ -11,11 +11,11 @@
 
 ## 1. Benchmark(数据集来自官网提供和整理)
 
-|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) |
-|-------------|-----------|----------|----------|-----------|--------------------|
-| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    135ms        |
-| OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.542ms        |
-| OCR_REC     | 0.655      | 0.655      | 0.649     | 2077    |    19.456ms       |
+|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) | 说明 |
+|-------------|-----------|----------|----------|-----------|--------------------|--------|
+| OCR_DET     | 0.411      |0.411      | 0.415     | 500     |    135ms        | [数据](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/dataset/ocr_datasets.md)、[模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) |
+| OCR_CLS     | 0.699      |  0.699      |0.699     | 30      |    2.542ms        | [数据](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/dataset/ocr_datasets.md)、[模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) |
+| OCR_REC     | 0.655      | 0.655      | 0.649     | 2077    |    19.456ms       | [数据](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/dataset/ocr_datasets.md)、[模型](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/doc/doc_ch/models_list.md) |
 
 ----
 

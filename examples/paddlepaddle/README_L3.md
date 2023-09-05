@@ -111,13 +111,16 @@
   ```
 <div align=center>
 浮点结果<br>
-        <img src=./images/pphgnet_tiny_float.png />  
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/49f808f9-d1c8-4288-a853-952f0e020db6/>
 <br>量化结果<br>
-        <img src=./images/pphgnet_tiny_quant.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/5e2984e8-e90f-4693-933c-00c787db419e
+ />
 <br>浮点结果（全量数据）<br>
-        <img src=./images/pphgnet_tiny_float.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/49f808f9-d1c8-4288-a853-952f0e020db6 />
 <br>量化结果（全量数据）<br>
-        <img src=./images/pphgnet_tiny_float.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/5e2984e8-e90f-4693-933c-00c787db419e />
+  
+
 </div>
 
 - __编译__
@@ -175,13 +178,15 @@
   ```
 <div align=center>
 浮点结果<br>
-        <img src=./images/yolo3_float.png />  
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/e9c14ca6-1113-400d-a6a6-ac11b26c6dd4
+ />  
 <br>量化结果<br>
-        <img src=./images/yolo3_quant.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/69ed11c0-6a2d-4176-802c-ff1b64128b2e
+ />
 <br>浮点结果（全量数据）<br>
-        <img src=./images/yolo3_float.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/e9c14ca6-1113-400d-a6a6-ac11b26c6dd4 />
 <br>量化结果（全量数据）<br>
-        <img src=./images/yolo3_quant.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/69ed11c0-6a2d-4176-802c-ff1b64128b2e />
 </div>
 
 - __编译__
@@ -237,13 +242,17 @@
   ```
 <div align=center>
 浮点结果<br>
-        <img src=./images/humansegv1_lite_float.png />  
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/4aa790cd-1d62-44cc-b3aa-8b9d8952c95f
+ />  
 <br>量化结果<br>
-        <img src=./images/humansegv1_lite_quant.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/33850103-8434-43c7-964d-d8a947419b46
+ />
 <br>浮点结果（全量数据）<br>
-        <img src=./images/humansegv1_lite_float_all.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/bffb52cf-60ba-44f6-bbc2-5e8c87f32723
+ />
 <br>量化结果（全量数据）<br>
-        <img src=./images/humansegv1_lite_quant_all.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/91febf2e-6712-4699-97c7-2a710121195c
+ />
 </div>
 
 - __编译__
@@ -301,13 +310,17 @@
   ```
 <div align=center>
 浮点结果<br>
-        <img src=./images/dcn_float.png />  
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/31949547-a00e-4745-88d1-df545a76e37f
+ />  
 <br>量化结果<br>
-        <img src=./images/dcn_quant.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/6e9a8427-9f28-4145-97ed-ca3a0fb6ac6d
+ />
 <br>浮点结果（全量数据）<br>
-        <img src=./images/dcn_float_all.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/8283819d-904f-4d13-9fa3-ead2524a406d
+ />
 <br>量化结果（全量数据）<br>
-        <img src=./images/dcn_quant_all.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/cd0ff358-5b51-44f9-91d4-bfad0d022545
+ />
 </div>
 
 - __编译__
@@ -364,13 +377,17 @@
   ```
 <div align=center>
 浮点结果<br>
-        <img src=./images/tinybert_float.png />  
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/a33feebe-b6a2-4441-88af-4fa84287e0e4
+ />  
 <br>量化结果<br>
-        <img src=./images/tinybert_quant.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/8b33df4e-d998-46a5-8c7a-8d6110d5d336
+ />
 <br>浮点结果（全量数据）<br>
-        <img src=./images/tinybert_float_all.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/bde8de76-cdba-4584-9f47-68397d628bb8
+ />
 <br>量化结果（全量数据）<br>
-        <img src=./images/tinybert_quant_all.png />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/a8fc4e73-bcfb-4f26-b46a-9860069dd523
+ />
 </div>
 
 - __编译__
@@ -403,13 +420,13 @@
 
 - __硬件上运行模型__
   - 编译模型：`bash scripts/process_build_demo.sh`，预期结果如下：<br>
-    <img src=./images/hware-build.png />
+    ![hware-build](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/277d20bc-d3c5-407f-bc51-d67d663416d6)
+
   - 让硬件运行模型：
     - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.253 (password: 123456)；
     - **切换到工作目录：cd /root/paddle_level3**，注意硬件环境已通过 /root/paddle_level3 挂载 ubuntu环境的 /home/tsingmicro/paddle_level3
     - 执行硬件上运行模型的脚本：`bash scripts/process_run_demo.sh`，预期结果如下：<br>
-      <img src=./images/hware-infer.png />
-
+      ![hware-infer](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/44884469-bb38-4009-ac4e-956f913538c4)
 
 - __后处理__ 
   - 返回ubuntu环境，**切换到工作目录：cd /home/tsingmicro/paddle_level3**
@@ -427,6 +444,6 @@
 ----
 
 ## 9. 其他说明
-- 上文提到的所有官方模型均可在 [官方模型1](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) 找到
+- 上文提到的所有官方模型均可在 [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) 找到
 
 

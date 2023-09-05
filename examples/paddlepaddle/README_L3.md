@@ -87,25 +87,25 @@
 
   ```
   # 创建模型目录
-  mkdir -p /my_project/quant/pphgnet
-  mkdir -p /my_project/quant/to_compiler/pphgnet
+  mkdir -p /my_project/quant/pphgnet_tiny
+  mkdir -p /my_project/quant/to_compiler/pphgnet_tiny
 
   # 获取飞桨模型
   # /TS-Knight/Quantize/Onnx/onnx_quantize_tool/paddle_models/PPHGNet_tiny
 
   # 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
-  /usr/bin/python -u run_quantization.py -qm kl_v2 -du -if infer_cls_model -f paddle -ct TX511 -ch TX511 -i 10 -bs 64 -is 64 3 224 224 -r all -m paddle_models/PPHGNet_tiny/pphgnet.pdmodel -w paddle_models/PPHGNet_tiny/pphgnet.pdiparams -s /my_project/quant/pphgnet -du
+  /usr/bin/python -u run_quantization.py -qm kl_v2 -du -if infer_cls_model -f paddle -ct TX511 -ch TX511 -i 10 -bs 64 -is 64 3 224 224 -r all -m paddle_models/PPHGNet_tiny/pphgnet_tiny.pdmodel -w paddle_models/PPHGNet_tiny/pphgnet_tiny.pdiparams -s /my_project/quant/pphgnet_tiny -du
 
   # cpu上执行推理命令,对转换模型（或量化模型）在整个测试集上进行推理
-  # 注：CPU跑量化模型较耗时，又板端会验证量化模型效果，因此这里可跳过量化模型的cpu推理
-  python run_quantization.py -r infer -i 10 -bs 64 -ch TX511 -m /my_project/quant/pphgnet/pphgnet.onnx -if infer_cls_model
+  # 注：可以跳该部分推理，因为此处量化数据集和全集相同；上一条命令量化时已经跑过
+  # python run_quantization.py -r infer -i 10 -bs 64 -ch TX511 -m /my_project/quant/pphgnet/pphgnet.onnx -if infer_cls_model
   # python run_quantization.py -r infer -i 10 -bs 64 -ch TX511 -m /my_project/quant/pphgnet/pphgnet_quantize.onnx -if infer_cls_model
 
   # 拷贝模型到指定目录
-  cp /my_project/quant/pphgnet/pphgnet_quantize.onnx /my_project/quant/to_compiler/pphgnet/
-  cp -r /my_project/quant/pphgnet/caffe_model /my_project/quant/to_compiler/pphgnet/
-  cp /my_project/quant/pphgnet/dump/float/0001\:Input_x/batch_0.npy /my_project/quant/to_compiler/pphgnet/input.npy
-  cp /my_project/quant/pphgnet/dump/quant/0069\:Softmax_softmax_1.tmp_0/batch_0.npy /my_project/quant/to_compiler/pphgnet/output.npy
+  cp /my_project/quant/pphgnet_tiny/pphgnet_tiny_quantize.onnx /my_project/quant/to_compiler/pphgnet_tiny/
+  cp -r /my_project/quant/pphgnet_tiny/caffe_model /my_project/quant/to_compiler/pphgnet_tiny/
+  cp /my_project/quant/pphgnet_tiny/dump/float/0001\:Input_x/batch_0.npy /my_project/quant/to_compiler/pphgnet_tiny/input.npy
+  cp /my_project/quant/pphgnet_tiny/dump/quant/0069\:Softmax_softmax_1.tmp_0/batch_0.npy /my_project/quant/to_compiler/pphgnet_tiny/output.npy
 
   # 说明：以下是量化数据集及全量数据集上的浮点、量化结果；此处前后两对数值一样是正常的，因为此处量化数据集和全量数据集是相同的数据；
   ```
@@ -123,10 +123,10 @@
 - __编译__
 
   ```
-  mkdir -p /my_project/quant/to_compiler/pphgnet/compile_dir
+  mkdir -p /my_project/quant/to_compiler/pphgnet_tiny/compile_dir
 
   # 编译网络(使用caffe编译)
-  Knight --chip TX5368AV200 rne-compile --net /my_project/quant/pphgnet/caffe_model/pphgnet/pphgnet.prototxt --weight /my_project/quant/pphgnet/caffe_model/pphgnet/pphgnet.weight --outpath /my_project/quant/to_compiler/pphgnet/compile_dir/ --general-process 1
+  Knight --chip TX5368AV200 rne-compile --net /my_project/quant/pphgnet_tiny/caffe_model/pphgnet_tiny/pphgnet_tiny.prototxt --weight /my_project/quant/pphgnet_tiny/caffe_model/pphgnet_tiny/pphgnet_tiny.weight --outpath /my_project/quant/to_compiler/pphgnet_tiny/compile_dir/ --general-process 1
 
   cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_level3
   ```
@@ -149,27 +149,27 @@
 
   ```
   # 创建模型目录
-  mkdir -p /my_project/quant/yolov3_mbv1_270e_coco_416
-  mkdir -p /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416
+  mkdir -p /my_project/quant/yolov3_mobilenetv1
+  mkdir -p /my_project/quant/to_compiler/yolov3_mobilenetv1
 
   # 获取飞桨模型
   # /TS-Knight/Quantize/Onnx/onnx_quantize_tool/paddle_models/yolov3_mobilenet_v1_270e_coco
 
   # 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
-  /usr/bin/python -u run_quantization.py -ct TX511 -ch TX511 -m paddle_models/yolov3_mobilenet_v1_270e_coco/yolov3_mbv1_270e_coco_416.pdmodel -w paddle_models/yolov3_mobilenet_v1_270e_coco/yolov3_mbv1_270e_coco_416.pdiparams -f paddle -r all -b 8 -if infer_yolo3_model -qm kl_v2 -i 5000 -od -du -s /my_project/quant/yolov3_mbv1_270e_coco_416
+  /usr/bin/python -u run_quantization.py -ct TX511 -ch TX511 -m paddle_models/yolov3_mobilenet_v1_270e_coco/yolov3_mobilenetv1.pdmodel -w paddle_models/yolov3_mobilenet_v1_270e_coco/yolov3_mobilenetv1.pdiparams -f paddle -r all -b 8 -if infer_yolo3_model -qm kl_v2 -i 5000 -od -du -s /my_project/quant/yolov3_mobilenetv1
 
   # 执行推理命令,对转换模型(or 量化模型)在整个测试集上进行推理
-  # 注：CPU跑量化模型较耗时，又板端会验证量化模型效果，因此这里可跳过量化模型的cpu推理
-  python run_quantization.py -r infer -ch TX511 -ct TX511 -i 5000 -bs 1 -if infer_yolo3_model -m /my_project/quant/yolov3_mbv1_270e_coco_416/yolov3_mbv1_270e_coco_416.onnx
-  # python run_quantization.py -r infer -ch TX511 -ct TX511 -i 5000 -bs 1 -if infer_yolo3_model -m /my_project/quant/yolov3_mbv1_270e_coco_416/yolov3_mbv1_270e_coco_416_quantize.onnx
+  # 注：此处量化数据集即是全集数据集，因此可跳过该步
+  # python run_quantization.py -r infer -ch TX511 -ct TX511 -i 5000 -bs 1 -if infer_yolo3_model -m /my_project/quant/yolov3_mobilenetv1/yolov3_mbv1_270e_coco_416.onnx
+  # python run_quantization.py -r infer -ch TX511 -ct TX511 -i 5000 -bs 1 -if infer_yolo3_model -m /my_project/quant/yolov3_mobilenetv1/yolov3_mobilenetv1_quantize.onnx
 
   # 拷贝模型到指定目录
-  cp /my_project/quant/yolov3_mbv1_270e_coco_416/yolov3_mbv1_270e_coco_416_quantize.onnx /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/
-  cp -r /my_project/quant/yolov3_mbv1_270e_coco_416/caffe_model /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/
-  cp /my_project/quant/yolov3_mbv1_270e_coco_416/dump/float/0001\:Input_image/batch_0.npy /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/input.npy
-  cp /my_project/quant/yolov3_mbv1_270e_coco_416/dump/quant/0044\:Conv_conv2d_84.tmp_1/batch_0.npy /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/output1.npy
-  cp /my_project/quant/yolov3_mbv1_270e_coco_416/dump/quant/0061\:Conv_conv2d_85.tmp_1/batch_0.npy /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/output2.npy
-  cp /my_project/quant/yolov3_mbv1_270e_coco_416/dump/quant/0075\:Conv_conv2d_86.tmp_1/batch_0.npy /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/output3.npy
+  cp /my_project/quant/yolov3_mobilenetv1/yolov3_mobilenetv1_quantize.onnx /my_project/quant/to_compiler/yolov3_mobilenetv1/
+  cp -r /my_project/quant/yolov3_mobilenetv1/caffe_model /my_project/quant/to_compiler/yolov3_mobilenetv1/
+  cp /my_project/quant/yolov3_mobilenetv1/dump/float/0001\:Input_image/batch_0.npy /my_project/quant/to_compiler/yolov3_mobilenetv1/input.npy
+  cp /my_project/quant/yolov3_mobilenetv1/dump/quant/0044\:Conv_conv2d_84.tmp_1/batch_0.npy /my_project/quant/to_compiler/yolov3_mobilenetv1/output1.npy
+  cp /my_project/quant/yolov3_mobilenetv1/dump/quant/0061\:Conv_conv2d_85.tmp_1/batch_0.npy /my_project/quant/to_compiler/yolov3_mobilenetv1/output2.npy
+  cp /my_project/quant/yolov3_mobilenetv1/dump/quant/0075\:Conv_conv2d_86.tmp_1/batch_0.npy /my_project/quant/to_compiler/yolov3_mobilenetv1/output3.npy
 
   # 说明：以下是量化数据集及全量数据集上的浮点、量化结果；此处前后两对数值一样是正常的，因为此处量化数据集和全量数据集是相同的数据；
   ```
@@ -190,7 +190,7 @@
   mkdir -p /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/compile_dir
 
   # 编译网络(使用caffe编译)
-  Knight --chip TX5368AV200 rne-compile --net /my_project/quant/yolov3_mbv1_270e_coco_416/caffe_model/yolov3_mbv1_270e_coco_416/yolov3_mbv1_270e_coco_416.prototxt --weight /my_project/quant/yolov3_mbv1_270e_coco_416/caffe_model/yolov3_mbv1_270e_coco_416/yolov3_mbv1_270e_coco_416.weight --outpath /my_project/quant/to_compiler/yolov3_mbv1_270e_coco_416/compile_dir/ --general-process 1
+  Knight --chip TX5368AV200 rne-compile --net /my_project/quant/yolov3_mobilenetv1/caffe_model/yolov3_mobilenetv1/yolov3_mobilenetv1.prototxt --weight /my_project/quant/yolov3_mobilenetv1/caffe_model/yolov3_mobilenetv1/yolov3_mobilenetv1.weight --outpath /my_project/quant/to_compiler/yolov3_mobilenetv1/compile_dir/ --general-process 1
 
   cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_level3
   ```
@@ -213,25 +213,25 @@
 
   ```
   # 创建模型目录
-  mkdir -p /my_project/quant/humansegv1_lite_reshape
-  mkdir -p /my_project/quant/to_compiler/humansegv1_lite_reshape
+  mkdir -p /my_project/quant/humansegv1_lite
+  mkdir -p /my_project/quant/to_compiler/humansegv1_lite
 
   # 获取飞桨模型
   # /TS-Knight/Quantize/Onnx/onnx_quantize_tool/paddle_models/human_pp_humansegv1_lite_192x192_pretrained/
 
   # 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
-  /usr/bin/python -u run_quantization.py -f paddle -i 10 -ch TX511 -ct TX511 -if infer_humanseg_model -m paddle_models/human_pp_humansegv1_lite_192x192_pretrained/humansegv1_lite_reshape.pdmodel -w paddle_models/human_pp_humansegv1_lite_192x192_pretrained/humansegv1_lite_reshape.pdiparams -qm kl_v2 -b 8 -r all -du -od -s /my_project/quant/humansegv1_lite_reshape
+  /usr/bin/python -u run_quantization.py -f paddle -i 10 -ch TX511 -ct TX511 -if infer_humanseg_model -m paddle_models/human_pp_humansegv1_lite_192x192_pretrained/humansegv1_lite.pdmodel -w paddle_models/human_pp_humansegv1_lite_192x192_pretrained/humansegv1_lite.pdiparams -qm kl_v2 -b 8 -r all -du -od -s /my_project/quant/humansegv1_lite
 
   # 执行推理命令,对转换模型(or 量化模型)在整个测试集上进行推理
-  python run_quantization.py -r infer -i 1000 -ch TX511 -ct TX511 -if infer_humanseg_model -m /my_project/quant/humansegv1_lite_reshape/humansegv1_lite_reshape.onnx
-  # python run_quantization.py -r infer -i 1000 -ch TX511 -ct TX511 -if infer_humanseg_model -m /my_project/quant/humansegv1_lite_reshape/humansegv1_lite_reshape_quantize.onnx
+  python run_quantization.py -r infer -i 1000 -ch TX511 -ct TX511 -if infer_humanseg_model -m /my_project/quant/humansegv1_lite/humansegv1_lite.onnx
+  python run_quantization.py -r infer -i 1000 -ch TX511 -ct TX511 -if infer_humanseg_model -m /my_project/quant/humansegv1_lite/humansegv1_lite.onnx
   
 
   # 拷贝模型到指定目录
-  cp /my_project/quant/humansegv1_lite_reshape/humansegv1_lite_reshape_quantize.onnx /my_project/quant/to_compiler/humansegv1_lite_reshape/
-  cp -r /my_project/quant/humansegv1_lite_reshape/caffe_model /my_project/quant/to_compiler/humansegv1_lite_reshape/
-  cp /my_project/quant/humansegv1_lite_reshape/dump/float/0001\:Input_x/batch_0.npy /my_project/quant/to_compiler/humansegv1_lite_reshape/input.npy
-  cp /my_project/quant/$task/dump/quant/0097\:Resize_translated_layer_scale_0.tmp_2/batch_0.npy /my_project/quant/to_compiler/humansegv1_lite_reshape/output.npy
+  cp /my_project/quant/humansegv1_lite/humansegv1_lite_quantize.onnx /my_project/quant/to_compiler/humansegv1_lite/
+  cp -r /my_project/quant/humansegv1_lite/caffe_model /my_project/quant/to_compiler/humansegv1_lite/
+  cp /my_project/quant/humansegv1_lite/dump/float/0001\:Input_x/batch_0.npy /my_project/quant/to_compiler/humansegv1_lite/input.npy
+  cp /my_project/quant/humansegv1_lite/dump/quant/0097\:Resize_translated_layer_scale_0.tmp_2/batch_0.npy /my_project/quant/to_compiler/humansegv1_lite/output.npy
 
   # 说明：以下是量化数据集及全量数据集上的浮点、量化结果；
   ```
@@ -252,7 +252,7 @@
   mkdir -p /my_project/quant/to_compiler/humansegv1_lite_reshape/compile_dir
 
   # 编译网络(使用caffe编译)
-  Knight --chip TX5368AV200 rne-compile --net /my_project/quant/humansegv1_lite_reshape/caffe_model/humansegv1_lite_reshape/humansegv1_lite_reshape.prototxt --weight /my_project/quant/humansegv1_lite_reshape/caffe_model/humansegv1_lite_reshape/humansegv1_lite_reshape.weight --outpath /my_project/quant/to_compiler/humansegv1_lite_reshape/compile_dir/ --general-process 1
+  Knight --chip TX5368AV200 rne-compile --net /my_project/quant/humansegv1_lite/caffe_model/humansegv1_lite/humansegv1_lite.prototxt --weight /my_project/quant/humansegv1_lite/caffe_model/humansegv1_lite/humansegv1_lite.weight --outpath /my_project/quant/to_compiler/humansegv1_lite/compile_dir/ --general-process 1
 
   cp -r /my_project/quant/to_compiler/ /data/examples/baidu_qa_level3
   ```
@@ -285,7 +285,8 @@
   /usr/bin/python -u run_quantization.py -f paddle -i 50 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m paddle_models/dcn_static_with_emb/dcn.pdmodel -w paddle_models/dcn_static_with_emb/dcn.pdiparams -qm percentile -per 0.9999 -b 8 -r all -du -s /my_project/quant/dcn
 
   # 执行推理命令,对转换模型(or 量化模型)在整个测试集上进行推理
-  python run_quantization.py -r infer -i 50 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m /my_project/quant/dcn/dcn.onnx
+  # 注：此步骤可以跳过，因为 量化数据集与全量数据集相同
+  # python run_quantization.py -r infer -i 50 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m /my_project/quant/dcn/dcn.onnx
   # python run_quantization.py -r infer -i 50 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m /my_project/quant/dcn/dcn_quantize.onnx
 
   # 拷贝模型到指定目录

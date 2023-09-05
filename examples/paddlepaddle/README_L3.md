@@ -13,31 +13,31 @@
 
 ## 1. Benchmark(数据集来自官网提供和整理)
 
-|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度  | 测试数据量 | 推理速度(单张图片) | 说明 |
+|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度(掉点)  | 测试数据量 | 推理速度(单张图片) | 说明 |
 |-------------|-----------|----------|----------|-----------|--------------------|--------|
-| 1. PPHGNet_tiny     | 78.75      | 78.75      | 78.9    | 640     |    -Y       | [数据]、[官方模型] |
-| 2. RegNetX_4GF     | 83.9      | 83.9      | 83.0  | 640     |    -Y        | [数据]、[官方模型] |
-| 3. resnet50_vd     | 75.47     | 75.47       | 75.16     | 640    |    -Y       | [数据]、[官方模型] |
-| 4. peleenet     | 69.84      | 69.84     | 69.06    | 640    |    -Y       | [数据]、[官方模型] |
-| 5. DLA60X     |   79.22   | 79.22     |  78.6    | 640    |    -Y       | [数据]、[官方模型] |
-| 6. resnext50_32x4d     |  81.1    |  81.1    |  80.3    | 640    |    -Y       | [数据]、[官方模型] |
-| 7. se_resnext50_32x4d    |   81.56   |   81.56   |  80.78    | 640    |    -Y       | [数据]、[官方模型] |
-| 8. xception41     |   79.21   |  79.21    |  79.06    | 640    |    -Y       | [数据]、[官方模型] |
-| 9. mobilenetV1_x0_75   |  65.78    |  65.78    |  65.3    | 640    |    -Y      | [数据]、[官方模型] |
-| 10. hardnet68     |   77.18   |  77.18    |   76.72   | 640    |    -Y       | [数据]、[官方模型] |
-| 11. cspdarknet53     |   75.15   |   75.15   |   75.16   | 640    |    -Y       | [数据]、[官方模型] |
-| 12. shufflenetv2_x2_0    |  74.68    |  74.68    |  74.68    | 640    |    -Y       | [数据]、[官方模型] |
-| 13. hrnet_w18_c     |   75.31   |  75.31    |  75.47    | 640    |    -Y      | [数据]、[官方模型] |
-| 14. inceptionV3    |  71.4    |   71.4   |   71.1   | 640    |    -Y       | [数据]、[官方模型] |
-| 15. VGG13     |  68.28    |   68.28   |  67.65    | 640    |    -Y       | [数据]、[官方模型] |
-| 16. SEnet154_vd     |   87.34   |   87.34   |  87.5    | 640    |    -Y       | [数据]、[官方模型] |
-| 17. xception65     |   80.47   |  80.47    |  79.84    | 640    |    -Y       | [数据]、[官方模型] |
-| 18. resnext101_32x4d     |  82.5    |  82.5    |  82.5    | 640    |    -Y       | [数据]、[官方模型] |
-| 19. tinybert     |   91.5   |  91.5    |   91.16   | 872    |    -Y       | [数据]、[官方模型] |
-| 20. electra     |   91.28   |  91.28    |   90.6   | 872    |    -Y       | [数据]、[官方模型] |
-| 21. yolov3-mobilenetv1     |   0.506   |  0.506    |  0.499    | 5000    |    -Y       | [数据]、[官方模型] |
-| 22. humansegv1_lite     |   86.0   |  86.0    |   85.9   | 100    |    -Y       | [数据]、[官方模型] |
-| 23. dcn     |   84.3   |   84.3   |  84.1    |  25000    |    -Y      | [数据]、[官方模型] |
+| 1. pphgnet_tiny     | 78.75      | 78.75      | 78.9(+0.15)    | 640     |    -       | [官方模型](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k) |
+| 2. regnetx_4gf     | 83.9      | 83.9      | 83.0(-0.9)  | 640     |    -        | [官方模型](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k) |
+| 3. resnet50_vd     | 75.47     | 75.47       | 75.16(-0.3)     | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 4. peleenet     | 69.84      | 69.84     | 69.06(-0.8)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 5. dla60x     |   79.22   | 79.22     |  78.6(-0.6)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 6. resnext50_32x4d     |  81.1    |  81.1    |  80.3(-0.8)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 7. se_resnext50_32x4d    |   81.56   |   81.56   |  80.78(-0.8)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 8. xception41     |   79.21   |  79.21    |  79.06(-0.16)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 9. mobilenetV1_x0_75   |  65.78    |  65.78    |  65.3(-0.48)    | 640    |    -      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 10. hardnet68     |   77.18   |  77.18    |   76.72(-0.4)   | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 11. cspdarknet53     |   75.15   |   75.15   |   75.16(+0.1)   | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 12. shufflenetv2_x2_0    |  74.68    |  74.68    |  74.68(-0.0)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 13. hrnet_w18_c     |   75.31   |  75.31    |  75.47(+0.15)    | 640    |    -      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 14. inceptionv3    |  71.4    |   71.4   |   71.1(-0.3)   | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 15. vgg13     |  68.28    |   68.28   |  67.65(-0.6)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 16. senet154_vd     |   87.34   |   87.34   |  87.5(+.2)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 17. xception65     |   80.47   |  80.47    |  79.84(-0.6)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 18. resnext101_32x4d     |  82.5    |  82.5    |  82.5(-0.0)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 19. tinybert     |   91.5   |  91.5    |   91.16(-0.4)   | 872    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 20. electra     |   91.28   |  91.28    |   90.6(-0.6)   | 872    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 21. yolov3_mobilenetv1     |   0.506   |  0.506    |  0.499(-0.007)    | 5000    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 22. humansegv1_lite     |   86.0   |  86.0    |   85.9(-0.1)   | 100    |    -       | [官方模型](https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.8/contrib/PP-HumanSeg/README_cn.md) |
+| 23. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  25000    |    -      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 
 ----
 
@@ -77,6 +77,7 @@
   - 该部分共15个网络；该类网络对目标图片进行分类，指标为 accuracy（简称acc）
   - 以下以PPHGNet_tiny为例，逐步介绍该部分网络的工作流程及执行命令，该部分其他网络可类似执行（网络数量多，不再一一列举，见谅）；
   - ***读者也可在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_cls/pphgnet_tiny.sh 运行该网络所有命令；其他网络也有相应脚本；执行scripts/scripts_cls/scripts_cls_all.sh可一次性运行所有分类网络（逐个）***
+  - 执行 scripts/scripts_cls/scripts_cls_all.sh 时可以使用nohup命令，如 nohup bash scripts/scripts_cls/scripts_cls_all.sh > logs/run_all_cls.log，然后查看logs/run_all_cls.log记录的运行情况；防止模型较多导致旧的输出看不到；执行该部分所有网络大概需要1天多的时间；
 
 
 - __数据预处理__
@@ -385,43 +386,42 @@
 ----
 
 ## 8. 硬件测试
-- __环境准备__
-  - **导出 wx_paddle@192.168.1.10:/data/examples/baidu_qa_level3 目录里的to_compiler文件夹给硬件使用**
-    - 执行导出命令：bash /dev-server-ftp/export_data.sh -d /data/examples/baidu_qa_level3/to_compiler/ -c "百度提测：导出模型文件到板端" （注：该命令会自动发邮件让我司主要领导审批通过方能导出，可能需要半小时；百度测试人员可通知我司员工以便加快导出）
-    - win环境下到ftp://192.168.100.38:2121/目录下复制导出的文件到win本地任意目录，如下图所示<br>
-      ![image](https://user-images.githubusercontent.com/7539692/227904697-f7c353d9-4415-453e-83fb-24849b323052.png)
-    - 解压缩导出的压缩包，得到里面的to_compiler文件夹<br>
-      ![image](https://user-images.githubusercontent.com/7539692/228107708-c9b1a578-3472-43c8-9bce-0188dc10692e.png)
-    - win环境起一个终端，验证能否进入python脚本运行环境（简称ubuntu环境）：ssh ubuntu@10.11.1.127 (password: 123456)
-    - win环境另起一个终端，执行命令：scp -r to_compiler ubuntu@10.11.1.127:/home/ubuntu/paddle_level3，将解压缩的to_compiler文件夹整个放到paddle_level3 目录下
+- __数据准备__
+  - **导出所在服务器 /data/examples/baidu_qa_level3 目录里的to_compiler文件夹给硬件使用**
+    - 当前服务器上起一个终端，验证能否进入python脚本运行环境（简称ubuntu环境）：`ssh tsingmicro@10.11.1.127` (password: 123456)
+    - 另起一个终端，执行命令：`scp -r /data/examples/baidu_qa_level3/to_compiler tsingmicro@10.11.1.127:/home/tsingmicro/paddle_level3`
 
-  - 在ubuntu环境下 **切换到工作目录：cd /home/ubuntu/paddle_level3**（以下操作均在win环境终端，无需vmware内网环境）
-
+  - 在ubuntu环境下 
+    - **切换到工作目录**：`cd /home/tsingmicro/paddle_level3`
+    - **启动conda环境（重要）**：`conda activate py36`
+  
 - __数据预处理__
-  - 执行预处理脚本：bash scripts/preprocess.sh
+  - 执行预处理脚本：`bash scripts/preprocess.sh all` 
+    - `all`代表预处理所有模型，替换成具体模型名字可只预处理相应模型，如 `bash scripts/preprocess.sh vgg13`
   - 当前目录下的data文件夹会生成 all_bins 和 all_pd 两个文件夹，分别存放 作为硬件输入的bin文件 以及 用于后处理（含有label用于指标计算）的tensor文件；
 
 - __硬件上运行模型__
-  - 编译模型：bash scripts/process_build_demo.sh，预期结果如下：<br>
-    ![企业微信截图_16798868195832](https://user-images.githubusercontent.com/7539692/227873268-b592ddca-16cc-4f94-967c-ee3aef2fa9c6.png)
+  - 编译模型：`bash scripts/process_build_demo.sh`，预期结果如下：<br>
+    <img src=./images/hware-build.png />
   - 让硬件运行模型：
-    - win环境另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.253 (password: 123456)；
-    - **切换到工作目录：cd /root/paddle_level3**，注意硬件环境已通过 /root/paddle_level3 挂载 ubuntu环境的 /home/ubuntu/paddle_level3
-    - 执行硬件上运行模型的脚本：./scripts/process_run_demo.sh，预期结果如下：<br>
-      ![image](https://user-images.githubusercontent.com/7539692/227923332-24ecf4e6-8002-4c39-b278-71224f040ca9.png)
+    - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.253 (password: 123456)；
+    - **切换到工作目录：cd /root/paddle_level3**，注意硬件环境已通过 /root/paddle_level3 挂载 ubuntu环境的 /home/tsingmicro/paddle_level3
+    - 执行硬件上运行模型的脚本：`bash scripts/process_run_demo.sh`，预期结果如下：<br>
+      <img src=./images/hware-infer.png />
 
 
 - __后处理__ 
-  - 返回ubuntu环境，**切换到工作目录：cd /home/ubuntu/paddle_level3**
-  - 执行所有网络的后处理脚本：bash scripts/postprocess.sh，得到3个网络的精度
-  - 也可3个网络分开执行后处理脚本：
-    - bash scripts/postprocess.sh ocr_det 
-    - bash scripts/postprocess.sh ocr_cls
-    - bash scripts/postprocess.sh ocr_rec
-  - 预期结果如下(det/cls/rec)：<br>
-    ![image](https://user-images.githubusercontent.com/7539692/227878069-38f55d38-3a81-40c0-8b6e-a8a684c28980.png)
-    ![image](https://user-images.githubusercontent.com/7539692/227878154-3ef221f8-84e6-40fe-bd49-3cde86eaa5ab.png)
-    ![image](https://user-images.githubusercontent.com/7539692/227878263-8bdedaeb-03dd-467b-adbb-01471aafb877.png)
+  - 返回ubuntu环境，**切换到工作目录：cd /home/tsingmicro/paddle_level3**
+  - 执行所有网络的后处理脚本：`bash scripts/postprocess.sh all`，得到所有网络的指标
+    - 也可设置模型名字 单独 执行后处理脚本，如 `bash scripts/postprocess.sh vgg13`
+   
+  - 分类网络预期结果如下：<br>
+  - 检测网络预期结果如下：<br>
+  - 分割网络预期结果如下：<br>
+  - nlp网络预期结果如下：<br>
+  - 推荐网络预期结果如下：<br>
+  
+    
 
 ----
 

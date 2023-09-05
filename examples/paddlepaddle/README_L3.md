@@ -229,7 +229,7 @@
 
   # 执行推理命令,对转换模型(or 量化模型)在整个测试集上进行推理
   python run_quantization.py -r infer -i 1000 -ch TX511 -ct TX511 -if infer_humanseg_model -m /my_project/quant/humansegv1_lite/humansegv1_lite.onnx
-  python run_quantization.py -r infer -i 1000 -ch TX511 -ct TX511 -if infer_humanseg_model -m /my_project/quant/humansegv1_lite/humansegv1_lite.onnx
+  python run_quantization.py -r infer -i 1000 -ch TX511 -ct TX511 -if infer_humanseg_model -m /my_project/quant/humansegv1_lite/humansegv1_lite_quantize.onnx
   
 
   # 拷贝模型到指定目录

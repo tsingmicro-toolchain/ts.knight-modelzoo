@@ -30,14 +30,11 @@
 | 13. hrnet_w18_c     |   75.31   |  75.31    |  75.47(+0.15)    | 640    |    16.7      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 14. inceptionv3    |  71.4    |   71.4   |   71.1(-0.3)   | 640    |    9.8       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 15. vgg13     |  68.28    |   68.28   |  67.65(-0.6)    | 640    |    31.2       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 16. senet154_vd     |   87.34   |   87.34   |  87.5(+.2)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 17. xception65     |   80.47   |  80.47    |  79.84(-0.6)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 18. resnext101_32x4d     |  82.5    |  82.5    |  82.5(-0.0)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 19. tinybert     |   91.5   |  91.5    |   91.16(-0.4)   | 872    |    41.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 20. electra     |   91.28   |  91.28    |   90.6(-0.6)   | 872    |    32.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 21. yolov3_mobilenetv1     |   0.506   |  0.506    |  0.499(-0.007)    | 5000    |    25.5       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 22. humansegv1_lite     |   86.0   |  86.0    |   85.9(-0.1)   | 100    |    7.7       | [官方模型](https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.8/contrib/PP-HumanSeg/README_cn.md) |
-| 23. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  25000    |    0.05      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 16. tinybert     |   91.5   |  91.5    |   91.16(-0.4)   | 872    |    41.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 17. electra     |   91.28   |  91.28    |   90.6(-0.6)   | 872    |    32.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 18. yolov3_mobilenetv1     |   0.506   |  0.506    |  0.499(-0.007)    | 5000    |    25.5       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 19. humansegv1_lite     |   86.0   |  86.0    |   85.9(-0.1)   | 100    |    7.7       | [官方模型](https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.8/contrib/PP-HumanSeg/README_cn.md) |
+| 20. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  25000    |    0.05      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 
 ----
 
@@ -439,6 +436,8 @@
   ![post-dla60x](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/eddb339b-6cb8-433e-a621-cb24487b1b53)
 
   - 检测网络预期结果如下：<br>
+  ![post-yolo3](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/ce44789e-9c56-4f3c-b2b5-5a5667937b78)
+
   - 分割网络预期结果如下（humansegv1_lite）：<br>
   ![post_humansegv1_lite](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/7c74d4b4-5910-4984-aea8-76bba1bd4adf)
 
@@ -446,7 +445,8 @@
   ![post_tinybert](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/2a608c7b-1173-475e-95e8-2f95bd31de25)
 
   - 推荐网络预期结果如下：<br>
-  
+  ![post-dcn2](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/e298b3af-4b7f-4d0a-a9e2-114ad330d512)
+
     
 
 ----

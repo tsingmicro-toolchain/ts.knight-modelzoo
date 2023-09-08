@@ -13,31 +13,31 @@
 
 ## 1. Benchmark(数据集来自官网提供和整理)
 
-|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度(掉点)  | 测试数据量 | 推理速度(单张图片) | 说明 |
+|  模型名称    | paddle浮点精度 | onnx浮点精度 | 量化精度(掉点)  | 测试数据量 | 推理速度(单张图片/ms) | 说明 |
 |-------------|-----------|----------|----------|-----------|--------------------|--------|
-| 1. pphgnet_tiny     | 78.75      | 78.75      | 78.9(+0.15)    | 640     |    -       | [官方模型](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k) |
-| 2. regnetx_4gf     | 83.9      | 83.9      | 83.0(-0.9)  | 640     |    -        | [官方模型](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k) |
-| 3. resnet50_vd     | 75.47     | 75.47       | 75.16(-0.3)     | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 4. peleenet     | 69.84      | 69.84     | 69.06(-0.8)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 5. dla60x     |   79.22   | 79.22     |  78.6(-0.6)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 6. resnext50_32x4d     |  81.1    |  81.1    |  80.3(-0.8)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 7. se_resnext50_32x4d    |   81.56   |   81.56   |  80.78(-0.8)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 8. xception41     |   79.21   |  79.21    |  79.06(-0.16)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 9. mobilenetV1_x0_75   |  65.78    |  65.78    |  65.3(-0.48)    | 640    |    -      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 10. hardnet68     |   77.18   |  77.18    |   76.72(-0.4)   | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 11. cspdarknet53     |   75.15   |   75.15   |   75.16(+0.1)   | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 12. shufflenetv2_x2_0    |  74.68    |  74.68    |  74.68(-0.0)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 13. hrnet_w18_c     |   75.31   |  75.31    |  75.47(+0.15)    | 640    |    -      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 14. inceptionv3    |  71.4    |   71.4   |   71.1(-0.3)   | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 15. vgg13     |  68.28    |   68.28   |  67.65(-0.6)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 1. pphgnet_tiny     | 78.75      | 78.75      | 78.9(+0.15)    | 640     |    12.06       | [官方模型](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k) |
+| 2. regnetx_4gf     | 83.9      | 83.9      | 83.0(-0.9)  | 640     |     14.64       | [官方模型](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k) |
+| 3. resnet50_vd     | 75.47     | 75.47       | 75.16(-0.3)     | 640    |    10.4       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 4. peleenet     | 69.84      | 69.84     | 69.06(-0.8)    | 640    |    4.9       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 5. dla60x     |   79.22   | 79.22     |  78.6(-0.6)    | 640    |    13       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 6. resnext50_32x4d     |  81.1    |  81.1    |  80.3(-0.8)    | 640    |    13.5       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 7. se_resnext50_32x4d    |   81.56   |   81.56   |  80.78(-0.8)    | 640    |    21.8       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 8. xception41     |   79.21   |  79.21    |  79.06(-0.16)    | 640    |    25.2       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 9. mobilenetv1_x0_75   |  65.78    |  65.78    |  65.3(-0.48)    | 640    |    2.6      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 10. hardnet68     |   77.18   |  77.18    |   76.72(-0.4)   | 640    |     85.8      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 11. cspdarknet53     |   75.15   |   75.15   |   75.16(+0.1)   | 640    |   11.5       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 12. shufflenetv2_x2_0    |  74.68    |  74.68    |  74.68(-0.0)    | 640    |    7.8      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 13. hrnet_w18_c     |   75.31   |  75.31    |  75.47(+0.15)    | 640    |    16.7      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 14. inceptionv3    |  71.4    |   71.4   |   71.1(-0.3)   | 640    |    9.8       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 15. vgg13     |  68.28    |   68.28   |  67.65(-0.6)    | 640    |    31.2       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 16. senet154_vd     |   87.34   |   87.34   |  87.5(+.2)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 17. xception65     |   80.47   |  80.47    |  79.84(-0.6)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 18. resnext101_32x4d     |  82.5    |  82.5    |  82.5(-0.0)    | 640    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 19. tinybert     |   91.5   |  91.5    |   91.16(-0.4)   | 872    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 20. electra     |   91.28   |  91.28    |   90.6(-0.6)   | 872    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 21. yolov3_mobilenetv1     |   0.506   |  0.506    |  0.499(-0.007)    | 5000    |    -       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
-| 22. humansegv1_lite     |   86.0   |  86.0    |   85.9(-0.1)   | 100    |    -       | [官方模型](https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.8/contrib/PP-HumanSeg/README_cn.md) |
-| 23. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  25000    |    -      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 19. tinybert     |   91.5   |  91.5    |   91.16(-0.4)   | 872    |    41.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 20. electra     |   91.28   |  91.28    |   90.6(-0.6)   | 872    |    32.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 21. yolov3_mobilenetv1     |   0.506   |  0.506    |  0.499(-0.007)    | 5000    |    25.5       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 22. humansegv1_lite     |   86.0   |  86.0    |   85.9(-0.1)   | 100    |    7.7       | [官方模型](https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.8/contrib/PP-HumanSeg/README_cn.md) |
+| 23. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  25000    |    0.05      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 
 ----
 
@@ -419,13 +419,15 @@
   - 当前目录下的data文件夹会生成 all_bins 和 all_pd 两个文件夹，分别存放 作为硬件输入的bin文件 以及 用于后处理（含有label用于指标计算）的tensor文件；
 
 - __硬件上运行模型__
-  - 编译模型：`bash scripts/process_build_demo.sh`，预期结果如下：<br>
+  - 编译模型：`bash scripts/build_model.sh`，预期结果如下：<br>
+    - 此时编译所有模型；如果要编译单个模型，如vgg13，则执行`bash scripts/build_model.sh vgg13`
     ![hware-build](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/277d20bc-d3c5-407f-bc51-d67d663416d6)
 
   - 让硬件运行模型：
     - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.253 (password: 123456)；
     - **切换到工作目录：cd /root/paddle_level3**，注意硬件环境已通过 /root/paddle_level3 挂载 ubuntu环境的 /home/tsingmicro/paddle_level3
-    - 执行硬件上运行模型的脚本：`bash scripts/process_run_demo.sh`，预期结果如下：<br>
+    - 执行硬件上运行模型的脚本：`sh scripts/infer_model.sh`，预期结果如下：<br>
+      - 此时运行所有模型；如果需要运行单个模型，则执行 `bash scripts/infer_model.sh vgg13`
       ![hware-infer](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/44884469-bb38-4009-ac4e-956f913538c4)
 
 - __后处理__ 
@@ -434,9 +436,15 @@
     - 也可设置模型名字 单独 执行后处理脚本，如 `bash scripts/postprocess.sh vgg13`
    
   - 分类网络预期结果如下：<br>
+  ![post-dla60x](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/eddb339b-6cb8-433e-a621-cb24487b1b53)
+
   - 检测网络预期结果如下：<br>
-  - 分割网络预期结果如下：<br>
-  - nlp网络预期结果如下：<br>
+  - 分割网络预期结果如下（humansegv1_lite）：<br>
+  ![post_humansegv1_lite](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/7c74d4b4-5910-4984-aea8-76bba1bd4adf)
+
+  - nlp网络预期结果如下（tinybert）：<br>
+  ![post_tinybert](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/2a608c7b-1173-475e-95e8-2f95bd31de25)
+
   - 推荐网络预期结果如下：<br>
   
     

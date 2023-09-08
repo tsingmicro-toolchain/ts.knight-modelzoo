@@ -417,14 +417,14 @@
 
 - __硬件上运行模型__
   - 编译模型：`bash scripts/build_model.sh`，预期结果如下：<br>
-    - 此时编译所有模型；如果要编译单个模型，如vgg13，则执行`bash scripts/build_model.sh vgg13`
+    - 此时编译所有模型；如果要编译单个模型，如vgg13，则执行`bash scripts/build_model.sh vgg13` <br>
     ![hware-build](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/277d20bc-d3c5-407f-bc51-d67d663416d6)
 
   - 让硬件运行模型：
     - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.253 (password: 123456)；
     - **切换到工作目录：cd /root/paddle_level3**，注意硬件环境已通过 /root/paddle_level3 挂载 ubuntu环境的 /home/tsingmicro/paddle_level3
     - 执行硬件上运行模型的脚本：`sh scripts/infer_model.sh`，预期结果如下：<br>
-      - 此时运行所有模型；如果需要运行单个模型，则执行 `bash scripts/infer_model.sh vgg13`
+      - 此时运行所有模型；如果需要运行单个模型，则执行 `bash scripts/infer_model.sh vgg13`<br>
       ![hware-infer](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/44884469-bb38-4009-ac4e-956f913538c4)
 
 - __后处理__ 

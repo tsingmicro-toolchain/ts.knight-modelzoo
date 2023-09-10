@@ -422,7 +422,8 @@
 - __硬件上运行模型__
   - 编译模型：`bash scripts/build_model.sh`，预期结果如下：<br>
     - 此时编译所有模型；如果要编译单个模型，如vgg13，则执行`bash scripts/build_model.sh vgg13` <br>
-    ![hware-build](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/277d20bc-d3c5-407f-bc51-d67d663416d6)
+    ![hardware-build-1](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/40a663d4-51e0-4f20-bae4-3c2ed7ec53e9)
+
 
   - 让硬件运行模型：
     - 另起一个终端，进入硬件运行环境（简称root环境）：ssh root@10.11.1.253 (password: 123456)；

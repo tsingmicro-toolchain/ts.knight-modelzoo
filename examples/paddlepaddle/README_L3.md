@@ -34,7 +34,7 @@
 | 17. electra     |   91.28   |  91.28    |   90.6(-0.6)   | 872    |    32.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 18. yolov3_mobilenetv1     |   0.506   |  0.506    |  0.499(-0.007)    | 5000    |    25.5       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 19. humansegv1_lite     |   86.0   |  86.0    |   85.9(-0.1)   | 100    |    7.7       | [官方模型](https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.8/contrib/PP-HumanSeg/README_cn.md) |
-| 20. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  25000    |    0.05      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 20. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  5120    |    0.05      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 
 ----
 
@@ -288,12 +288,12 @@
   # /TS-Knight/Quantize/Onnx/onnx_quantize_tool/paddle_models/dcn_static_with_emb
 
   # 执行量化命令,完成paddle2onnx转换，并对模型进行量化定点
-  /usr/bin/python -u run_quantization.py -f paddle -i 50 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m paddle_models/dcn_static_with_emb/dcn.pdmodel -w paddle_models/dcn_static_with_emb/dcn.pdiparams -qm percentile -per 0.9999 -b 8 -r all -du -s /my_project/quant/dcn
+  /usr/bin/python -u run_quantization.py -f paddle -i 1 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m paddle_models/dcn_static_with_emb/dcn.pdmodel -w paddle_models/dcn_static_with_emb/dcn.pdiparams -qm percentile -per 0.9999 -b 8 -r all -du -s /my_project/quant/dcn
 
   # 执行推理命令,对转换模型(or 量化模型)在整个测试集上进行推理
   # 注：此步骤可以跳过，因为 量化数据集与全量数据集相同
-  # python run_quantization.py -r infer -i 50 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m /my_project/quant/dcn/dcn.onnx
-  # python run_quantization.py -r infer -i 50 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m /my_project/quant/dcn/dcn_quantize.onnx
+  # python run_quantization.py -r infer -i 10 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m /my_project/quant/dcn/dcn.onnx
+  # python run_quantization.py -r infer -i 10 -ch TX511 -ct TX511 -if infer_dcn_with_emb_model -m /my_project/quant/dcn/dcn_quantize.onnx
 
   # 拷贝模型到指定目录
   cp /my_project/quant/dcn/dcn_quantize.onnx /my_project/quant/to_compiler/dcn/
@@ -307,16 +307,20 @@
   ```
 <div align=center>
 浮点结果<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/31949547-a00e-4745-88d1-df545a76e37f
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/15df9ba4-f148-45c5-81b5-2f1b280e4f14
+
  />  
 <br>量化结果<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/6e9a8427-9f28-4145-97ed-ca3a0fb6ac6d
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/886f6ee9-f25b-4b83-a9b9-d2aabbe8734b
+
  />
 <br>浮点结果（全量数据）<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/8283819d-904f-4d13-9fa3-ead2524a406d
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/82140ba6-d788-412f-af7b-70efc03bebac
+
  />
 <br>量化结果（全量数据）<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/cd0ff358-5b51-44f9-91d4-bfad0d022545
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/c4ba75e5-2950-4faa-99a2-dc6e2ec35901
+
  />
 </div>
 
@@ -445,7 +449,8 @@
   ![post_tinybert](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/2a608c7b-1173-475e-95e8-2f95bd31de25)
 
   - 推荐网络预期结果如下：<br>
-  ![post-dcn2](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/e298b3af-4b7f-4d0a-a9e2-114ad330d512)
+  ![dcn-quant-board](https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/9d89f7c5-516d-48b9-b01a-aa2e4a35ac89)
+
 
     
 

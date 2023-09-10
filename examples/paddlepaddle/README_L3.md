@@ -307,21 +307,13 @@
   ```
 <div align=center>
 浮点结果<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/15df9ba4-f148-45c5-81b5-2f1b280e4f14
-
- />  
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/15df9ba4-f148-45c5-81b5-2f1b280e4f14 />  
 <br>量化结果<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/886f6ee9-f25b-4b83-a9b9-d2aabbe8734b
-
- />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/886f6ee9-f25b-4b83-a9b9-d2aabbe8734b />
 <br>浮点结果（全量数据）<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/82140ba6-d788-412f-af7b-70efc03bebac
-
- />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/82140ba6-d788-412f-af7b-70efc03bebac />
 <br>量化结果（全量数据）<br>
-        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/c4ba75e5-2950-4faa-99a2-dc6e2ec35901
-
- />
+        <img src=https://github.com/tsingmicro-toolchain/ts.knight-modelzoo/assets/7539692/c4ba75e5-2950-4faa-99a2-dc6e2ec35901 />
 </div>
 
 - __编译__

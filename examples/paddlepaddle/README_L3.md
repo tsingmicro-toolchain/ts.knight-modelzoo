@@ -34,7 +34,7 @@
 | 17. electra     |   91.28   |  91.28    |   90.6(-0.6)   | 872    |    32.7       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 18. yolov3_mobilenetv1     |   0.506   |  0.506    |  0.499(-0.007)    | 5000    |    25.5       | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 | 19. humansegv1_lite     |   86.0   |  86.0    |   85.9(-0.1)   | 100    |    7.7       | [官方模型](https://github.com/PaddlePaddle/PaddleSeg/blob/release/2.8/contrib/PP-HumanSeg/README_cn.md) |
-| 20. dcn     |   84.3   |   84.3   |  84.1(-0.2)    |  5120    |    0.05      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
+| 20. dcn     |   82.3   |   82.3   |  82.4(+0.1)    |  5120    |    0.05      | [官方模型](https://github.com/PaddlePaddle/models/blob/develop/docs/official/README.md) |
 
 ----
 

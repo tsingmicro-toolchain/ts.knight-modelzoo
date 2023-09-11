@@ -75,6 +75,7 @@
   - 以下以PPHGNet_tiny为例，逐步介绍该部分网络的工作流程及执行命令，该部分其他网络可类似执行（网络数量多，不再一一列举，见谅）；
   - ***读者也可在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_cls/pphgnet_tiny.sh 运行该网络所有命令；其他网络也有相应脚本；执行scripts/scripts_cls/scripts_cls_all.sh可一次性运行所有分类网络（逐个）***
   - 执行 scripts/scripts_cls/scripts_cls_all.sh 时可以使用nohup命令，如 nohup bash scripts/scripts_cls/scripts_cls_all.sh > logs/run_all_cls.log，然后查看logs/run_all_cls.log记录的运行情况；防止模型较多导致旧的输出看不到；执行该部分所有网络大概需要1天多的时间；
+  - ***此外，读者也可在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_all.sh 运行本次提测的所有20个网络；此时同样建议使用nohup命令在log文件中记录运行过程；***
 
 
 - __数据预处理__
@@ -140,6 +141,8 @@
   - 该部分共1个网络；该类网络对目标图片进行物体检测，指标为 IoU_.5
   - 以下逐步介绍该网络的工作流程及执行命令；
   - ***读者也可以在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_det/yolov3_mbv1_270e_coco_416.sh 运行该网络所有命令；***
+  - ***此外，读者也可在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_all.sh 运行本次提测的所有20个网络；此时同样建议使用nohup命令在log文件中记录运行过程；***
+  - 注：由于百度github提供的评估指标方法 要求数据集必须是全量5000张图片，因此量化和推理均使用5000张图片，故该网络脚本执行时间需要数个小时，请耐心等待；
 
 
 - __数据预处理__
@@ -206,6 +209,7 @@
   - 该部分共1个网络；该类网络对目标图片进行物体分割，指标为 miou
   - 以下逐步介绍该网络的工作流程及执行命令；
   - ***读者也可以在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_seg/humansegv1_lite_reshape.sh 运行该网络所有命令；***
+  - ***此外，读者也可在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_all.sh 运行本次提测的所有20个网络；此时同样建议使用nohup命令在log文件中记录运行过程；***
 
 
 - __数据预处理__
@@ -272,6 +276,7 @@
   - 该部分共有1个网络；该类网络预测点击率，指标为auc
   - 以下逐步介绍该网络的工作流程及执行命令；
   - ***读者也可以在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_rec/dcn.sh 运行该网络所有命令；***
+  - ***此外，读者也可在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_all.sh 运行本次提测的所有20个网络；此时同样建议使用nohup命令在log文件中记录运行过程；***
 
 
 - __数据预处理__
@@ -329,6 +334,7 @@
   - 该部分共有2个网络；该类网络对句子进行情感分类，指标为 accuracy
   - 以下以tinybert为例，逐步介绍该网络的工作流程及执行命令；另一个网络electra的流程和执行命令类似；
   - ***读者也可以在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_nlp/tinybert.sh运行该网络所有命令；electra网络也有相应脚本；执行bash scripts/scripts_nlp/scripts_nlp_all.sh可一次性运行该部分2个网络（逐个）***
+  - ***此外，读者也可在 /TS-Knight/Quantize/Onnx/onnx_quantize_tool 目录下直接执行 bash scripts/scripts_all.sh 运行本次提测的所有20个网络；此时同样建议使用nohup命令在log文件中记录运行过程；***
 
 - __数据预处理__
   - 无需额外预处理；数据来自官网提供glue/SST2，存放于/TS-Knight/Quantize/Onnx/onnx_quantize_tool/data/sst2

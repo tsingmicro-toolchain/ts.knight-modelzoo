@@ -42,8 +42,8 @@
 
 - 请联系[技术支持](../../README.md#技术讨论)获取需要用到的VPN、账号、knight docker镜像（百度提测无需该步）
 - 配置远程登录清微内网环境：
-  - 安装VPN，解压‘OPENVPN - ITO.zip’，参考其中文档进行安装，VPN用户名：wx_paddle   VPN密码：x1fykfb1Qt
-  - 安装VMware-Horizon，参考文档《清微-vdi》，vdi用户名：wx_paddle   vdi密码：1234qwe!@#
+  - 安装VPN，解压‘OPENVPN - ITO.zip’，参考其中文档进行安装，VPN用户名：wx_paddle   VPN密码：联系获取
+  - 安装VMware-Horizon，参考文档《清微-vdi》，vdi用户名：wx_paddle   vdi密码：联系获取
   - 通过VMware-Horizon登录远程虚拟机，进入后通过MobaXterm登录服务器192.168.1.10（ssh wx_paddle@192.168.1.10），用户名：wx_paddle  密码：123qwe!@#
 - 当前目录下启动docker容器:
 

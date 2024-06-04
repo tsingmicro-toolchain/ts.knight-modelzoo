@@ -1,0 +1,1 @@
+Knight --chip TX5368AV200 quant onnx -m vgg16 -w /ts.knight-modelzoo/pytorch/builtin/cv/classification/vgg16/weight/vgg16-397923af.pth -f pytorch -uds /ts.knight-modelzoo/pytorch/builtin/cv/classification/vgg16/src/vgg16.py -if infer_imagenet_benchmark -s ./tmp/vgg16 -d /ts.knight-modelzoo/pytorch/builtin/cv/classification/vgg16/data/imagenet/images/val -bs 1 -i 200

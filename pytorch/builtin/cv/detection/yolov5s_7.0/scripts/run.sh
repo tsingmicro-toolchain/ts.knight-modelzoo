@@ -1,0 +1,1 @@
+Knight --chip TX5368AV200 quant onnx -m yolov5s_7 -w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/weight/yolov5s_7.0.pth -f pytorch -uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7.0.py -if infer_yolov5_v7_0 -s ./tmp/yolov5s_7.0 -d /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/data/coco128.yaml-bs 1 -i 128

@@ -127,8 +127,6 @@ Knight --chip TX5368A rne-profiling --weight  _r.weight --config  _r.cfg --outpa
 
 | 芯片系列                                          | 是否支持 |
 | ------------------------------------------------ | ------- |
-| TX231x                                           | 支持     |
-| TX232                                            | 不支持   |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
 | TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |

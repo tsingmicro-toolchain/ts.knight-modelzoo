@@ -102,20 +102,20 @@ sh yolov6s/scripts/run.sh
 ### 2. 编译
 
 
-    Knight --chip TX5368AV200 rne-compile --onnx resnet50_quantize.onnx --outpath resnet50_example/compile_result
+    Knight --chip TX5368AV200 rne-compile --onnx yolov6s_quantize.onnx --outpath .
 
 
 ### 3. 仿真
 
     #准备bin数据
-    python3 make_resnet_input_bin.py.py  
+    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368A rne-sim --input input.bin --weight _quantize_r.weight --config  _quantize_r.cfg --outpath resnet50_example
+    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolov6s_quantize_r.weight --config  yolov6s_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight  _r.weight --config  _r.cfg --outpath  resnet50_example/
+Knight --chip TX5368A rne-profiling --weight yolov6s_quantize_r.weight --config  yolov6s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -149,6 +149,7 @@ ModelZoo Edge 的 License 具体内容请参见LICENSE文件
 ## 免责说明
 
 您明确了解并同意，以上链接中的软件、数据或者模型由第三方提供并负责维护。在以上链接中出现的任何第三方的名称、商标、标识、产品或服务并不构成明示或暗示与该第三方或其软件、数据或模型的相关背书、担保或推荐行为。您进一步了解并同意，使用任何第三方软件、数据或者模型，包括您提供的任何信息或个人数据（不论是有意或无意地），应受相关使用条款、许可协议、隐私政策或其他此类协议的约束。因此，使用链接中的软件、数据或者模型可能导致的所有风险将由您自行承担。
+
 
 
 

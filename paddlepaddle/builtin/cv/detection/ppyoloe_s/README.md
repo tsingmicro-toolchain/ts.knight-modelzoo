@@ -60,7 +60,7 @@ Github工程地址：https://github.com/PaddlePaddle/PaddleDetection/tree/releas
 在docker 容器内运行以下命令:
 
 ```
-cd /ts.knight-modelzoo/pytorch/builtin/cv/detection/
+cd /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/
 ```
 
 ```
@@ -73,49 +73,49 @@ sh ppyoloe_s/scripts/run.sh
 
 -   模型准备
 	
-	如上述"Knight环境准备"章节所述，准备好ppyoloe_s的pytorch权重文件。由于ppyoloe_s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line134](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L134) 增加如下一行代码：  
+	如上述"Knight环境准备"章节所述，准备好ppyoloe_s的paddlepaddle权重文件。由于ppyoloe_s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line134](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L134) 增加如下一行代码：  
 	`return cls_score_list, reg_lrtb_list`
 	
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集,将数据放在`${localhost_dir}/ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/data/`， 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s.py```
 
 -   执行量化命令
 
 	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
 
-    	Knight --chip TX5368AV200 quant onnx -m /ts.knight-modelzoo/pytorch/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_plus_crn_l_80e_coco.pdmodel
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_plus_crn_l_80e_coco.pdiparams
+    	Knight --chip TX5368AV200 quant onnx -m /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_plus_crn_l_80e_coco.pdmodel
+    		-w /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_plus_crn_l_80e_coco.pdiparams
     		-f paddle 
-    		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s.py 
+    		-uds /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s.py 
     		-if ppyoloe_s
 			-s ./tmp/ppyoloe_s
-    		-d /ts.knight-modelzoo/pytorch/builtin/cv/detection/ppyoloe_s/data/coco128.yaml
+    		-d /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/data/coco128.yaml
     		-bs 1 -i 128
 
 
 ### 2. 编译
 
 
-    Knight --chip TX5368AV200 rne-compile --onnx ppyoloe_s_quantize.onnx --outpath ppyoloe_s_example/compile_result
+    Knight --chip TX5368AV200 rne-compile --onnx ppyoloe_s_quantize.onnx --outpath .
 
 
 ### 3. 仿真
 
     #准备bin数据
-    python3 make_resnet_input_bin.py.py  
+    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/data/images/train2017 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input input.bin --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath ppyoloe_s_example
+    Knight --chip TX5368A rne-sim --input model_input.bin --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight  ppyoloe_s_r.weight --config  ppyoloe_s_r.cfg --outpath  ppyoloe_s_example/
+Knight --chip TX5368A rne-profiling --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

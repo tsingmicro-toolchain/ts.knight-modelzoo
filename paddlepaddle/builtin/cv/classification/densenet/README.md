@@ -20,7 +20,7 @@ DenseNet提出了一个新的思路：把每一层的输出，特别是浅层网
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet](http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
 
 2. 模型资源下载
 
@@ -81,7 +81,7 @@ sh densenet/scripts/run.sh
 
 -   量化数据准备
 
-    在数据集中选200张图片作为量化校准数据集, 通过命令行参数```-i 200```指定图片数量，```-d```指定数据集路径。
+    将下载好的数据放在`${localhost_dir}/ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val`，在数据集中选200张图片作为量化校准数据集, 通过命令行参数```-i 200```指定图片数量，```-d```指定数据集路径。
 
 -   模型转换函数、推理函数准备
 	
@@ -105,20 +105,20 @@ sh densenet/scripts/run.sh
 ### 2. 编译
 
 
-    Knight --chip TX5368AV200 rne-compile --onnx DenseNet121_pretrained_quantize.onnx --outpath DenseNet121_pretrained_quantize_example/compile_result
+    Knight --chip TX5368AV200 rne-compile --onnx densenet_quantize.onnx --outpath .
 
 
 ### 3. 仿真
 
     #准备bin数据
-    python3 make_DenseNet121_pretrained_input_bin.py.py  
+    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val/n07749582 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input input.bin --weight DenseNet121_pretrained_quantize_r.weight --config  DenseNet121_pretrained_quantize_r.cfg --outpath DenseNet121_pretrained_quantize_example
+    Knight --chip TX5368A rne-sim --input model_input.bin --weight densenet_quantize_r.weight --config  densenet_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight  DenseNet121_pretrained_quantize_r.weight --config  DenseNet121_pretrained_quantize_r.cfg --outpath  DenseNet121_pretrained_quantize_example/
+Knight --chip TX5368A rne-profiling --weight densenet_quantize_r.weight --config  densenet_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

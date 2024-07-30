@@ -256,8 +256,9 @@ def _create_mixer(variant, pretrained=False, **kwargs):
 @pytorch_model.register("mixer_b16_224")
 def mixer_b16_224(weight_path=None):
     model_args = dict(patch_size=16, num_blocks=12, embed_dim=768)
-    model = _create_mixer('mixer_b16_224', pretrained=weight_path, **model_args)
-    '''
+    model = _create_mixer('mixer_b16_224', pretrained=False, **model_args)
+    model.eval()
+
     if weight_path:
         state_dict = torch.load(weight_path, map_location="cpu")
         if "state_dict" in state_dict:
@@ -265,8 +266,8 @@ def mixer_b16_224(weight_path=None):
         elif "model" in state_dict:
             state_dict = state_dict["model"]
         model.load_state_dict(state_dict, strict=True)
-    '''
-    return {"model": model,  "inputs": [torch.randn(10,3,224,224)]}
+
+    return {"model": model,  "inputs": [torch.randn(1,3,224,224)]}
 
 
 class AverageMeter(object):

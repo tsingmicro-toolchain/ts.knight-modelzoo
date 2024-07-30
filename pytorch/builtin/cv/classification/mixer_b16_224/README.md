@@ -8,7 +8,7 @@
 
 **Mlp-Mixer**，一个简单的2021年初，Google AI 团队续ViT模型之后回归到传统的MLP网络，基于MLP网络设计了一个全MLP的Mixer结构来进行计算机视觉任务。相较于过去被广泛适用于各个领域的基于卷积的CNN和最近大火的基于自注意力的Transformer而言，Mixer完全基于早期的多层感知器MLP，仅仅依赖于基本的矩阵乘法来完成数据的处理和特征的提取，通过单纯的MLP网络、非线性激活函数、Layer归一化也能够取得与CNN和ViT网络相似的性能。
 
-<!--可选-->论文：[《Mlp-Mixer》](https://arxiv.org/pdf/2105.01601.pdf)
+<!--可选-->论文：[《MLP-Mixer: An all-MLP Architecture for Vision》](https://arxiv.org/pdf/2105.01601.pdf)
 
 开源模型链接：https://github.com/huggingface/pytorch-image-models/blob/v0.6.12/timm/models/mlp_mixer.py
 
@@ -18,7 +18,7 @@
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载 [ImageNet](http://image-net.org/)  2012 val。
 
 2. 模型资源下载
 
@@ -108,12 +108,12 @@ sh mixer_b16_224/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/mixer_b16_224/data/imagenet/images/val/n07749582 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight mixer_b16_224_r.weight --config  mixer_b16_224_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight mixer_b16_224_r.weight --config  mixer_b16_224_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight mixer_b16_224_quantize_r.weight --config  mixer_b16_224_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight mixer_b16_224_quantize_r.weight --config  mixer_b16_224_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -128,7 +128,7 @@ Knight --chip TX5368A rne-profiling --weight mixer_b16_224_quantize_r.weight --c
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

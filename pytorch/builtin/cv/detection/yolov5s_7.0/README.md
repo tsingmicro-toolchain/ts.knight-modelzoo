@@ -19,11 +19,11 @@
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载2017 Train images\2017 Val images\和对应的annotation。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里需要下载coco128数据集。下载请前往[COCO官网](https://cocodataset.org/)。
 
 2. 模型权重下载
 
-	下载[YOLOv5s-7.0权重](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt)
+	下载[权重](https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt)
 
 3. 清微github modelzoo仓库下载
 
@@ -82,19 +82,19 @@ sh yolov5s_7.0/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7.0.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py```。将此文件放置在yolov5_7.0的官方工程内。
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov5s_7.0_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化命令，生成量化后的文件 yolov5s_7_0_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m yolov5s_7 
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/weight/yolov5s_7.0.pth 
+    		-w /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/weight/yolov5s_7.0.pt 
     		-f pytorch 
-    		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7.0.py 
+    		-uds /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py 
     		-if infer_yolov5_v7_0 
 			-s ./tmp/yolov5s_7.0 
-    		-d /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/data/coco128.yaml
+    		-d /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/data/coco128.yaml
     		-bs 1 -i 128
 
 
@@ -109,7 +109,7 @@ sh yolov5s_7.0/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolov5s_7.0_quantize_r.weight --config  yolov5s_7.0_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov5s_7.0_quantize_r.weight --config  yolov5s_7.0_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
@@ -129,7 +129,7 @@ Knight --chip TX5368A rne-profiling --weight yolov5s_7.0_quantize_r.weight --con
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

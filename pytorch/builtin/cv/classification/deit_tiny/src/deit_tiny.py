@@ -1,4 +1,5 @@
 import torch
+import time
 from timm.utils import accuracy, AverageMeter
 from torchvision import datasets, transforms
 import torch.nn as nn
@@ -21,7 +22,7 @@ def deit_tiny(weight_path=None):
         elif "model" in state_dict:
             state_dict = state_dict["model"]
         model.load_state_dict(state_dict, strict=True)
-    return {"model": model,  "inputs": [torch.randn(10,3,224,224)]}
+    return {"model": model,  "inputs": [torch.randn(1,3,224,224)]}
 
 
 class AverageMeter(object):

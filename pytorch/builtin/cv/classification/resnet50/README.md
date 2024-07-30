@@ -6,7 +6,7 @@
 
 ## 模型简介
 
-**Resnet**(Residual Network， 残差网络) 系列网络是一种在图像分类中广泛使用的深度卷积神经网络，同时也作为计算机视觉任务主干经典神经网络的一部分。典型的resnet网络有resnet50, resnet101等。
+**Resnet**（Residual Network， 残差网络）系列网络是一种在图像分类中广泛使用的深度卷积神经网络，同时也作为计算机视觉任务主干经典神经网络的一部分。典型的resnet网络有resnet50, resnet101等。
 
 <!--可选-->论文：[《Deep Residual Learning for Image Recognition》](https://arxiv.org/abs/1512.03385)
 
@@ -18,7 +18,7 @@
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet](http://image-net.org/) 2012 val 。
 
 2. 模型资源下载
 
@@ -108,12 +108,12 @@ sh resnet50/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/resnet50/data/imagenet/images/val/n07749582 --outpath .  
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight resnet50_quantize_r.weight --config  resnet50_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight resnet50_quantize_r.weight --config  resnet50_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight resnet50_quantize_r.weight --config  resnet50_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight resnet50_quantize_r.weight --config  resnet50_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -128,7 +128,7 @@ Knight --chip TX5368A rne-profiling --weight resnet50_quantize_r.weight --config
 | ------------------------------------------------- | -------- |
 | TX510x                                            | 支持     |
 | TX5368x_TX5339x_TX5335x                           | 支持     |
-| TX5215x_TX5239x200_TX5239x220_TX5239x300          | 支持     |
+| TX5215x_TX5239x220_TX5239x300          | 支持     |
 | TX5112x_TX5239x201                                | 支持     |
 | TX5336x_TX5356x                                   | 支持     |
 

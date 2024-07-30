@@ -23,7 +23,7 @@
 
 2. 模型权重下载
 
-	下载[YOLOv7权重](https://objects.githubusercontent.com/github-production-release-asset-2e65be/511187726/b0243edf-9fb0-4337-95e1-42555f1b37cf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20240625%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240625T073544Z&X-Amz-Expires=300&X-Amz-Signature=21fcf991579800462ea337d6260a666be3f7d4e6b2e5db63b379a2ea5a204166&X-Amz-SignedHeaders=host&actor_id=12314280&key_id=0&repo_id=511187726&response-content-disposition=attachment%3B%20filename%3Dyolov7.pt&response-content-type=application%2Foctet-stream)
+	下载[YOLOv7权重](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt)
 
 3. 清微github modelzoo仓库下载
 
@@ -109,12 +109,12 @@ sh yolov7/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolov7_quantize_r.weight --config  yolov7_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov7_quantize_r.weight --config  yolov7_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight yolov7_quantize_r.weight --config  yolov7_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight yolov7_quantize_r.weight --config  yolov7_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

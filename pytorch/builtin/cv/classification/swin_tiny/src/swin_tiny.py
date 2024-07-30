@@ -27,7 +27,7 @@ def swin_tiny(weight_path=None):
     if weight_path:
         weight_state_dict = torch.load(weight_path, map_location=torch.device('cpu'))["model"]
         model.load_state_dict(weight_state_dict, strict=True)
-    return {"model": model,  "inputs": [torch.randn(10,3,224,224)]}
+    return {"model": model,  "inputs": [torch.randn(1,3,224,224)]}
 
 
 class AverageMeter(object):

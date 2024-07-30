@@ -6,7 +6,7 @@
 
 ## 模型简介
 
-**MobileViT**，MobileViT 主要是为了解决 ViT 网络的缺陷而设计提出的，将 CNN 的优点融入到 Transformer 的结构中以解决 Transformer 网络存在的训练困难、迁移困难、调整困难的缺点，加快网络的推理和收敛速度，使得网络更加稳定高效
+**MobileViT: Light-weight, General-purpose, and Mobile-friendly Vision Transformer**，MobileViT 主要是为了解决 ViT 网络的缺陷而设计提出的，将 CNN 的优点融入到 Transformer 的结构中以解决 Transformer 网络存在的训练困难、迁移困难、调整困难的缺点，加快网络的推理和收敛速度，使得网络更加稳定高效。
 
 <!--可选-->论文：[《MobileViT》](https://arxiv.org/abs/2110.02178)
 
@@ -18,7 +18,7 @@
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载，请前往官方自行下载 [ImageNet](http://image-net.org/) 2012 val。
 
 2. 模型资源下载
 
@@ -72,7 +72,7 @@ sh mobilevit_s/scripts/run.sh
 
 -   模型准备
 	
-	如上述"Knight环境准备"章节所述，准备好mixer_ b16_224 pytorch权重文件。
+	如上述"Knight环境准备"章节所述，准备好mobilevit_s pytorch权重文件。
 	
 
 -   量化数据准备
@@ -108,12 +108,12 @@ sh mobilevit_s/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilevit_s/data/imagenet/images/val/n07749582 --outpath . 
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight mobilevit_s_quantize_r.weight --config  mobilevit_s_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight mobilevit_s_quantize_r.weight --config  mobilevit_s_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight mobilevit_s_quantize_r.weight --config  mobilevit_s_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight mobilevit_s_quantize_r.weight --config  mobilevit_s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -128,7 +128,7 @@ Knight --chip TX5368A rne-profiling --weight mobilevit_s_quantize_r.weight --con
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

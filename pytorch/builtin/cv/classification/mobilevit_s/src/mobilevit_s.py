@@ -541,8 +541,12 @@ def _create_mobilevit2(variant, cfg_variant=None, pretrained=False, **kwargs):
 
 @pytorch_model.register("mobilevit_s")
 def mobilevit_s(weight_path=None):
-    model = _create_mobilevit('mobilevit_s', pretrained=weight_path)
-    return {"model": model,  "inputs": [torch.randn(10,3,224,224)]}
+    model = _create_mobilevit('mobilevit_s')
+    model.eval()
+    if weight_path:
+        state_dict = torch.load(weight_path, map_location=torch.device('cpu'))
+        model.load_state_dict(state_dict, strict=True)
+    return {"model": model,  "inputs": [torch.randn(1,3,224,224)]}
 
 
 class AverageMeter(object):

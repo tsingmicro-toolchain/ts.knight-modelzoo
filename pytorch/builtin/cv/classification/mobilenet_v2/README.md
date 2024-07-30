@@ -9,7 +9,7 @@
 MobileNetV2是由谷歌开发的一种用于移动设备的轻量级卷积神经网络。与传统卷积神经网络相比，它具有更高的计算效率和更小的模型尺寸，可以在移动设备上实现高精度的图像识别任务。
 MobileNetV2的主要原理是使用深度可分离卷积来减少模型的参数数量和计算量。深度可分离卷积将传统的卷积操作分解为两个独立的操作：深度卷积和逐点卷积。深度卷积仅在通道维度上进行卷积操作，而逐点卷积仅在空间维度上进行卷积操作。这种分解能大大降低计算复杂度，同时保持较高的分类精度。
 
-<!--可选-->论文：[《Inverted Residuals and Linear Bottlenecks: Mobile Networks for Classification, Detection and Segmentation》](https://arxiv.org/abs/1801.04381)
+<!--可选-->论文：[《MobileNetV2: Inverted Residuals and Linear Bottlenecks》](https://arxiv.org/abs/1801.04381)
 
 开源模型链接：https://github.com/pytorch/vision/blob/v0.11.0/torchvision/models/mobilenetv2.py
 
@@ -19,7 +19,7 @@ MobileNetV2的主要原理是使用深度可分离卷积来减少模型的参数
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载 [ImageNet](http://image-net.org/)  2012 val。
 
 2. 模型资源下载
 
@@ -109,12 +109,12 @@ sh mobilenet_v2/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilenet_v2/data/imagenet/images/val/n07749582 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight mobilenet_v2_quantize_r.weight --config  mobilenet_v2_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight mobilenet_v2_quantize_r.weight --config  mobilenet_v2_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight mobilenet_v2_quantize_r.weight --config  mobilenet_v2_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight mobilenet_v2_quantize_r.weight --config  mobilenet_v2_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

@@ -8,9 +8,10 @@
 
 **Vision Transforme**，一个简单的方法来实现SOTA的视觉分类，只有一个单一的变压器编码器。提出了一种新的图像到补丁函数，该函数在对图像进行归一化并将图像划分为多个补丁之前，将图像的偏移量纳入到图像到补丁函数中。
 
-<!--可选-->论文：[《Vision Transforme》](https://openreview.net/pdf?id=YicbFdNTTy)
+<!--可选-->论文：[《AN IMAGE IS WORTH 16X16 WORDS:
+ TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE》](https://openreview.net/pdf?id=YicbFdNTTy)
 
-开源模型链接：https://github.com/lucidrains/vit-pytorch.git
+开源模型链接：https://github.com/lucidrains/vit-pytorch
 
 数据集（ImageNet）：http://www.image-net.org/
 
@@ -18,11 +19,11 @@
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载 [ImageNet](http://image-net.org/) 2012 val。
 
 2. 模型资源下载
 
-	[Vit-tiny pytorch权重](https://huggingface.co/timm/vit_tiny_patch16_224.augreg_in21k_ft_in1k/tree/main)
+	[Vit-tiny pytorch权重](https://www.dropbox.com/s/rtdzmmnod5vzc3o/vit_tiny_patch16_224.pth?dl=1)
 
 3. 清微github modelzoo仓库下载
 
@@ -88,7 +89,7 @@ sh vit_tiny/scripts/run.sh
 	在容器内执行如下量化命令，生成量化后的文件 vit_tiny_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m vit_tiny
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/weight/vit_tiny_path16_224_raw.pth 
+    		-w /ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/weight/vit_tiny_path16_224.pth 
     		-f pytorch 
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/src/vit_tiny.py 
     		-if infer_imagenet_benchmark 
@@ -108,12 +109,12 @@ sh vit_tiny/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/data/imagenet/images/val/n07749582 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight vit_tiny_quantize_r.weight --config  vit_tiny_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight vit_tiny_quantize_r.weight --config  vit_tiny_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight vit_tiny_quantize_r.weight --config  vit_tiny_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight vit_tiny_quantize_r.weight --config  vit_tiny_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -128,7 +129,7 @@ Knight --chip TX5368A rne-profiling --weight vit_tiny_quantize_r.weight --config
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

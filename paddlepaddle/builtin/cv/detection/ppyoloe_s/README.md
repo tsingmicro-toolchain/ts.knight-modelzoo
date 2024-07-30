@@ -11,7 +11,7 @@ PP-YOLOE是基于PP-YOLOv2的卓越的单阶段Anchor-free模型，超越了多�
 <!--可选-->
 论文地址：[PP-YOLOE: An evolved version of YOLO](https://arxiv.org/abs/2203.16250)
 
-Github工程地址：https://github.com/PaddlePaddle/PaddleDetection/tree/release/2.7?tab=readme-ov-file
+Github工程地址：https://github.com/PaddlePaddle/PaddleDetection/tree/release/2.7/configs/ppyoloe
 
 数据集（COCO）：https://cocodataset.org/
 
@@ -110,12 +110,12 @@ sh ppyoloe_s/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/data/images/train2017 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -130,7 +130,7 @@ Knight --chip TX5368A rne-profiling --weight ppyoloe_s_quantize_r.weight --confi
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

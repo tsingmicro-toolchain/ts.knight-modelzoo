@@ -18,7 +18,7 @@
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载 [ImageNet](http://image-net.org/) 2012 val。
 
 2. 模型资源下载
 
@@ -108,12 +108,12 @@ sh inception_v3/scripts/run.sh
     #准备bin数据
      python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/inception_v3/data/imagenet/images/val/n07749582 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight inception_v3_r.weight --config  inception_v3_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight inception_v3_quantize_r.weight --config  inception_v3_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight inception_v3_r.weight --config  inception_v3_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight inception_v3_quantize_r.weight --config  inception_v3_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

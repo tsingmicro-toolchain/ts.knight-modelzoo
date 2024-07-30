@@ -9,8 +9,6 @@ from collections import namedtuple
 import warnings
 from torch import nn, Tensor
 import torch.nn.functional as F
-from ..ops.misc import ConvNormActivation
-from ._utils import _make_divisible
 from typing import Callable, Any, Optional, Tuple, List
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
 

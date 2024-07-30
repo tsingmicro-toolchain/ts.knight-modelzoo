@@ -6,7 +6,7 @@
 
 ## 模型简介
 
-**Swin Transformer**(Swin这个名字代表移位窗口)最初是在arxiv中描述的，它能够作为计算机视觉的通用骨干。它基本上是一个分层的Transformer，其表示是用移位窗口计算的。移位窗口方案将自关注计算限制在不重叠的局部窗口，同时允许跨窗口连接，从而提高了效率。
+**Swin Transformer**（Swin这个名字代表移位窗口）最初是在arxiv中描述的，它能够作为计算机视觉的通用骨干。它基本上是一个分层的Transformer，其表示是用移位窗口计算的。移位窗口方案将自关注计算限制在不重叠的局部窗口，同时允许跨窗口连接，从而提高了效率。
 
 <!--可选-->论文：[《Swin Transformer: Hierarchical Vision Transformer using Shifted Windows》](http://arxiv.org/abs/2103.14030)
 
@@ -18,11 +18,11 @@
 
 1. 数据集资源下载
 
-	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载[ImageNet] 2012 val(http://image-net.org/)。
+	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载 [ImageNet](http://image-net.org/) 2012 val。
 
 2. 模型资源下载
 
-	下载[Swin-Transformer](https://github.com/microsoft/Swin-Transformer.git)工程和[Swin-T pytorch权重](https://objects.githubusercontent.com/github-production-release-asset-2e65be/357198522/fd006b80-9bd3-11eb-8445-769d89efab4e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231222%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231222T032029Z&X-Amz-Expires=300&X-Amz-Signature=9d5195f7613c830d16dabaf81df4aa85ebcc7ebab6d59b1ae775df22bb9f39dc&X-Amz-SignedHeaders=host&actor_id=12314280&key_id=0&repo_id=357198522&response-content-disposition=attachment%3B%20filename%3Dswin_tiny_patch4_window7_224.pth&response-content-type=application%2Foctet-stream)
+	下载[Swin-Transformer](https://github.com/microsoft/Swin-Transformer.git)工程和[Swin-T pytorch权重](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_tiny_patch4_window7_224.pth)
 
 3. 清微github modelzoo仓库下载
 
@@ -72,7 +72,7 @@ sh swin_tiny/scripts/run.sh
 
 -   模型准备
 	
-	如上述"Knight环境准备"章节所述，准备好Swin-T pytorch权重文件。
+	如上述"Knight环境准备"章节所述，准备好Swin-Transformer工程及 pytorch权重文件。
 	
 
 -   量化数据准备
@@ -81,7 +81,7 @@ sh swin_tiny/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/classification/swin_tiny/src/swin_tiny.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/classification/swin_tiny/src/swin_tiny.py```，并且Swin-Transformer工程也放到此路径下。
 
 -   执行量化命令
 
@@ -108,12 +108,12 @@ sh swin_tiny/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/swin_tiny/data/imagenet/images/val/n07749582 --outpath .
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight swin_tiny_quantize_r.weight --config  swin_tiny_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight swin_tiny_quantize_r.weight --config  swin_tiny_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight swin_tiny_quantize_r.weight --config  swin_tiny_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight swin_tiny_quantize_r.weight --config  swin_tiny_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -128,7 +128,7 @@ Knight --chip TX5368A rne-profiling --weight swin_tiny_quantize_r.weight --confi
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

@@ -57,6 +57,7 @@ VGG在2014年ImageNet图像分类竞赛亚军，定位竞赛冠军；VGG网络�
 	localhost_dir为宿主机目录。
 
 ## 快速体验
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/vgg16/data/imagenet/images/val`
 
 在docker 容器内运行以下命令:
 

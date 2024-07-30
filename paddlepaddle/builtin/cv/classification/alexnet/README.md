@@ -57,6 +57,7 @@ AlexNet是一种深度卷积神经网络，由Alex Krizhevsky、Ilya Sutskever�
 	localhost_dir为宿主机目录。
 
 ## 快速体验
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/alexnet/data/imagenet/images/val`
 
 在docker 容器内运行以下命令:
 

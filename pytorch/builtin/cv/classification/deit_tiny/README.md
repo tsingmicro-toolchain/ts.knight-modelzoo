@@ -55,6 +55,7 @@ DeiT 是一个全 Transformer 的架构。其核心是提出了针对 ViT 的教
 	localhost_dir为宿主机目录。
 
 ## 快速体验
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/deit_tiny/data/imagenet/images/val`
 
 在docker 容器内运行以下命令:
 

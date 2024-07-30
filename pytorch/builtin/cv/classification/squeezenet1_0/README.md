@@ -55,6 +55,7 @@ SqueezeNet 是UC Berkeley和Stanford研究人员一起完成的网络结构和�
 	localhost_dir为宿主机目录。
 
 ## 快速体验
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/squeezenet1_0/data/imagenet/images/val`
 
 在docker 容器内运行以下命令:
 

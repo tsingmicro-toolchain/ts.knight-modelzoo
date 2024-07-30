@@ -56,6 +56,7 @@ MobileNetV2的主要原理是使用深度可分离卷积来减少模型的参数
 	localhost_dir为宿主机目录。
 
 ## 快速体验
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilenet_v2/data/imagenet/images/val`
 
 在docker 容器内运行以下命令:
 

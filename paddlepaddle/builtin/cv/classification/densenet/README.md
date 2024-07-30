@@ -59,6 +59,7 @@ DenseNet提出了一个新的思路：把每一层的输出，特别是浅层网
 	localhost_dir为宿主机目录。
 
 ## 快速体验
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val`
 
 在docker 容器内运行以下命令:
 

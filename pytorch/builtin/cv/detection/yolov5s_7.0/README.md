@@ -109,12 +109,12 @@ sh yolov5s_7.0/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolov5s_7.0_quantize_r.weight --config  yolov5s_7.0_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov5s_7.0_quantize_r.weight --config  yolov5s_7.0_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368A rne-profiling --weight yolov5s_7.0_quantize_r.weight --config  yolov5s_7.0_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight yolov5s_7.0_quantize_r.weight --config  yolov5s_7.0_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

@@ -29,11 +29,11 @@ def get_eval_dataset(**kwargs):
 
     testdev = kwargs.get("testdev", False)
     legacy = kwargs.get("legacy", False)
-
+    data_dir = kwargs.get("data_dir", None)
     return COCODataset(
-        data_dir=None,
-        json_file='instances_val2017.json',
-        name="val2017",
+        data_dir=data_dir,
+        json_file='instances_train2017.json',
+        name="train2017",
         img_size=(640, 640),
         # img_size=(416, 416),
         preproc=ValTransform(legacy=legacy),
@@ -55,10 +55,10 @@ def get_eval_loader(batch_size, is_distributed, **kwargs):
 
     return val_loader
 
-def get_evaluator(batch_size, is_distributed, testdev=False, legacy=False):
+def get_evaluator(batch_size, is_distributed, testdev=False, legacy=False, data_dir=None):
     return COCOEvaluator(
         dataloader=get_eval_loader(batch_size, is_distributed,
-                                        testdev=testdev, legacy=legacy),
+                                        testdev=testdev, legacy=legacy, data_dir=data_dir),
         img_size=(640,640),
         # img_size=(416,416),
         confthre=0.001,
@@ -225,7 +225,7 @@ def evaluate_prediction(evaluator, data_dict):
         return cocoEval.stats[0], cocoEval.stats[1], info
     else:
         return 0, 0, info
-
+# deprecated
 @pytorch_model.register("yolox_s")
 def yolox_s(weight_path=None):
     from yolox.models import YOLOX, YOLOPAFPN, YOLOXHead
@@ -245,7 +245,7 @@ def yolox_s(weight_path=None):
     model.apply(init_yolo)
     model.head.initialize_biases(1e-2)
     if weight_path:
-        ckpt = torch.load(weight_path, map location='cpu')
+        ckpt = torch.load(weight_path, map_location='cpu')
         model.load_state_dict(ckpt["model"])
     in_dict ={
     "model": model,
@@ -259,10 +259,11 @@ def yolox_s(weight_path=None):
 def infer_yolox_small(executor):
     batch_size = executor.batch_size
     iteration = executor.iteration
+    data_dir = executor.dataset
     num_classes = 80
     confthre = 0.001
     nmsthre = 0.65
-    evaluator = get_evaluator(batch_size, False, False, False)
+    evaluator = get_evaluator(batch_size, False, False, False, data_dir)
     evaluator.per_class_AP = True
     evaluator.per_class_AR = True
     ids = []

@@ -19,11 +19,12 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载2017 Train images\2017 Val images\和对应的annotation。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载coco128数据集。下载请前往[COCO官网](https://cocodataset.org/)。
 
-2. 模型权重下载
+2. 工程及模型权重下载
+   工程地址：https://github.com/meituan/YOLOv6/tree/main
+   权重地址：https://github.com/meituan/YOLOv6/releases/download/0.4.0/yolov6s.pt
 
-	下载[YOLOv6s权重](https://github.com/meituan/YOLOv6/releases/download/0.4.0/yolov6s.pt)
 
 3. 清微github modelzoo仓库下载
 
@@ -73,25 +74,28 @@ sh yolov6s/scripts/run.sh
 
 -   模型准备
 	
-	如上述"Knight环境准备"章节所述，准备好yolov6s的pytorch权重文件。由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line134](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L134) 增加如下一行代码：  
+	将yolov6s.py放置于下载的工程内。由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line128](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L128) 增加如下一行代码：  
 	`return cls_score_list, reg_lrtb_list`
-	
+	执行onnx转换：
+	`python deploy/ONNX/export_onnx.py 
+    --weights yolov6s.pt 
+    --img 640 
+    --batch 1 
+    --simplify` 
 
 -   量化数据准备
 
     这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
 
--   模型转换函数、推理函数准备
+-   推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/yolov6s.py```
+	已提供量化依赖推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/yolov6s.py```
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化命令，-m指定为上述转换后的onnx模型，-uds指定具体的yolov6s.py路径。生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
 
-    	Knight --chip TX5368AV200 quant onnx -m yolov6s
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/weight/yolov6s.pth 
-    		-f pytorch 
+    	Knight --chip TX5368AV200 quant onnx -m /path/to/your/exported_yolov6s.onnx 
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/yolov6s.py 
     		-if yolov6s
 			-s ./tmp/yolov6s
@@ -110,12 +114,12 @@ sh yolov6s/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov6s_quantize_r.weight --config  yolov6s_quantize_r.cfg --outpath .
+    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolov6s_quantize_r.weight --config  yolov6s_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight yolov6s_quantize_r.weight --config  yolov6s_quantize_r.cfg --outpath .
+Knight --chip TX5368A rne-profiling --weight yolov6s_quantize_r.weight --config  yolov6s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -130,7 +134,7 @@ Knight --chip TX5368AV200 rne-profiling --weight yolov6s_quantize_r.weight --con
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

@@ -1,7 +1,7 @@
 Knight --chip TX5368AV200 quant onnx -m yolov8s  \
-	-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/weight/yolov8s.pth  \
+	-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/weight/yolov8s.pt  \
 	-f pytorch  \
-	-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/yolov8s.py \
+	-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/yolov8.py \
 	-if yolov8s \
 	-s ./tmp/yolov8s \
 	-d /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/data/coco128.yaml \

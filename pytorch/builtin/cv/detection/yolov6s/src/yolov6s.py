@@ -19,6 +19,7 @@ from yolov6.utils.general import download_ckpt
 from yolov6.utils.checkpoint import load_checkpoint
 from yolov6.utils.torch_utils import time_sync, get_model_info
 
+#deprecated
 @pytorch_model.register("yolov6s")
 def yolov6s(weight_path=None):
     from yolov6.layers.common import RepVGGBlock
@@ -147,7 +148,16 @@ class Evaler:
             t2 = time_sync()
             from yolov6.assigners.anchor_generator import generate_anchors
             from yolov6.utils.general import dist2bbox
-            cls_score_list, reg_lrtb_list = executor.forward(imgs.numpy()) # (1,8400,80) (1,8400, 4)
+            cls_score_list0, cls_score_list1, cls_score_list2, reg_lrtb_list0, reg_lrtb_list1, reg_lrtb_list2 = executor.forward(imgs.numpy()) # (1,8400,80) (1,8400, 4)
+            cls_score_list0 = torch.from_numpy(cls_score_list0)
+            cls_score_list1 = torch.from_numpy(cls_score_list1)
+            cls_score_list2 = torch.from_numpy(cls_score_list2)
+            reg_lrtb_list0 = torch.from_numpy(reg_lrtb_list0)
+            reg_lrtb_list1 = torch.from_numpy(reg_lrtb_list1)
+            reg_lrtb_list2 = torch.from_numpy(reg_lrtb_list2)
+            cls_score_list = torch.cat((cls_score_list0, cls_score_list1, cls_score_list2), axis=-1).permute(0, 2, 1)
+            reg_lrtb_list = torch.cat((reg_lrtb_list0, reg_lrtb_list1, reg_lrtb_list2), axis=-1).permute(0, 2, 1)
+            
             anchor_points = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/anchor_points.npy")) # yolov6small
             stride_tensor = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/stride_tensor.npy"))
             pred_bboxes = dist2bbox(torch.from_numpy(reg_lrtb_list), anchor_points, box_format='xywh')
@@ -581,7 +591,7 @@ class Evaler:
             self.speed_result[0] += self.batch_size
         return dataloader, pred_results
 
-@ onnx_infer_func.register("yolov6s")
+@onnx_infer_func.register("yolov6s")
 def yolov6s(executor):
     data = executor.dataset
     device = torch.device('cpu')

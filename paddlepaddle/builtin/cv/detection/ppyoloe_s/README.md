@@ -23,7 +23,7 @@ Github工程地址：https://github.com/PaddlePaddle/PaddleDetection/tree/releas
 
 2. 模型权重下载
 
-	下载[ppyoloe_s权重](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.7/configs/ppyoloe/README_cn.md),按[模型导出](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.7/configs/ppyoloe/README_cn.md)，导出模型`ppyoloe_plus_crn_l_80e_coco.pdmodel, ppyoloe_plus_crn_l_80e_coco.pdiparams`。
+	权重可以在当前目录`weight`下直接获取或按[官网指导](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.7/configs/ppyoloe/README_cn.md)方式导出模型和权重 `ppyoloe_plus_crn_l_80e_coco.pdmodel, ppyoloe_plus_crn_l_80e_coco.pdiparams`。
 
 3. 清微github modelzoo仓库下载
 

@@ -19,7 +19,7 @@
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载2017 Train images\2017 Val images\和对应的annotation。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里需要下载coco128数据集。下载请前往[COCO官网](https://cocodataset.org/)。
 
 2. 模型权重下载
 
@@ -89,7 +89,7 @@ sh yolov7_tiny/scripts/run.sh
 	在容器内执行如下量化命令，生成量化后的文件 yolov7_tiny_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m yolov7_tiny 
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/weight/yolov7_tiny.pth 
+    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/weight/yolov7_tiny.pt 
     		-f pytorch 
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/src/yolov7_tiny.py 
     		-if infer_yolov7_tiny
@@ -109,12 +109,12 @@ sh yolov7_tiny/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov7_tiny_quantize_r.weight --config  yolov7_tiny_quantize_r.cfg --outpath .
+    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolov7_tiny_quantize_r.weight --config  yolov7_tiny_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight yolov7_tiny_quantize_r.weight --config  yolov7_tiny_quantize_r.cfg --outpath .
+Knight --chip TX5368A rne-profiling --weight yolov7_tiny_quantize_r.weight --config  yolov7_tiny_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -129,7 +129,7 @@ Knight --chip TX5368AV200 rne-profiling --weight yolov7_tiny_quantize_r.weight -
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

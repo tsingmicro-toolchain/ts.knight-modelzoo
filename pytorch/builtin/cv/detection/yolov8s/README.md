@@ -1,4 +1,4 @@
-# YOLOv6 for Pytorch
+# YOLOv8 for Pytorch
 
 <!--命名规则 {model_name}-{dataset}-{framework}-->
 
@@ -6,7 +6,6 @@
 
 ## 模型简介
 
-**YOLOv6**是美团技术团队研发的检测框架，其融合了其它YOLO版本的多种网络结构、训练策略、测试技术、量化和模型优化等思想，在精度和效率方面也有更大提升，这里以YOLOv6-s为例。
 
 <!--可选-->
 论文地址：[Real-Time Flying Object Detection with YOLOv8](https://arxiv.org/abs/2305.09972)
@@ -19,8 +18,7 @@ Github工程地址：https://github.com/ultralytics/ultralytics
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载2017 Train images\2017 Val images\和对应的annotation。下载请前往[COCO官网](https://cocodataset.org/)。
-
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里需要下载coco128数据集。下载请前往[COCO官网](https://cocodataset.org/)。
 2. 模型权重下载
 
 	下载[YOLOv8s权重](https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8s.pt)
@@ -72,8 +70,8 @@ sh yolov8s/scripts/run.sh
 ### 1. 量化
 
 -   模型准备
-	![alt text](image.png)
-在ultralytics.nn.modules.py里修改如上图所示。
+	![alt text](image.png)![alt text](image-1.png)
+在ultralytics/nn/modules/head.py里修改如上图所示,分别增加上述三行。将src目录下文件放置在所下载的工程内，将所下载目录设置进PYTHONPATH。
 	
 
 -   量化数据准备
@@ -86,10 +84,10 @@ sh yolov8s/scripts/run.sh
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化命令，生成量化后的文件 yolov8s_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m yolov8s
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/weight/yolov8s.pth 
+    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/weight/yolov8s.pt
     		-f pytorch 
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/yolov8.py 
     		-if yolov8s
@@ -109,12 +107,12 @@ sh yolov8s/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov8_quantize_r.weight --config  yolov8_quantize_r.cfg --outpath .
+    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolov8_quantize_r.weight --config  yolov8_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight yolov8_quantize_r.weight --config  yolov8_quantize_r.cfg --outpath .
+Knight --chip TX5368A rne-profiling --weight yolov8_quantize_r.weight --config  yolov8_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -129,7 +127,7 @@ Knight --chip TX5368AV200 rne-profiling --weight yolov8_quantize_r.weight --conf
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

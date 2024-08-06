@@ -12,18 +12,16 @@ from pathlib import Path
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
-from data_load import create_dataloader
-from utils.events import LOGGER, NCOLS
-from utils.nms import non_max_suppression
-from utils.general import download_ckpt
-from utils.checkpoint import load_checkpoint
-from utils.torch_utils import time_sync, get_model_info
+from ts_utils.data_load import create_dataloader
+from ts_utils.events import LOGGER, NCOLS
+from ts_utils.nms import non_max_suppression 
+from ts_utils.torch_utils import time_sync
 
 # 注意： 将ultralytics.nn.modules.py Detect类forward函数直接返回self.dfl(box), cls.sigmoid()
 # line 487
 @pytorch_model.register("yolov8s")
 def yolov8s(weight_path=None):
-    from ultralytics.yolo.engine.model import YOLO
+    from ultralytics.models import YOLO
     concrete_args ={"augment": False,"profile":False,"visualize": False,"val": True}
     model = YOLO(weight_path)
     in_dict = {

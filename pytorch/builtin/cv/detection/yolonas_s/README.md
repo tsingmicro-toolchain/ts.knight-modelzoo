@@ -69,7 +69,6 @@ sh yolonas_s/scripts/run.sh
 	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m yolo_nas_s 
-    		-w None 
     		-f pytorch  
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/src/export.py  
     		-if infer_auto 
@@ -87,12 +86,12 @@ sh yolonas_s/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/data/val2017/images --outpath . 
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
+    Knight --chip TX5368A rne-sim --input model_input.bin --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
+Knight --chip TX5368A rne-profiling --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库
@@ -107,7 +106,7 @@ Knight --chip TX5368AV200 rne-profiling --weight yolonas_s_quantize_r.weight --c
 | ------------------------------------------------ | ------- |
 | TX510x                                           | 支持     |
 | TX5368x_TX5339x                                  | 支持     |
-| TX5215x_TX5119x_TX5112x200_TX5239x200_TX5239x220 | 支持     |
+| TX5215x_TX5239x200_TX5239x220 | 支持     |
 | TX5112x201_TX5239x201                            | 支持     |
 | TX5336AV200                                      | 支持     |
 

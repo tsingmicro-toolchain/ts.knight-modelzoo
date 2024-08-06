@@ -8,7 +8,6 @@
 
 VGG（Visual Geometry Group）是一个视觉几何组在2014年提出的深度卷积神经网络架构。
 VGG在2014年ImageNet图像分类竞赛亚军，定位竞赛冠军；VGG网络采用连续的小卷积核（3x3）和池化层构建深度神经网络，网络深度可以达到16层或19层，其中VGG16和VGG19最为著名。
-![vgg16网络结构](https://blog.heuritech.com/2016/02/29/a-brief-report-of-the-heuritech-deep-learning-meetup-5)
 
 <!--可选-->论文：[《Very Deep Convolutional Networks for Large-Scale Image Recognition》](https://arxiv.org/abs/1409.1556)
 

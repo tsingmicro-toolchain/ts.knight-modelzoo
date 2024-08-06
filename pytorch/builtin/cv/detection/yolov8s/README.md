@@ -80,7 +80,7 @@ sh yolov8s/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/yolov8s.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/yolov8s.py```
 
 -   执行量化命令
 

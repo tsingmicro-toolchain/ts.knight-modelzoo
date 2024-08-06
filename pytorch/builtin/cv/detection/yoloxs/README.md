@@ -75,7 +75,7 @@ sh yoloxs/scripts/run.sh
     这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量。
 
 -   推理函数准备
-	![alt text](image-1.png)
+	![alt text](image.png)
 	如上图修改yolox/models/yolo_head.py。已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/infer_yolovx_small.py```,放入下载的工程内。
 	执行`python3 tools/export_onnx.py --output-name yolox_s.onnx -n yolox-s -c yolox_s.pth`
 

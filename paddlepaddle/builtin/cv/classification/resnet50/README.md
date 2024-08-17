@@ -26,7 +26,7 @@ RestNet是2015年由微软团队提出的，在当时获得分类任务，目标
 
 	[resnet50.pdparams](https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/ResNeXt50_32x4d_pretrained.pdparams)
 	
-> 注意:这里`resnet50.pdparams`是动态模型，需要先转成静态模型`resnet50.pdmodel,resnet50.pdiparams`
+	百度网盘： `resnet50.pdmodel,resnet50.pdiparams`：`https://pan.baidu.com/s/1qL27s4xmbXu_a_uAN6C54g?pwd=27k7`
 
 3. 清微github modelzoo仓库下载
 

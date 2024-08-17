@@ -11,7 +11,7 @@ PP-YOLOE是基于PP-YOLOv2的卓越的单阶段Anchor-free模型，超越了多�
 <!--可选-->
 论文地址：[PP-YOLOE: An evolved version of YOLO](https://arxiv.org/abs/2203.16250)
 
-Github工程地址：https://github.com/PaddlePaddle/PaddleDetection/tree/release/2.7/configs/ppyoloe
+Github工程地址：[ppyoloe](https://github.com/PaddlePaddle/PaddleDetection/tree/release/2.7/configs/ppyoloe) [yolov6 后处理](https://github.com/meituan/YOLOv6) 
 
 数据集（COCO）：https://cocodataset.org/
 
@@ -73,7 +73,7 @@ sh ppyoloe_s/scripts/run.sh
 
 -   模型准备
 	
-	如上述"Knight环境准备"章节所述，准备好ppyoloe_s的paddlepaddle权重文件。由于ppyoloe_s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line134](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L134) 增加如下一行代码：  
+	如上述"Knight环境准备"章节所述，准备好ppyoloe_s的paddlepaddle权重文件以及下载yolov6工程放到`src`下。由于ppyoloe_s的后处理已经放在infer函数中处理，所以需要对原工程yolov6目录下的[line134](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L134) 增加如下一行代码：  
 	`return cls_score_list, reg_lrtb_list`
 	
 

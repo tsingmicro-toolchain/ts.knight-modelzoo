@@ -106,7 +106,7 @@ sh densenet/scripts/run.sh
 ### 2. 编译
 
 
-    Knight --chip TX5368AV200 rne-compile --onnx densenet_quantize.onnx --outpath .
+    Knight --chip TX5368AV200 rne-compile --onnx DenseNet121_pretrained_quantize.onnx --outpath .
 
 
 ### 3. 仿真
@@ -114,12 +114,12 @@ sh densenet/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val/n07749582 --outpath .
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight densenet_quantize_r.weight --config  densenet_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight DenseNet121_pretrained_quantize_r.weight --config  DenseNet121_pretrained_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight densenet_quantize_r.weight --config  densenet_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --weight DenseNet121_pretrained_quantize_r.weight --config  DenseNet121_pretrained_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

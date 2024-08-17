@@ -90,7 +90,7 @@ sh vit_tiny/scripts/run.sh
 	在容器内执行如下量化命令，生成量化后的文件 vit_tiny_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m vit_tiny
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/weight/vit_tiny_path16_224.pth 
+    		-w /ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/weight/vit_tiny_patch16_224.pth 
     		-f pytorch 
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/src/vit_tiny.py 
     		-if infer_imagenet_benchmark 

@@ -1,4 +1,5 @@
 import torch
+import time
 from timm.utils import accuracy, AverageMeter
 from torchvision import datasets, transforms
 import torch.nn as nn

@@ -160,13 +160,13 @@ class Evaler:
             
             anchor_points = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/anchor_points.npy")) # yolov6small
             stride_tensor = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/stride_tensor.npy"))
-            pred_bboxes = dist2bbox(torch.from_numpy(reg_lrtb_list), anchor_points, box_format='xywh')
+            pred_bboxes = dist2bbox(reg_lrtb_list, anchor_points, box_format='xywh')
             pred_bboxes *= stride_tensor
             outputs = torch.cat(
                 [
                     pred_bboxes,
                     torch.ones((1, pred_bboxes.shape[1], 1), device=pred_bboxes.device, dtype=pred_bboxes.dtype),
-                    torch.from_numpy(cls_score_list)
+                    cls_score_list
                 ],
                 axis=-1) # 1, 8400, 85
             self.speed_result[2] += time_sync() - t2  # inference time

@@ -82,14 +82,14 @@ sh yolov7_tiny/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/src/yolov7_tiny.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/src/yolov7_tiny.py```，同时下载[工程](https://github.com/ultralytics/yolov5/tree/master/utils)，放到`src`下
 
 -   执行量化命令
 
 	在容器内执行如下量化命令，生成量化后的文件 yolov7_tiny_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m yolov7_tiny 
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/weight/yolov7_tiny.pt 
+    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/weight/yolov7-tiny.pt 
     		-f pytorch 
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/src/yolov7_tiny.py 
     		-if infer_yolov7_tiny
@@ -107,7 +107,7 @@ sh yolov7_tiny/scripts/run.sh
 ### 3. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/data/val2017/images --outpath . 
+    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/data/images/train2017 --outpath . 
     #仿真
     Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov7_tiny_quantize_r.weight --config  yolov7_tiny_quantize_r.cfg --outpath .
 

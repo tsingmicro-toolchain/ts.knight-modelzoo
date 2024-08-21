@@ -78,11 +78,11 @@ sh yolov7/scripts/run.sh
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量，```-d```指定coco128.yaml所在的路径。
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/src/yolov7.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/src/yolov7.py```，同时下载[工程](https://github.com/ultralytics/yolov5/tree/master/utils)，放到`src`下
 
 -   执行量化命令
 
@@ -107,7 +107,7 @@ sh yolov7/scripts/run.sh
 ### 3. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/data/val2017/images --outpath . 
+    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/data/images/train2017 --outpath . 
     #仿真
     Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov7_quantize_r.weight --config  yolov7_quantize_r.cfg --outpath .
 

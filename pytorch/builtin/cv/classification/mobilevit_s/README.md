@@ -8,7 +8,7 @@
 
 **MobileViT: Light-weight, General-purpose, and Mobile-friendly Vision Transformer**，MobileViT 主要是为了解决 ViT 网络的缺陷而设计提出的，将 CNN 的优点融入到 Transformer 的结构中以解决 Transformer 网络存在的训练困难、迁移困难、调整困难的缺点，加快网络的推理和收敛速度，使得网络更加稳定高效。
 
-<!--可选-->论文：[《MobileViT》](https://arxiv.org/abs/2110.02178)
+<!--可选-->论文：[《MobileViT: Light-weight, General-purpose, and Mobile-friendly Vision Transformer》](https://arxiv.org/abs/2110.02178)
 
 开源模型链接：https://github.com/huggingface/pytorch-image-models/blob/v0.6.12/timm/models/mobilevit.py
 

@@ -8,8 +8,7 @@
 
 **Vision Transforme**，一个简单的方法来实现SOTA的视觉分类，只有一个单一的变压器编码器。提出了一种新的图像到补丁函数，该函数在对图像进行归一化并将图像划分为多个补丁之前，将图像的偏移量纳入到图像到补丁函数中。
 
-<!--可选-->论文：[《AN IMAGE IS WORTH 16X16 WORDS:
- TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE》](https://openreview.net/pdf?id=YicbFdNTTy)
+<!--可选-->论文：[《AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE》](https://openreview.net/pdf?id=YicbFdNTTy)
 
 开源模型链接：https://github.com/lucidrains/vit-pytorch
 

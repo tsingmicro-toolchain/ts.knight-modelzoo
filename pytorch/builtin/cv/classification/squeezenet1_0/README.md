@@ -8,7 +8,7 @@
 
 SqueezeNet 是UC Berkeley和Stanford研究人员一起完成的网络结构和设计思想。SqueezeNet设计目标不是为了得到最佳的CNN识别精度，而是希望简化网络复杂度，同时达到public网络的识别精度。所以SqueezeNet主要是为了降低CNN模型参数数量而设计的。
 
-<!--可选-->论文：[《SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB model size》](https://arxiv.org/pdf/1602.07360.pdf)
+论文：[《SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB model size》](https://arxiv.org/pdf/1602.07360)
 
 开源模型链接：https://github.com/pytorch/vision/blob/v0.11.0/torchvision/models/squeezenet.py
 

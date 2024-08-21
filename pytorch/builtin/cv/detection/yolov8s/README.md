@@ -105,7 +105,7 @@ sh yolov8s/scripts/run.sh
 ### 3. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8/data/coco128/images --outpath . 
+    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8/data/images/train2017 --outpath . 
     #仿真
     Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov8_quantize_r.weight --config  yolov8_quantize_r.cfg --outpath .
 

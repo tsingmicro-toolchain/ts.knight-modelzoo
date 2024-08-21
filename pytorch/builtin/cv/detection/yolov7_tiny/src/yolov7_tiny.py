@@ -12,7 +12,7 @@ from tqdm import tqdm
 from numpy import random
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
 from pathlib import Path
-from utils.dataloader import create_dataloader, LoadImages
+from utils.dataloaders import create_dataloader, LoadImages
 from utils.general import (
     coco80_to_coco91_class, check_dataset, check_file, check_img_size, non_max_suppression, 
     xyxy2xywh, xywh2xyxy, box_iou, set_logging)

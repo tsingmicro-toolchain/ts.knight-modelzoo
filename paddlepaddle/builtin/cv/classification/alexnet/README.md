@@ -55,7 +55,7 @@ AlexNet是一种深度卷积神经网络，由Alex Krizhevsky、Ilya Sutskever�
 	localhost_dir为宿主机目录。
 
 ## 快速体验
-将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/alexnet/data/imagenet/images/val`
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/alexnet/data/imagenet/images/val`，并执行[valprep.sh](https://pan.baidu.com/s/12j74t9xiHWHiVD-pDILBng?pwd=li7r)脚本对图片进行分类。
 
 在docker 容器内运行以下命令:
 
@@ -78,7 +78,7 @@ sh alexnet/scripts/run.sh
 
 -   量化数据准备
 
-    将下载好的数据放在`${localhost_dir}/ts.knight-modelzoo/pytorch/builtin/cv/classification/alexnet/data/imagenet/images/val`，在数据集中选200张图片作为量化校准数据集, 通过命令行参数```-i 200```指定图片数量，```-d```指定数据集路径。
+    将下载好的数据放在`${localhost_dir}/ts.knight-modelzoo/pytorch/builtin/cv/classification/alexnet/data/imagenet/images/val`，并执行[valprep.sh](https://pan.baidu.com/s/1rAOzMAZhlN6sCvJMoBQROg?pwd=u2np)脚本对图片进行分类。在数据集中选200张图片作为量化校准数据集, 通过命令行参数```-i 200```指定图片数量，```-d```指定数据集路径。
 
 -   模型转换函数、推理函数准备
 	

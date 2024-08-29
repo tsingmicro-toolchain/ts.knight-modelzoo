@@ -26,7 +26,7 @@ DenseNet提出了一个新的思路：把每一层的输出，特别是浅层网
 
 	[DenseNet121_pretrained.pdparams](https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/DenseNet121_pretrained.pdparams)
 	
-> 注意:这里`DenseNet121_pretrained.pdparams`是动态模型，需要先转成静态模型`DenseNet121_pretrained.pdmodel,DenseNet121_pretrained.pdiparams`
+> 注意:这里`DenseNet121_pretrained.pdparams`是动态模型，需要先转成静态模型[DenseNet121_pretrained.pdmodel,DenseNet121_pretrained.pdiparams](https://pan.baidu.com/s/1A7zqiaY-QKJVgOR4VmtsjA?pwd=c5ww)
 
 3. 清微github modelzoo仓库下载
 
@@ -59,7 +59,7 @@ DenseNet提出了一个新的思路：把每一层的输出，特别是浅层网
 	localhost_dir为宿主机目录。
 
 ## 快速体验
-将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val`
+将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val`，并执行[valprep.sh](https://pan.baidu.com/s/12j74t9xiHWHiVD-pDILBng?pwd=li7r)脚本对图片进行分类。
 
 在docker 容器内运行以下命令:
 
@@ -82,7 +82,7 @@ sh densenet/scripts/run.sh
 
 -   量化数据准备
 
-    将下载好的数据放在`${localhost_dir}/ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val`，在数据集中选200张图片作为量化校准数据集, 通过命令行参数```-i 200```指定图片数量，```-d```指定数据集路径。
+    将下载好的数据放在`${localhost_dir}/ts.knight-modelzoo/pytorch/builtin/cv/classification/densenet/data/imagenet/images/val`，并执行[valprep.sh](https://pan.baidu.com/s/1rAOzMAZhlN6sCvJMoBQROg?pwd=u2np)脚本对图片进行分类。在数据集中选200张图片作为量化校准数据集, 通过命令行参数```-i 200```指定图片数量，```-d```指定数据集路径。
 
 -   模型转换函数、推理函数准备
 	

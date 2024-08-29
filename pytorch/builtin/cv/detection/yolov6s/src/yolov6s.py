@@ -471,6 +471,7 @@ class Evaler:
             data = yaml.safe_load(yaml_file)
         task = 'test' if task == 'test' else 'val'
         path = data.get(task, 'val')
+        path = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')),path)
         if not os.path.exists(path):
             raise Exception('Dataset not found.')
         return data

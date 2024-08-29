@@ -23,7 +23,7 @@ Github工程地址：[ppyoloe](https://github.com/PaddlePaddle/PaddleDetection/t
 
 2. 模型权重下载
 
-	权重可以在当前目录`weight`下直接获取或按[官网指导](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.7/configs/ppyoloe/README_cn.md)方式导出模型和权重 `ppyoloe_plus_crn_l_80e_coco.pdmodel, ppyoloe_plus_crn_l_80e_coco.pdiparams`。
+	下载权重[ppyoloe_s](https://pan.baidu.com/s/1KWW-coMIYTJ2V4-Caq5G-g?pwd=k5pa)或按[官网指导](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.7/configs/ppyoloe/README_cn.md)方式导出模型和权重 `ppyoloe_s.pdmodel, ppyoloe_s.pdiparams`。
 
 3. 清微github modelzoo仓库下载
 
@@ -88,10 +88,20 @@ sh ppyoloe_s/scripts/run.sh
 -   执行量化命令
 
 	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
-
-    	Knight --chip TX5368AV200 quant onnx -m /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_plus_crn_l_80e_coco.pdmodel
-    		-w /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_plus_crn_l_80e_coco.pdiparams
+		
+		#paddle转onnx
+    	Knight --chip TX5368AV200 quant onnx -m /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_s.pdmodel
+    		-w /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_s.pdiparams
     		-f paddle 
+    		-r convert
+			-s ./tmp/ppyoloe_s
+    	
+		# 后处理部分裁剪掉
+		cd /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src
+		python cut_graph.py --model ./tmp/ppyoloe_s/ppyoloe_s.onnx -on transpose_3.tmp_0 p2o.Concat.31 -sn ppyoloe_s -s ./tmp/ppyoloe_s
+		
+		#对裁剪后onnx模型进行量化
+		Knight --chip TX5368AV200 quant onnx -m tmp/ppyoloe_s/ppyoloe_s.onnx 
     		-uds /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s.py 
     		-if ppyoloe_s
 			-s ./tmp/ppyoloe_s

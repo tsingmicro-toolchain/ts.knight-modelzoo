@@ -133,8 +133,9 @@ class Evaler:
             from yolov6.assigners.anchor_generator import generate_anchors
             from yolov6.utils.general import dist2bbox
             cls_score_list, reg_lrtb_list = executor.forward(imgs.numpy()) # (1,8400,80) (1,8400, 4)
-            anchor_points = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/anchor_points.npy")) # yolov6small
-            stride_tensor = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/stride_tensor.npy"))
+            path = os.path.abspath(os.path.join(executor.dataset, '..'))
+            anchor_points = torch.from_numpy(np.load(os.path.join(path, "anchor_points.npy"))) # yolov6small
+            stride_tensor = torch.from_numpy(np.load(os.path.join(path, "stride_tensor.npy")))
             pred_bboxes = dist2bbox(torch.from_numpy(reg_lrtb_list), anchor_points, box_format='xywh')
             pred_bboxes *= stride_tensor
             outputs = torch.cat(
@@ -446,8 +447,8 @@ class Evaler:
             data = yaml.safe_load(yaml_file)
         task = 'test' if task == 'test' else 'val'
         path = data.get(task, 'val')
-        if not os.path.exists(path):
-            raise Exception('Dataset not found.')
+        #if not os.path.exists(path):
+        #    raise Exception('Dataset not found.')
         return data
 
     @staticmethod
@@ -566,7 +567,7 @@ class Evaler:
             self.speed_result[0] += self.batch_size
         return dataloader, pred_results
 
-@ onnx_infer_func.register("ppyoloe_s")
+@onnx_infer_func.register("ppyoloe_s")
 def ppyoloe_s(executor):
     data = executor.dataset
     device = torch.device('cpu')
@@ -590,6 +591,8 @@ def ppyoloe_s(executor):
     data = Evaler.reload_dataset(data, task) if isinstance(data, str) else data
 
     # init
+    data['val'] = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')), data['val'])
+    data['anno_path'] = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')), data['anno_path'])
     val = Evaler(data, batch_size, img_size, conf_thres, \
                  iou_thres, device, False, save_dir, \
                  test_load_size, letterbox_return_int, force_no_pad, not_infer_on_rect, scale_exact,

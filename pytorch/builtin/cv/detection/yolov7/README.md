@@ -82,14 +82,14 @@ sh yolov7/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/src/yolov7.py```，同时下载[工程](https://github.com/ultralytics/yolov5/tree/master/utils)，放到`src`下
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/src/yolov7.py```，同时下载[工程](https://github.com/WongKinYiu/yolov7)，放到`src`下
 
 -   执行量化命令
 
 	在容器内执行如下量化命令，生成量化后的文件 yolov7_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m yolov7 
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/weight/yolov7.pth 
+    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/weight/yolov7.pt
     		-f pytorch 
     		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/src/yolov7.py 
     		-if infer_yolov7

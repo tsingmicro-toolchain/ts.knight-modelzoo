@@ -12,14 +12,14 @@ from tqdm import tqdm
 from numpy import random
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
 from pathlib import Path
-from utils.dataloaders import create_dataloader, LoadImages
+from utils.datasets import create_dataloader, LoadImages
 from utils.general import (
     coco80_to_coco91_class, check_dataset, check_file, check_img_size, non_max_suppression, 
     xyxy2xywh, xywh2xyxy, box_iou, set_logging)
 from utils.metrics import ap_per_class
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device
-from models.common import DetectMultiBackend
+from models.experimental import attempt_load
 
 def clip_coords(boxes, img_shape):
     # Clip bounding xyxy bounding boxes to image shape (height, width)
@@ -145,8 +145,8 @@ class Detect_process(nn.Module):
         z = []  # inference output
         for i in range(len(x)):
             # x[i] = torch.nn.functional.sigmoid(x[i])
-            bs, _, ny, nx = x[i].shape  # x(bs,255,20,20) to x(bs,3,20,20,85)
-            x[i] = x[i].view(bs, self.na, self.no, ny, nx).permute(0, 1, 3, 4, 2).contiguous()
+            bs, _, ny, nx, _ = x[i].shape  # x(bs,255,20,20) to x(bs,3,20,20,85)
+            #x[i] = x[i].view(bs, self.na, self.no, ny, nx).permute(0, 1, 3, 4, 2).contiguous()
 
             if self.grid[i].shape[2:4] != x[i].shape[2:4]:
                 self.grid[i], self.anchor_grid[i] = self._make_grid(nx, ny, i)
@@ -189,15 +189,11 @@ class Identify(torch.nn.Module):
 
 @pytorch_model.register("yolov7_tiny")
 def yolov7_tiny(weight_path=None):
-    if weight_path:
-        model = DetectMultiBackend(weight_path, device='cpu', dnn=False)
-    name,_= list(model.model.model.named_children())[-1]
-    identity = Identify()
-    detect = getattr(model.model.model, name)
-    identity.__dict__.update(detect.__dict__)
-    setattr(model.model.model, name, identity)
+    model = attempt_load(weight_path, map_location='cpu')
+    model.model[-1].export = True
+    model.eval()
     in_dict = {
-        "model": model.model,
+        "model": model,
         "inputs": [torch.randn((1,3,640,640))],
         "concrete_args":{"augment":False,"profile":False,"visualize":False,"val":True}
     }
@@ -253,7 +249,7 @@ def infer_yolov7_tiny(executor):
         'hair drier', 'toothbrush']
     with open(data) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)  # model dict
-    check_dataset(data)  # check
+    #check_dataset(data)  # check
     nc = 1 if opt.single_cls else int(data['nc'])  # number of classes
     iouv = torch.linspace(0.5, 0.95, 10).to(device)  # iou vector for mAP@0.5:0.95
     niou = iouv.numel()
@@ -261,6 +257,7 @@ def infer_yolov7_tiny(executor):
     if not training:
         img = torch.zeros((1, 3, imgsz, imgsz), device=device)  # init img
         path = data['val']  # path to val/test images
+        path = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')),path)
         dataloader = create_dataloader(path, imgsz, 1, 32, opt,
                                        hyp=None, augment=False, cache=False, pad=0.5, rect=True)[0]
     seen = 0
@@ -351,7 +348,8 @@ def infer_yolov7_tiny(executor):
     stats = [np.concatenate(x, 0) for x in zip(*stats)]  # to numpy
     if len(stats) and stats[0].any():
         p, r, ap, f1, ap_class = ap_per_class(*stats)
-        p, r, ap50, ap = p[:, 0], r[:, 0], ap[:, 0], ap.mean(1)  # [P, R, AP@0.5, AP@0.5:0.95]
+        #p, r, ap50, ap = p[:, 0], r[:, 0], ap[:, 0], ap.mean(1)  # [P, R, AP@0.5, AP@0.5:0.95]
+        p, r, ap50, ap = p[0], r[0], ap[:, 0], ap.mean(1)  # [P, R, AP@0.5, AP@0.5:0.95]
         mp, mr, map50, map = p.mean(), r.mean(), ap50.mean(), ap.mean()
         nt = np.bincount(stats[3].astype(np.int64), minlength=nc)  # number of targets per class
     else:

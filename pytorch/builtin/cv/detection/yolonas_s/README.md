@@ -84,7 +84,7 @@ sh yolonas_s/scripts/run.sh
 ### 3. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/data/val2017/images --outpath . 
+    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/data/images/train2017 --outpath . 
     #仿真
     Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
 

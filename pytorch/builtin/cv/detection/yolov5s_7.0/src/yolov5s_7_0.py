@@ -251,6 +251,7 @@ def infer_yolov5_v7_0(executor):
     if not training:
         img = torch.zeros((1, 3, imgsz, imgsz), device=device)  # init img
         path = data['val']  # path to val/test images
+        path = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')),path)
         dataloader = create_dataloader(path, imgsz, 1, 32, opt,
                                        hyp=None, augment=False, cache=False, pad=0.5, rect=True)[0]
     seen = 0

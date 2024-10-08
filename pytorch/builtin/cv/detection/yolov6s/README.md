@@ -93,10 +93,10 @@ sh yolov6s/scripts/run.sh
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，-m指定为上述转换后的onnx模型，-uds指定具体的yolov6s.py路径。生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化命令，-m指定为上述转换后的onnx模型，-uds指定具体的yolov6s.py路径,此时yolov6s.py在所下载的yolov6工程路径下。生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m /path/to/your/exported_yolov6s.onnx 
-    		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/yolov6s.py 
+    		-uds /path/to/yolov6_project_path/yolov6s.py 
     		-if yolov6s
 			-s ./tmp/yolov6s
     		-d /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/data/coco128.yaml

@@ -86,10 +86,10 @@ sh yolov5s_7.0/scripts/run.sh
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov5s_7_0_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化命令，生成量化后的文件 yolov5s_7_quantize.onnx 存放在 -s 指定输出目录。
 
     	Knight --chip TX5368AV200 quant onnx -m yolov5s_7 
-    		-w /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/weight/yolov5s_7.0.pt 
+    		-w /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/weight/yolov5s.pt 
     		-f pytorch 
     		-uds /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py 
     		-if infer_yolov5_v7_0 

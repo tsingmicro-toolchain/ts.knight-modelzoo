@@ -17,7 +17,7 @@ Github工程地址：https://github.com/Megvii-BaseDetection/YOLOX
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里需要下载coco128数据集。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。下载请前往[COCO官网](https://cocodataset.org/)。
 
 2. 模型权重下载
 
@@ -70,21 +70,19 @@ sh yoloxs/scripts/run.sh
 ### 1. 量化
 
 
--   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量。
 
 -   推理函数准备
 	![alt text](image.png)
-	如上图修改yolox/models/yolo_head.py。已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/infer_yolovx_small.py```,放入下载的工程内。
-	执行`python3 tools/export_onnx.py --output-name yolox_s.onnx -n yolox-s -c yolox_s.pth`
+	如上图修改yolox/models/yolo_head.py。已提供量化依赖的模型推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/infer_yolovx_small.py```,放入下载的工程内。
+	执行`python3 tools/export_onnx.py --output-name yolox_s.onnx -n yolox-s -c yolox_s.pth` 进行onnx模型转换。如报错，请检查环境变量是否正确设置。
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
-
+	在容器内执行如下量化命令，生成量化后的文件存放在 -s 指定输出目录,-d指定下载的coco数据集根目录，-uds指定infer_yolovx_small.py所在的工程目录路径。
     	Knight --chip TX5368AV200 quant onnx -m yolox_s.onnx 
-    		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolovxs/src/infer_yolovx_small.py 
+    		-uds /path/to/your/infer_yolovx_small.py 
+			-d /path/to/your/data_coco_dir
     		-if infer_yolox_small
 			-s ./tmp/yoloxs
     		-bs 1 -i 128

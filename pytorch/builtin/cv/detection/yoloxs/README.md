@@ -80,6 +80,7 @@ sh yoloxs/scripts/run.sh
 -   执行量化命令
 
 	在容器内执行如下量化命令，生成量化后的文件存放在 -s 指定输出目录,-d指定下载的coco数据集根目录，-uds指定infer_yolovx_small.py所在的工程目录路径。
+
     	Knight --chip TX5368AV200 quant onnx -m yolox_s.onnx 
     		-uds /path/to/your/infer_yolovx_small.py 
 			-d /path/to/your/data_coco_dir

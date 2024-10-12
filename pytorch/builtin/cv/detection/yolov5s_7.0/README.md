@@ -114,7 +114,7 @@ sh yolov5s_7.0/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight yolov5s_7_quantize_r.weight --config  yolov5s_7_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --config  yolov5s_7_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

@@ -115,7 +115,7 @@ sh mobilenet_v2/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight mobilenet_v2_quantize_r.weight --config  mobilenet_v2_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --config  mobilenet_v2_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

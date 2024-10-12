@@ -91,7 +91,7 @@ sh yolonas_s/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --config  yolonas_s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

@@ -114,7 +114,7 @@ sh squeezenet1_0/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight  squeezenet1_0_quantize_r.weight --config  squeezenet1_0_quantize_r.cfg --outpath  squeezenet1_0_example/
+Knight --chip TX5368AV200 rne-profiling --config  squeezenet1_0_quantize_r.cfg --outpath  squeezenet1_0_example/
 ```
 
 ### 5. 仿真库

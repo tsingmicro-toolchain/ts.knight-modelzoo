@@ -31,7 +31,7 @@ def cut_subgraph(args):
         inputs.append(tensor2variable(tensors[inp]))
     for out in output_names:
         if out not in tensors:
-            print_red_strings(f'Args output-names:{fout} not exist in model.')
+            print_red_strings(f'Args output-names:{out} not exist in model.')
             sys.exit(-1)
         outputs.append(tensor2variable(tensors[out]))
     graph.inputs = inputs

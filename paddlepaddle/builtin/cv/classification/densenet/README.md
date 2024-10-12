@@ -24,9 +24,7 @@ DenseNet提出了一个新的思路：把每一层的输出，特别是浅层网
 
 2. 模型资源下载
 
-	[DenseNet121_pretrained.pdparams](https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/DenseNet121_pretrained.pdparams)
-	
-> 注意:这里`DenseNet121_pretrained.pdparams`是动态模型，需要先转成静态模型[DenseNet121_pretrained.pdmodel,DenseNet121_pretrained.pdiparams](https://pan.baidu.com/s/1A7zqiaY-QKJVgOR4VmtsjA?pwd=c5ww)
+	百度网盘： [DenseNet121_pretrained.pdmodel,DenseNet121_pretrained.pdiparams](https://pan.baidu.com/s/1A7zqiaY-QKJVgOR4VmtsjA?pwd=c5ww)
 
 3. 清微github modelzoo仓库下载
 
@@ -119,7 +117,7 @@ sh densenet/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight DenseNet121_pretrained_quantize_r.weight --config  DenseNet121_pretrained_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --config  DenseNet121_pretrained_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

@@ -114,7 +114,7 @@ sh mixer_b16_224/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight mixer_b16_224_quantize_r.weight --config  mixer_b16_224_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --config  mixer_b16_224_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

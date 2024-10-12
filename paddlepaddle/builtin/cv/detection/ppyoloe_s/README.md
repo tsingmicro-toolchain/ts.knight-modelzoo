@@ -23,7 +23,7 @@ Github工程地址：[ppyoloe](https://github.com/PaddlePaddle/PaddleDetection/t
 
 2. 模型权重下载
 
-	下载权重[ppyoloe_s](https://pan.baidu.com/s/1KWW-coMIYTJ2V4-Caq5G-g?pwd=k5pa)或按[官网指导](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.7/configs/ppyoloe/README_cn.md)方式导出模型和权重 `ppyoloe_s.pdmodel, ppyoloe_s.pdiparams`。
+	百度网盘： [ppyoloe_s.pdmodel, ppyoloe_s.pdiparams](https://pan.baidu.com/s/1KWW-coMIYTJ2V4-Caq5G-g?pwd=k5pa)。
 
 3. 清微github modelzoo仓库下载
 
@@ -125,7 +125,7 @@ sh ppyoloe_s/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --config  ppyoloe_s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

@@ -115,7 +115,7 @@ sh alexnet/scripts/run.sh
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --weight alexnet_quantize_r.weight --config  alexnet_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 rne-profiling --config  alexnet_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

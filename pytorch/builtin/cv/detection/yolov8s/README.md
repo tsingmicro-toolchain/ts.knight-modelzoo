@@ -69,10 +69,11 @@ sh yolov8s/scripts/run.sh
 
 ### 1. 量化
 
--   模型准备
-	![alt text](image.png)![alt text](image-1.png)
-在ultralytics/nn/modules/head.py里修改如上图所示,分别增加上述三行。将src目录下文件放置在所下载的工程内，将所下载目录设置进PYTHONPATH。
-	
+-   模型准备 
+	以版本[ultralytics-8.3.23](https://github.com/ultralytics/ultralytics/tree/v8.3.23)为例，
+	 ![alt text](image.png)
+	 ![alt text](image-1.png)
+在ultralytics/nn/modules/head.py里_inference函数修改如上图所示。将src目录下文件放置在所下载的工程内，将所下载目录设置进PYTHONPATH。
 
 -   量化数据准备
 

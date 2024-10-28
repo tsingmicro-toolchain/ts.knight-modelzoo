@@ -62,7 +62,7 @@ sh yolonas_s/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/src/export.py```推理函数使用自带的```infer_auto.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/src/export.py```推理函数使用自带的```infer_auto.py```，安装yolox工程中所需依赖包。
 
 -   执行量化命令
 

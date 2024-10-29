@@ -74,7 +74,7 @@ sh yolov6s/scripts/run.sh
 
 -   模型准备
 	
-	将yolov6s.py放置于下载的工程内。由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line128](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L128) 增加如下一行代码：  
+	采用[yolov6-0.4.1](https://github.com/meituan/YOLOv6/tree/0.4.1)版本，将yolov6s.py放置于下载的工程内。由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line128](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L128) 增加如下一行代码：  
 	`return cls_score_list, reg_lrtb_list`
 	执行onnx转换：
 	`python deploy/ONNX/export_onnx.py 
@@ -85,7 +85,7 @@ sh yolov6s/scripts/run.sh
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。如有找不到包问题，设置环境变量即可。
 
 -   推理函数准备
 	

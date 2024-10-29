@@ -78,7 +78,7 @@ sh yolov3/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/src/infer_yolov3.py```
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/src/infer_yolov3.py```，将此文件放置进官方工程内。如有找不到包问题，设置环境变量即可。
 
 -   执行量化命令
 

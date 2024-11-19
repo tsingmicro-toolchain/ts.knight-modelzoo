@@ -22,7 +22,7 @@ AlexNet是一种深度卷积神经网络，由Alex Krizhevsky、Ilya Sutskever�
 
 2. 模型资源下载
 
-	百度网盘： `alexnet.pdmodel,alexnet.pdiparams`：`https://pan.baidu.com/s/1kBYY1Yhp-44MPWYv22QUYw?pwd=svvz`
+	百度网盘： [`alexnet.pdmodel,alexnet.pdiparams`](https://pan.baidu.com/s/1kBYY1Yhp-44MPWYv22QUYw?pwd=svvz)
 
 3. 清微github modelzoo仓库下载
 

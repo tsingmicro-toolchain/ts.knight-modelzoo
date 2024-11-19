@@ -23,8 +23,6 @@ RestNet是2015年由微软团队提出的，在当时获得分类任务，目标
 	ImageNet是一个不可用于商业目的的数据集，必须通过教育网邮箱注册登录后下载, 请前往官方自行下载 [ImageNet](http://image-net.org/) 2012 val。
 
 2. 模型资源下载
-
-	[resnet50.pdparams](https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/ResNeXt50_32x4d_pretrained.pdparams)
 	
 	百度网盘： [resnet50.pdmodel,resnet50.pdiparams](https://pan.baidu.com/s/1lajXcLMYNobPmVaSy6URLA?pwd=qbpy)
 

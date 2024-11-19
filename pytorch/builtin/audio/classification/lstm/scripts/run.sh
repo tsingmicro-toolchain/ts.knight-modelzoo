@@ -1,0 +1,1 @@
+Knight --chip TX5368AV200 quant onnx -m lstm -w /ts.knight-modelzoo/pytorch/builtin/audio/classification/lstm/weight/lstm.pth -f pytorch -uds /ts.knight-modelzoo/pytorch/builtin/audio/classification/lstm/src/lstm.py -if infer_pytorch_rnn -s ./tmp/lstm -d /ts.knight-modelzoo/pytorch/builtin/audio/classification/lstm/data/cmd_12_test.pkl -i 10 -qm min_max

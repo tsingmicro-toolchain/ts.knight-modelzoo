@@ -1,0 +1,31 @@
+{
+    "quant": {
+        "model": "yolov7",
+        "weight": "weight/yolov7.pt",
+        "framework": "pytorch",
+        "infer-func": "yolov7_quant",
+        "bit-width": 8,
+        "quant-mode": "kl",
+        "batch-size": 1,
+        "iteration": 128,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/yolov7/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/src/yolov7.py",
+        "data": "data/coco128.yaml",
+        "quantize-input-dtype": "uint8"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/yolov7/quant/yolov7_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/yolov7/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/yolov7/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/yolov7/npu/yolov7_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/yolov7/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/yolov7/npu/yolov7_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/yolov7/npu"
+    }
+}

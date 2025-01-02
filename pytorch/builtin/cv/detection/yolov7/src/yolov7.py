@@ -20,7 +20,16 @@ from utils.metrics import ap_per_class
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device
 from models.experimental import attempt_load
-
+names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
+        'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
+        'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
+        'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard',
+        'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
+        'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
+        'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
+        'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
+        'hair drier', 'toothbrush']
+colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 def clip_coords(boxes, img_shape):
     # Clip bounding xyxy bounding boxes to image shape (height, width)
     boxes[:, 0].clamp_(0, img_shape[1])  # x1
@@ -199,8 +208,8 @@ def yolov7(weight_path=None):
     }
     return in_dict
 
-@onnx_infer_func.register("infer_yolov7")
-def infer_yolov7(executor):
+@onnx_infer_func.register("yolov7_quant")
+def yolov7_quant(executor):
     #if executor.run_mode == "forward":
     #   data='/path/to/your/coco.yaml'
     #else:
@@ -238,15 +247,6 @@ def infer_yolov7(executor):
     device = select_device(device, batch_size=1)
     imgsz = check_img_size(imgsz, s=32)  # check img_size
     detect_process = Detect_process(config_yolov7_tiny_relu['anchors'], nc=config_yolov7_tiny_relu['nc'])
-    names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
-        'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
-        'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
-        'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard',
-        'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
-        'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
-        'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
-        'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
-        'hair drier', 'toothbrush']
     with open(data) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)  # model dict
     #check_dataset(data)  # check
@@ -271,12 +271,14 @@ def infer_yolov7(executor):
         whwh = torch.Tensor([width, height, width, height])
         img, ratio, (dw,dh) = letterbox_my(img.squeeze(0).permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
-        img = img.float()  # uint8 to fp16/32
-        img /= 255.0  # 0 - 255 to 0.0 - 1.0
+        #img = img.float()  # uint8 to fp16/32
+        #img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
+        img = img.numpy()
+        img = img.astype(np.uint8)
         # Inference
-        pred = executor.forward(img.numpy())
+        pred = executor.forward(img)
         pred = [torch.from_numpy(pred[0]), torch.from_numpy(pred[1]), torch.from_numpy(pred[2])]
         pred = detect_process.post_process(pred)
         # Apply NMS
@@ -388,3 +390,77 @@ def infer_yolov7(executor):
         maps[c] = ap[i]
     # return (mp, mr, map50, map), maps, t
     return map50
+
+def write_numpy_to_file(data, fileName): 
+    if data.ndim == 4:
+        data = data.squeeze(0) 
+    if data.ndim == 2:
+        data = np.expand_dims(data, axis=0)
+    C,H,W=data.shape
+    # import pdb;pdb.set_trace()
+    #print(f'nchw:{N},{C},{H},{W}')
+    file = open(fileName, 'w+')
+    #data_p=data[0][5][2][3]
+    #print(f'data:{data_p}')
+    #numpy_data = np.array(data)
+    # head='SHAPE:(N:{0}, C:{1}, H:{2}, W:{3})\n'.format(N,C,H,W)
+    # file.write(head)
+    for i in range(C):
+        str_C=""
+        file.write('C[{0}]:\n'.format(i))
+        for j in range(H):
+            for k in range(W):
+                str_C=str_C+'{:.6f} '.format(data[i][j][k])
+                #str_C=str_C+'{0},'.format((data[0][i][j][k]))
+            str_C=str_C+'\n'
+
+        file.write(str_C)
+    file.close()
+
+@onnx_infer_func.register("yolov7_infer")
+def yolov7_infer(executor):
+    data = executor.dataset
+    imgsz = 640
+    imgsz = check_img_size(imgsz, s=32)  # check img_size
+    dataset = LoadImages(data, img_size=640, stride=32)
+    for path, img, im0s, vid_cap in dataset:
+        img = torch.from_numpy(img)
+        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img = torch.from_numpy(img.transpose(2,0,1))
+        if img.ndimension() == 3:
+            img = img.unsqueeze(0)
+        img = img.numpy()
+        img = img.astype(np.uint8)
+        img.flatten().tofile(os.path.join(executor.save_dir, "model_input.bin"))
+        pred = executor.forward(img)
+        np.save(os.path.join(executor.save_dir, "509.npy"), pred[0])
+        np.save(os.path.join(executor.save_dir, "526.npy"), pred[1])
+        np.save(os.path.join(executor.save_dir, "543.npy"), pred[2])
+        pred = [torch.from_numpy(pred[0]), torch.from_numpy(pred[1]), torch.from_numpy(pred[2])]
+        detect_process = Detect_process(config_yolov7_tiny_relu['anchors'], nc=config_yolov7_tiny_relu['nc'])
+        pred = detect_process.post_process(pred)
+        # Apply NMS
+        pred = non_max_suppression(pred, 0.25, 0.45)
+        # Process detections
+        for i, det in enumerate(pred):  # detections per image
+            p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
+            p = Path(p)  # to Path
+            save_path = os.path.abspath(os.path.join(executor.save_dir, p.name))
+            gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
+            if len(det):
+                # Rescale boxes from img_size to im0 size
+                det[:, :4] = scale_coords((imgsz, imgsz), det[:, :4], im0.shape).round()
+
+                # Print results
+                for c in det[:, -1].unique():
+                    n = (det[:, -1] == c).sum()  # detections per class
+                    s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
+
+                # Write results
+                for *xyxy, conf, cls in reversed(det):
+                    label = f'{names[int(cls)]} {conf:.2f}'
+                    plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=1)
+
+            cv2.imwrite(save_path, im0)
+            print(f"save picture to: {save_path}")
+

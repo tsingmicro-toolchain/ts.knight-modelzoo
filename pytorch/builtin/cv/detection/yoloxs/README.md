@@ -17,7 +17,7 @@ Github工程地址：https://github.com/Megvii-BaseDetection/YOLOX
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。下载请前往[COCO官网](https://cocodataset.org)下载验证集 [images](http://images.cocodataset.org/zips/val2017.zip) 以及[annotations](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) 。
 
 2. 模型权重下载
 
@@ -29,7 +29,7 @@ Github工程地址：https://github.com/Megvii-BaseDetection/YOLOX
 
 ## Knight环境准备
 
-1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-2.0.0.4.tar.gz为例演示。
+1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.0.0.11.build1.tar.gz为例演示。
 
 2. 检查docker环境
 
@@ -42,13 +42,13 @@ Github工程地址：https://github.com/Megvii-BaseDetection/YOLOX
 3. 加载镜像
 	
 	```
-	docker load -i ts.knight-2.0.0.4.tar.gz
+	docker load -i ts.knight-3.0.0.11.build1.tar.gz
 	```
 
 4. 启动docker容器
 
 	```
-	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:2.0.0.4 /bin/bash
+	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.0.0.11.build1 /bin/bash
 	```
 	
 	localhost_dir为宿主机目录。
@@ -67,51 +67,71 @@ sh yoloxs/scripts/run.sh
 
 ## 模型部署流程
 
-### 1. 量化
+### 1. 量化&编译
 
+-   量化数据准备
+
+    将以上验证下载解压后按以下路径存放：
+
+		data
+			annotations
+				instances_val2017.json
+			val2017
+				*.jpg
+				*.jpg
+				...	
 
 
 
 -   推理函数准备
+
+
 	![alt text](image.png)
-	如上图修改yolox/models/yolo_head.py。已提供量化依赖的模型推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/infer_yolovx_small.py```,放入下载的工程内。
-	执行`python3 tools/export_onnx.py --output-name yolox_s.onnx -n yolox-s -c yolox_s.pth` 进行onnx模型转换。如报错，请检查环境变量是否正确设置。
+	
+    如上图修改yolox/models/yolo_head.py，并将改工程放在src目录下。
 
--   执行量化命令
+    执行`python3 tools/export_onnx.py --output-name yolox_s.onnx -n yolox-s -c yolox_s.pth` 进行onnx模型转换。
+    
+    已提供量化依赖的模型推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/yolox_s.py```。
 
-	在容器内执行如下量化命令，生成量化后的文件存放在 -s 指定输出目录,-d指定下载的coco数据集根目录，-uds指定infer_yolovx_small.py所在的工程目录路径。
+-   执行量化及编译命令
 
-    	Knight --chip TX5368AV200 quant onnx -m yolox_s.onnx 
-    		-uds /path/to/your/infer_yolovx_small.py 
-			-d /path/to/your/data_coco_dir
-    		-if infer_yolox_small
-			-s ./tmp/yoloxs
-    		-bs 1 -i 128
+	在容器内执行如下量化命令，具体量化、编译参数可见yolox_s_config.json。
 
+    	Knight --chip TX5368AV200 build --run-config data/yolox_s_config.json
 
-### 2. 编译
-
-
-    Knight --chip TX5368AV200 rne-compile --onnx yolox_s_quantize.onnx --outpath .
+-   量化后模型推理
+	
+		Knight --chip TX5368AV200 quant --run-config data/yolox_s_infer_config.json
 
 
-### 3. 仿真
+### 2. 仿真
+
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/data/images/train2017 --outpath . 
+    python src/make_image_input_onnx.py --input test_data/bus.jpg --outpath /TS-KnightDemo/Output/yolox_s/npu
+
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolox_s_quantize_r.weight --config  yolox_s_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 run --run-config data/yolox_s_config.json
 
-### 4. 性能分析
+	#仿真输出txt文件转numpy
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolox_s/npu/result-817_p.txt --save-dir /TS-KnightDemo/Output/yolox_s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolox_s/npu/result-843_p.txt --save-dir /TS-KnightDemo/Output/yolox_s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolox_s/npu/result-869_p.txt --save-dir /TS-KnightDemo/Output/yolox_s/npu/
 
-```
-Knight --chip TX5368AV200 rne-profiling --config  yolox_s_quantize_r.cfg --outpath .
-```
+	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
+    python src/post_process.py --image test_data/bus.jpg --numpys  /TS-KnightDemo/Output/yolox_s/npu/result-817_p.npy /TS-KnightDemo/Output/yolox_s/npu/result-843_p.npy /TS-KnightDemo/Output/yolox_s/npu/result-869_p.npy  --scales 0.02812371 0.02926355 0.02422856 --save_dir output
 
-### 5. 仿真库
+### 3. 性能分析
 
-### 6. 板端部署
+	Knight --chip TX5368AV200 profiling --run-config data/yolox_s_config.json
 
+
+### 4. 仿真库
+
+### 5. 板端部署
+
+板端部署时,为了提升推理性能，需要删除--output-dequant进行量化，并且在后处理中增加反量化步骤，以保证流程的正确性。
 
 
 ## 支持芯片情况

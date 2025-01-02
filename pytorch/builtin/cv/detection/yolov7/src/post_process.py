@@ -18,6 +18,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import os
+import re
 def clip_coords(boxes, img_shape):
     # Clip bounding xyxy bounding boxes to image shape (height, width)
     boxes[:, 0].clamp_(0, img_shape[1])  # x1
@@ -117,7 +118,7 @@ class Detect_process(nn.Module):
         return grid, anchor_grid
 
 def detect(save_img=False):
-    source, txts, imgsz, save_dir = opt.image, opt.txt, opt.img_size, opt.save_dir
+    source, numpys, imgsz, save_dir, scales = opt.image, opt.numpys, opt.img_size, opt.save_dir, opt.scales
     dataset = LoadImages(source, img_size=imgsz, stride=32)
     detect_process = Detect_process(config_yolov7_tiny_relu['anchors'], nc=config_yolov7_tiny_relu['nc'])
     # Get names and colors
@@ -138,21 +139,8 @@ def detect(save_img=False):
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
         pred = []
-        for txt in txts:
-            #pred.append(torch.from_numpy(np.load(txt)))
-            data = []
-            shape = None
-            with open(txt, 'r') as file:
-                for line in file:
-                    if 'SHAPE' in line:
-                        shape = re.findall("\d+", line)
-                        shape = [int(sp) for sp in shape]
-                    if 'SHAPE' not in line  and 'C' not in line:
-                        for s in line.strip().split(','):
-                            try:
-                                data.append(float(s))
-                            except:
-                                pass
+        for numpy, scale in zip(numpys, scales):
+            pred.append(torch.from_numpy(np.load(numpy)*scale))
         pred = detect_process.post_process(pred)
         #pred = torch.from_numpy(pred[0])
         # Apply NMS
@@ -187,7 +175,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--image', type=str, help='original image')
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
-    parser.add_argument('--txt', nargs='+', type=str, help='model output txt')
+    parser.add_argument('--numpys', nargs='+', type=str, help='model output numpy')
+    parser.add_argument('--scales', nargs='+', type=float, help='model output scales')
     parser.add_argument('--save_dir', type=str, default='output', help='save dir for detect')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')

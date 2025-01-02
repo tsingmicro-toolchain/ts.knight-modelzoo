@@ -14,7 +14,7 @@ from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 from ts_utils.data_load import create_dataloader
 from ts_utils.events import LOGGER, NCOLS
-from ts_utils.nms import non_max_suppression 
+from ts_utils.nms import non_max_suppression
 from ts_utils.torch_utils import time_sync
 
 # 注意： 将ultralytics.nn.modules.py Detect类forward函数直接返回self.dfl(box), cls.sigmoid()
@@ -298,6 +298,7 @@ class Evaler:
         task = 'test' if task == 'test' else 'val'
         path = data.get(task, 'val')
         path = os.path.join(os.path.abspath(os.path.join(tmp_data, '..')),path)
+        data['val'] = path
         if not os.path.exists(path):
             raise Exception('Dataset not found.')
         return data

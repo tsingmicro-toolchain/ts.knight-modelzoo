@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/yolox_s/quant/yolox_s_quantize.onnx",
+        "infer-func": "infer_yolox_small_plot",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/yolox_s/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/yolox_s.py",
+        "data": "test_data/bus.jpg"
+    }
+}

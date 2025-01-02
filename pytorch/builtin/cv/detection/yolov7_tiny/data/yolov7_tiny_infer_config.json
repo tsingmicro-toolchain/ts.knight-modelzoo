@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/yolov7_tiny/quant/yolov7_tiny_quantize.onnx",
+        "infer-func": "yolov7_tiny_infer",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/yolov7_tiny/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/src/yolov7_tiny.py",
+        "data": "test_data/bus.jpg"
+    }
+}

@@ -9,15 +9,17 @@ from yolox.utils import multiclass_nms, demo_postprocess, vis
 
 def detect():
     source, numpys, imgsz, save_dir, scales = opt.image, opt.numpys, opt.img_size, opt.save_dir, opt.scales
-    output = [0, 0, 0]
-    output[0] = np.load(numpys[0])*scales[0]
-    output[1] = np.load(numpys[1])*scales[1]
-    output[2] = np.load(numpys[2])*scales[2]
-    output[0] = torch.from_numpy(output[0])
-    output[1] = torch.from_numpy(output[1])
-    output[2] = torch.from_numpy(output[2])
-    output = torch.cat([x.flatten(start_dim=2) for x in output], dim=2).permute(0, 2, 1)
-    
+    origin_img = cv2.imread(source)
+    img, ratio = preprocess(origin_img, input_shape)
+    input_shape = (640, 640)
+    out0 = np.load(numpys[0])*scales[0]
+    out1 = np.load(numpys[1])*scales[1]
+    out2 = np.load(numpys[2])*scales[2]
+    out0 = torch.from_numpy(out0)
+    out1 = torch.from_numpy(out1)
+    out2 = torch.from_numpy(out2)
+    output = torch.cat([x.flatten(start_dim=2) for x in [out0, out1, out2]], dim=2).permute(0, 2, 1)
+
     predictions = demo_postprocess(output.numpy(), imgsz)[0]
 
     boxes = predictions[:, :4]

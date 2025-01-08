@@ -338,6 +338,7 @@ def infer_yolov3(executor):
         pad = 0.0
         path = data['val']  # path to val/test images
         path = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')),path)
+        data['val'] = path
         dataloader = create_dataloader(data[task], imgsz, 1, 32, single_cls, pad=pad, rect=True)[0]
     seen = 0
     class_map  = coco80_to_coco91_class()

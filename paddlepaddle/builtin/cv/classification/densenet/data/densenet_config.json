@@ -1,0 +1,33 @@
+{
+    "quant": {
+        "model": "weight/DenseNet121_pretrained.pdmodel",
+        "weight": "weight/DenseNet121_pretrained.pdiparams",
+        "framework": "paddle",
+        "infer-func": "infer_imagenet_benchmark",
+        "bit-width": 8,
+        "quant-mode": "min_max",
+        "batch-size": 1,
+        "iteration": 200,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/densenet/quant",
+        "user-defined-script": "/ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/densenet/src/densenet.py",
+        "data": "data/imagenet/images/val",
+        "mean": "123.675 114.75 103.53",
+        "std": "58.395 57.12 57.375",
+        "quantize-input-dtype": "uint8"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/densenet/quant/DenseNet121_pretrained_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/densenet/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/densenet/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/densenet/npu/DenseNet121_pretrained_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/densenet/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/densenet/npu/DenseNet121_pretrained_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/densenet/npu"
+    }
+}

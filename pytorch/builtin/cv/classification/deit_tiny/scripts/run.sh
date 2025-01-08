@@ -1,1 +1,1 @@
-Knight --chip TX5368AV200 quant onnx -m deit_tiny -w /ts.knight-modelzoo/pytorch/builtin/cv/classification/deit_tiny/weight/deit_tiny_patch16_224-a1311bcf.pth -f pytorch -uds /ts.knight-modelzoo/pytorch/builtin/cv/classification/deit_tiny/src/deit_tiny.py -if infer_imagenet_benchmark -s ./tmp/deit_tiny -d /ts.knight-modelzoo/pytorch/builtin/cv/classification/deit_tiny/data/imagenet/images/val -bs 1 -i 200
+Knight --chip TX5368AV200 build --run-config data/deit_tiny_config.json

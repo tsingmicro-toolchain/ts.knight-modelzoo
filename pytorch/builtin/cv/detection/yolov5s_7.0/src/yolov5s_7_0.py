@@ -15,11 +15,21 @@ from pathlib import Path
 from utils.dataloaders import create_dataloader, LoadImages
 from utils.general import (
     coco80_to_coco91_class, check_file, check_img_size, non_max_suppression, 
-    xyxy2xywh, xywh2xyxy, box_iou, set_logging)
+    xyxy2xywh, xywh2xyxy, box_iou, set_logging, scale_boxes)
 from utils.metrics import ap_per_class 
 from utils.torch_utils import select_device
 from models.common import DetectMultiBackend
+from utils.plots import Annotator, colors, save_one_box
 
+names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
+        'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
+        'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
+        'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard',
+        'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
+        'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
+        'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
+        'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
+        'hair drier', 'toothbrush']
 def clip_coords(boxes, img_shape):
     # Clip bounding xyxy bounding boxes to image shape (height, width)
     boxes[:, 0].clamp_(0, img_shape[1])  # x1
@@ -202,8 +212,8 @@ def yolov5s_7(weight_path=None):
     }
     return in_dict
 
-@onnx_infer_func.register("infer_yolov5_v7_0")
-def infer_yolov5_v7_0(executor): 
+@onnx_infer_func.register("yolov5s_quant")
+def yolov5s_quant(executor): 
     data = executor.dataset # /path/to/your/coco128.yaml
     save_json=False
     if executor.run_mode == "forward":
@@ -233,15 +243,7 @@ def infer_yolov5_v7_0(executor):
     device = select_device(device, batch_size=1)
     imgsz = check_img_size(imgsz, s=32)  # check img_size
     detect_process = Detect_process(config_yolov5s_relu['anchors'], nc=config_yolov5s_relu['nc'])
-    names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
-        'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
-        'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
-        'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard',
-        'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple',
-        'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch',
-        'potted plant', 'bed', 'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
-        'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
-        'hair drier', 'toothbrush']
+
     with open(data) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)  # model dict 
     nc = 1 if opt.single_cls else int(data['nc'])  # number of classes
@@ -265,12 +267,12 @@ def infer_yolov5_v7_0(executor):
         whwh = torch.Tensor([width, height, width, height])
         img, ratio, (dw,dh) = letterbox_my(img.squeeze(0).permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
-        img = img.float()  # uint8 to fp16/32
-        img /= 255.0  # 0 - 255 to 0.0 - 1.0
+        #img = img.float()  # uint8 to fp16/32
+        #img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
         # Inference
-        pred = executor.forward(img.numpy())
+        pred = executor.forward(img.numpy().astype(np.uint8))
         pred = [torch.from_numpy(pred[0]), torch.from_numpy(pred[1]), torch.from_numpy(pred[2])]
         pred = detect_process.post_process(pred)
         # Apply NMS
@@ -381,3 +383,64 @@ def infer_yolov5_v7_0(executor):
         maps[c] = ap[i]
     # return (mp, mr, map50, map), maps, t
     return map50
+
+@onnx_infer_func.register("yolov5s_infer")
+def yolov5s_infer(executor): 
+    data = executor.dataset # /path/to/your/coco128.yaml
+    iteration = executor.iteration
+    batch_size = executor.batch_size
+    device='cpu'
+    task='val'
+    augment=False
+    merge=False
+    verbose=False
+    save_txt=False
+    imgsz = 640
+    training = False
+
+    input_data = []
+    dataset = LoadImages(data, img_size=imgsz, stride=32)
+    detect_process = Detect_process(config_yolov5s_relu['anchors'], nc=config_yolov5s_relu['nc'])
+    for path, img, im0s, vid_cap, s in dataset:
+        print(img.shape)
+        img = torch.from_numpy(img)
+        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img = torch.from_numpy(img.transpose(2,0,1))
+        #img = img.float()  # uint8 to fp16/32
+        #img /= 255.0  # 0 - 255 to 0.0 - 1.0
+        if img.ndimension() == 3:
+            img = img.unsqueeze(0)
+ 
+        # Inference
+        pred = executor.forward(img.numpy())
+        pred = [torch.from_numpy(pred[0]), torch.from_numpy(pred[1]), torch.from_numpy(pred[2])]
+        pred = detect_process.post_process(pred)
+        # Apply NMS
+        pred = non_max_suppression(pred, 0.25, 0.45)
+        # Process detections
+        for i, det in enumerate(pred):  # detections per image
+            p, s, im0, frame = path, '', im0s, getattr(dataset, 'frame', 0)
+            p = Path(p)  # to Path
+            save_path = os.path.join(executor.save_dir, p.name)
+            gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
+            annotator = Annotator(im0, line_width=3, example=str(names))
+            if len(det):
+                # Rescale boxes from img_size to im0 size
+                det[:, :4] = scale_boxes(img.shape[2:], det[:, :4], im0.shape).round()
+
+                # Print results
+                for c in det[:, 5].unique():
+                    n = (det[:, 5] == c).sum()  # detections per class
+                    s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
+
+                # Write results
+                for *xyxy, conf, cls in reversed(det):
+                    c = int(cls)  # integer class
+                    label = (f'{names[c]} {conf:.2f}')
+                    annotator.box_label(xyxy, label, color=colors(c, True))
+            im0 = annotator.result()
+
+            cv2.imwrite(save_path, im0)
+            print(f" The image with the result is saved in: {save_path}")
+
+

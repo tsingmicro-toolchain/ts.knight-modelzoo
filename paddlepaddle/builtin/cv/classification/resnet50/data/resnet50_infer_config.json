@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/resnet50/quant/resnet50_quantize.onnx",
+        "infer-func": "infer_image",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/resnet50/quant",
+        "user-defined-script": "/ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/resnet50/src/resnet50.py",
+        "data": "data/demo.jpg"
+    }
+}

@@ -18,7 +18,7 @@ Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 
 ## Knight环境准备
 
-1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-2.0.0.4.tar.gz为例演示。
+1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.0.0.11.build1.tar.gz为例演示。
 
 2. 检查docker环境
 
@@ -31,13 +31,13 @@ Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 3. 加载镜像
 	
 	```
-	docker load -i ts.knight-2.0.0.4.tar.gz
+	docker load -i ts.knight-3.0.0.11.build1.tar.gz
 	```
 
 4. 启动docker容器
 
 	```
-	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:2.0.0.4 /bin/bash
+	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.0.0.11.build1 /bin/bash
 	```
 	
 	localhost_dir为宿主机目录。

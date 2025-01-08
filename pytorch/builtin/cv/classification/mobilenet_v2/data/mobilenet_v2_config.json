@@ -1,0 +1,33 @@
+{
+    "quant": {
+        "model": "mobilenet_v2",
+        "weight": "weight/mobilenet_v2-b0353104.pth",
+        "framework": "pytorch",
+        "infer-func": "infer_imagenet_benchmark",
+        "bit-width": 8,
+        "quant-mode": "min_max",
+        "batch-size": 1,
+        "iteration": 200,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/mobilenet_v2/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilenet_v2/src/mobilenet_v2.py",
+        "data": "data/imagenet/images/val",
+        "mean": "123.675 114.75 103.53",
+        "std": "58.395 57.12 57.375",
+        "quantize-input-dtype": "uint8"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/mobilenet_v2/quant/mobilenet_v2_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/mobilenet_v2/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/mobilenet_v2/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/mobilenet_v2/npu/mobilenet_v2_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/mobilenet_v2/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/mobilenet_v2/npu/mobilenet_v2_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/mobilenet_v2/npu"
+    }
+}

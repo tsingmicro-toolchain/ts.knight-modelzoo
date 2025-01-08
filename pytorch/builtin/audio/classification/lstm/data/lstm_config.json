@@ -1,0 +1,30 @@
+{
+    "quant": {
+        "model": "lstm",
+        "weight": "weight/lstm.pth",
+        "framework": "pytorch",
+        "infer-func": "infer_pytorch_rnn",
+        "bit-width": 8,
+        "quant-mode": "min_max",
+        "batch-size": 1,
+        "iteration": 10,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/lstm/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/audio/classification/lstm/src/lstm.py",
+        "data": "data/cmd_12_test.pkl"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/lstm/quant/lstm_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/lstm/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/lstm/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/lstm/npu/lstm_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/lstm/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/lstm/npu/lstm_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/lstm/npu"
+    }
+}

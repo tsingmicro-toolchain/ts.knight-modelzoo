@@ -1,0 +1,33 @@
+{
+    "quant": {
+        "model": "deit_tiny",
+        "weight": "weight/deit_tiny_patch16_224-a1311bcf.pth",
+        "framework": "pytorch",
+        "infer-func": "infer_imagenet_benchmark",
+        "bit-width": 8,
+        "quant-mode": "min_max",
+        "batch-size": 1,
+        "iteration": 200,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/deit_tiny/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/deit_tiny/src/deit_tiny.py",
+        "data": "data/imagenet/images/val",
+        "mean": "123.675 114.75 103.53",
+        "std": "58.395 57.12 57.375",
+        "quantize-input-dtype": "uint8"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/deit_tiny/quant/deit_tiny_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/deit_tiny/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/deit_tiny/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/deit_tiny/npu/deit_tiny_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/deit_tiny/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/deit_tiny/npu/deit_tiny_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/deit_tiny/npu"
+    }
+}

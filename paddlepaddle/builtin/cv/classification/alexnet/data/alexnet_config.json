@@ -1,0 +1,33 @@
+{
+    "quant": {
+        "model": "weight/alexnet.pdmodel",
+        "weight": "weight/alexnet.pdiparams",
+        "framework": "paddle",
+        "infer-func": "infer_imagenet_benchmark",
+        "bit-width": 8,
+        "quant-mode": "min_max",
+        "batch-size": 1,
+        "iteration": 200,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/alexnet/quant",
+        "user-defined-script": "/ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/alexnet/src/alexnet.py",
+        "data": "data/imagenet/images/val",
+        "mean": "123.675 114.75 103.53",
+        "std": "58.395 57.12 57.375",
+        "quantize-input-dtype": "uint8"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/alexnet/quant/alexnet_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/alexnet/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/alexnet/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/alexnet/npu/alexnet_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/alexnet/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/alexnet/npu/alexnet_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/alexnet/npu"
+    }
+}

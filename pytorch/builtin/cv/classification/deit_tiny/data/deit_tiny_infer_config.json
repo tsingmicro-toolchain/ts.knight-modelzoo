@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/deit_tiny/quant/deit_tiny_quantize.onnx",
+        "infer-func": "infer_image",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/deit_tiny/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/deit_tiny/src/deit_tiny.py",
+        "data": "data/demo.jpg"
+    }
+}

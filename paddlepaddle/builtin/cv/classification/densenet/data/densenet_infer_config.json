@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/densenet/quant/DenseNet121_pretrained_quantize.onnx",
+        "infer-func": "infer_image",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/densenet/quant",
+        "user-defined-script": "/ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/densenet/src/densenet.py",
+        "data": "data/demo.jpg"
+    }
+}

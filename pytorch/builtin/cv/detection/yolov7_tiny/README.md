@@ -101,7 +101,7 @@ sh yolov7_tiny/scripts/run.sh
     python3 src/make_image_input_onnx.py --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/test_data/bus.jpg --outpath /TS-KnightDemo/Output/yolov7_tiny_quantize_r/npu
 
     #仿真
-    Knight --chip TX5368AV200 run --input model_input.bin --weight /TS-KnightOutput/RneCompile/yolov7_tiny_quantize_r.weight --config  /TS-KnightOutput/RneCompile/yolov7_tiny_quantize_r.cfg -fmt nchw
+    Knight --chip TX5368AV200 run --run-config  data/yolov7_tiny_config.json
 
 	#仿真输出txt文件转numpy
 	show_sim_result --sim-data /TS-KnightDemo/Output/yolov7_tiny/npu/result-279_p.txt --save-dir /TS-KnightDemo/Output/yolov7_tiny/npu/

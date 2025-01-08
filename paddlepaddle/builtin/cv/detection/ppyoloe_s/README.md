@@ -19,7 +19,7 @@ Github工程地址：[ppyoloe](https://github.com/PaddlePaddle/PaddleDetection/t
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载2017 Train images\2017 Val images\和对应的annotation。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载2017 Train images\2017 Val images\和对应的annotation。下载请前往[COCO官网](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)。
 
 2. 模型权重下载
 
@@ -31,7 +31,7 @@ Github工程地址：[ppyoloe](https://github.com/PaddlePaddle/PaddleDetection/t
 
 ## Knight环境准备
 
-1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-2.0.0.4.tar.gz为例演示。
+1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.0.0.11.build1.tar.gz为例演示。
 
 2. 检查docker环境
 
@@ -44,13 +44,13 @@ Github工程地址：[ppyoloe](https://github.com/PaddlePaddle/PaddleDetection/t
 3. 加载镜像
 	
 	```
-	docker load -i ts.knight-2.0.0.4.tar.gz
+	docker load -i ts.knight-3.0.0.11.build1.tar.gz
 	```
 
 4. 启动docker容器
 
 	```
-	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:2.0.0.4 /bin/bash
+	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.0.0.11.build1 /bin/bash
 	```
 	
 	localhost_dir为宿主机目录。

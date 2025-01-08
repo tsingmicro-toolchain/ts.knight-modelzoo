@@ -4,6 +4,9 @@ import argparse
 import os
 import glob
 import cv2
+import torch
+from utils.dataloaders import LoadStreams, LoadImages
+
 DEBUG=0
 parser = argparse.ArgumentParser(description='make input data scripts')
 parser.add_argument(
@@ -20,7 +23,11 @@ parser.add_argument('--proc_mode',
                     type=str,
                     default='onnx',
                     help='the proc mode as onnx2onnx')
- 
+parser.add_argument('--img-size',
+                    type=int,
+                    default=640,
+                    help='inference size (pixels)')
+
 FLAGS, unparsed = parser.parse_known_args()
 
 def write_infer_numpy_to_file(data, fileName, is_float=False, dim=4):
@@ -54,52 +61,73 @@ def write_infer_numpy_to_file(data, fileName, is_float=False, dim=4):
         file.write(str_C)
     file.close()
 
-# 仅将第一条数据进行转换
+from utils.general import (
+    coco80_to_coco91_class, check_dataset, check_file, check_img_size, non_max_suppression, 
+    xyxy2xywh, xywh2xyxy, box_iou, set_logging)
+from tqdm import tqdm
+
+def letterbox_my(im, new_shape=(384, 640), color=(114, 114, 114), auto=True, scaleFill=False, scaleup=True, stride=32):
+    # Resize and pad image while meeting stride-multiple constraints
+    shape = im.shape[:2]  # current shape [height, width]
+    if isinstance(new_shape, int):
+        new_shape = (new_shape, new_shape)
+
+    # Scale ratio (new / old)
+    r = min(new_shape[0] / shape[0], new_shape[1] / shape[1])
+    if not scaleup:  # only scale down, do not scale up (for better val mAP)
+        r = min(r, 1.0)
+
+    # Compute padding
+    ratio = r, r  # width, height ratios
+    new_unpad = int(round(shape[1] * r)), int(round(shape[0] * r))
+    dw, dh = new_shape[1] - new_unpad[0], new_shape[0] - new_unpad[1]  # wh padding
+    if auto:  # minimum rectangle
+        dw, dh = np.mod(dw, stride), np.mod(dh, stride)  # wh padding
+    elif scaleFill:  # stretch
+        dw, dh = 0.0, 0.0
+        new_unpad = (new_shape[1], new_shape[0])
+        ratio = new_shape[1] / shape[1], new_shape[0] / shape[0]  # width, height ratios
+
+    dw /= 2  # divide padding into 2 sides
+    dh /= 2
+
+    if shape[::-1] != new_unpad:  # resize
+        im = cv2.resize(im, new_unpad, interpolation=cv2.INTER_LINEAR)
+    top, bottom = int(round(dh - 0.1)), int(round(dh + 0.1))
+    left, right = int(round(dw - 0.1)), int(round(dw + 0.1))
+    im = cv2.copyMakeBorder(im, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)  # add border
+    return im, ratio, (dw, dh)
+class ArgParser:
+    def __init__(self, args: dict):
+        for k, v in args.items():
+            setattr(self, k, v)
+
 if __name__ == '__main__':
     input = FLAGS.input
     outpath = FLAGS.outpath
     proc_mode= FLAGS.proc_mode
-    # input_data = np.load(input).astype(np.float32)
-    input_name = glob.glob(os.path.join(input, "*.jpg"))
-    input_name.extend(glob.glob(os.path.join(input, "*.JPEG")))
-    input_name.extend(glob.glob(os.path.join(input, "*.png")))
-    input_name = sorted(input_name, key=os.path.getctime)
-    Num=10
+    imgsz = FLAGS.img_size
+    imgsz = check_img_size(imgsz, s=32)  # check img_size
+    # Dataloader
+    args_dict = dict(
+            data= input,
+            single_cls=False,
+        )
 
-    #match the specified picture for infer demo
-    img_idx=4
-    assert len(input_name) >= 10, f"expect 10 pictures, but got {len(input_name)}"
-    input_data = np.zeros((10, 3, 224, 224), dtype=np.float32)
-    if proc_mode == 'caffe2onnx':
-        mean = np.array([104.0, 117.0, 123.0]).reshape(1,3,1,1)
-        std = np.array([1.0, 1.0, 1.0]).reshape(1, 3, 1, 1)
-    else:
-        mean = np.array([0.485, 0.456, 0.406]).reshape(1, 3, 1, 1)
-        std = np.array([0.229, 0.224, 0.225]).reshape(1, 3, 1, 1)
+    opt = ArgParser(args_dict) 
+    img = torch.zeros((1, 3, imgsz, imgsz))  # init img
+    path = os.path.abspath(input)  # path to val/test images
+    #path = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')),path)
+    dataset = LoadImages(input, img_size=640, stride=32)
 
-    for i in range(Num):
-        img = cv2.cvtColor(cv2.imread(input_name[i]), cv2.COLOR_BGR2RGB)
-        r = max(img.shape) / 256
-        # for other option
-        # interp = cv2.INTER_LINEAR if r < 1 else cv2.INTER_AREA
-        interp = cv2.INTER_LINEAR if r > 1 else cv2.INTER_AREA
-        if proc_mode == 'caffe2onnx':
-            img = cv2.resize(img, (256, 256), interpolation=interp)
-        else:
-            img = cv2.resize(img, (256, 256), interpolation=interp) / 255.
-        input_data[i] = img.transpose(2, 0, 1)[:, 15:239, 15: 239]
-
-    input_data = (input_data - mean) / std
-    if DEBUG:
-        write_infer_numpy_to_file(input_data[img_idx:img_idx+1], os.path.join(outpath,'model_input_all.txt'),True,3)
-    if not os.path.exists(outpath):
-        os.makedirs(outpath)
-    if proc_mode == 'tf2onnx':
-        if DEBUG:
-            print(f'SIM IMG:{input_name[img_idx]}')
-            write_infer_numpy_to_file(input_data[img_idx:img_idx+1], os.path.join(outpath,'model_input.txt'),True,4)
-        data_bin=input_data[img_idx:img_idx+1]
-        data_bin.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
-    else:
-        input_data.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
-    print("Success to save pictures to bin.")
+    for path, img, im0s, vid_cap in dataset:
+        print(img.shape)
+        img = torch.from_numpy(img)
+        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img = torch.from_numpy(img.transpose(2,0,1))
+        #img = img.float()  # uint8 to fp16/32
+        #img /= 255.0  # 0 - 255 to 0.0 - 1.0
+        if img.ndimension() == 3:
+            img = img.unsqueeze(0)
+        img.numpy().astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
+        print(f"Success to save bin to {outpath}")

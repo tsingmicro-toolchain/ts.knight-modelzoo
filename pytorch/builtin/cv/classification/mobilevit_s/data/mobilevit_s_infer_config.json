@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/mobilevit_s/quant/mobilevit_s_quantize.onnx",
+        "infer-func": "infer_image",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/mobilevit_s/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilevit_s/src/mobilevit_s.py",
+        "data": "data/demo.jpg"
+    }
+}

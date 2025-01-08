@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/alexnet/quant/alexnet_quantize.onnx",
+        "infer-func": "infer_image",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/alexnet/quant",
+        "user-defined-script": "/ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/alexnet/src/alexnet.py",
+        "data": "data/demo.jpg"
+    }
+}

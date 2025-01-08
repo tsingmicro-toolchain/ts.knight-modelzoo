@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/squeezenet1_0/quant/squeezenet1_0_quantize.onnx",
+        "infer-func": "infer_image",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/squeezenet1_0/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/squeezenet1_0/src/squeezenet1_0.py",
+        "data": "data/demo.jpg"
+    }
+}

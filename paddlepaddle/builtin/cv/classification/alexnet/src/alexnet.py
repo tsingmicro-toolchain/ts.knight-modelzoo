@@ -1,3 +1,7 @@
+import os
+import numpy as np
+from PIL import Image
+import time
 import torch
 from timm.utils import accuracy, AverageMeter
 from torchvision import datasets, transforms
@@ -103,3 +107,65 @@ def infer_imagenet_benchmark(executor):
     return imagenet_benchmark(executor, crop_size=224)
 
 
+def write_numpy_to_file(data, fileName): 
+    if data.ndim == 4:
+        data = data.squeeze(0) 
+    if data.ndim == 2:
+        data = np.expand_dims(data, axis=0)
+    C,H,W=data.shape
+    # import pdb;pdb.set_trace()
+    #print(f'nchw:{N},{C},{H},{W}')
+    file = open(fileName, 'w+')
+    #data_p=data[0][5][2][3]
+    #print(f'data:{data_p}')
+    #numpy_data = np.array(data)
+    # head='SHAPE:(N:{0}, C:{1}, H:{2}, W:{3})\n'.format(N,C,H,W)
+    # file.write(head)
+    for i in range(C):
+        str_C=""
+        file.write('C[{0}]:\n'.format(i))
+        for j in range(H):
+            for k in range(W):
+                str_C=str_C+'{:.6f} '.format(data[i][j][k])
+                #str_C=str_C+'{0},'.format((data[0][i][j][k]))
+            str_C=str_C+'\n'
+        file.write(str_C)
+    file.close()
+@onnx_infer_func.register('infer_image')
+def image(executor):
+    image = executor.dataset
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    image_preprocess = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        normalize,
+    ])
+    img_rgb = Image.open(image).convert('RGB')
+    img_tensor = image_preprocess(img_rgb)
+    input_numpy = img_tensor.unsqueeze_(0).numpy()
+    input_numpy *= 255
+    input_numpy = input_numpy.astype(np.uint8)
+    print(f'save model_input.bin to {executor.save_dir}')
+    input_numpy.flatten().tofile(os.path.join(executor.save_dir, "model_input.bin"))
+    output = executor.forward(input_numpy)
+    write_numpy_to_file(output[0], os.path.join(executor.save_dir, "output.txt"))
+    print(f'save output.txt to {executor.save_dir}')
+    output = torch.from_numpy(output[0]).data
+    # measure accuracy and record loss
+    topk=(1, 5)
+    maxk = max(topk)
+    _, pred = output.topk(maxk, 1, largest=True, sorted=True)
+    dicts = {}
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(root, 'data/labels.txt')) as f:
+        lines = f.readlines()
+        for line in lines:
+            num, label = line.strip('\n').split(':')
+            dicts[num] = label
+    index = pred.numpy().flatten()
+    print('predict label top5:')
+    for idx in index:
+        print(idx, dicts[str(idx)])
+
+    return

@@ -295,7 +295,7 @@ def yolov8s_infer(executor):
     # Run inference
     count = 0
     save_txt = False
-    for path, im, im0s, vid_cap, s in dataset: 
+    for path, im, im0s, vid_cap, s in dataset:
         # import pdb;pdb.set_trace()
         # if 'zidane' not in path:
         #     continue
@@ -322,9 +322,9 @@ def yolov8s_infer(executor):
         cls1[:,64:,...] = cls1[:,64:,...].sigmoid()
         cls2[:,64:,...] = cls2[:,64:,...].sigmoid() 
         outputs = torch.cat([cls_.reshape(1, concat_dim, -1) for cls_ in [cls0, cls1, cls2]], dim=-1) # 1 165  8400   
-        anchor_points = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/anchor_points.npy"))  
+        anchor_points = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/anchor_points.npy"))
         anchor_points = anchor_points.permute(1,0) 
-        stride_tensor = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/stride_tensor.npy")) 
+        stride_tensor = torch.from_numpy(np.load("/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/stride_tensor.npy"))
         stride_tensor = stride_tensor.permute(1, 0)  
         box, cls = outputs.split((16 * 4, nc + 1), 1)
         # 64 * 6400 -> 4 * 6400
@@ -377,9 +377,7 @@ def yolov8s_infer(executor):
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
             # Stream results
-            
             im0 = annotator.result()
-            
 
             # Save results (image with detections)
             if save_img:

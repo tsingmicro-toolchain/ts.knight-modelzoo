@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/vit_tiny/quant/vit_tiny_quantize.onnx",
+        "infer-func": "infer_image",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/vit_tiny/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/vit_tiny/src/vit_tiny.py",
+        "data": "data/demo.jpg"
+    }
+}

@@ -51,9 +51,8 @@ class RnnCommon(nn.Module):
         else:
             raise
         return out
-def load_cmd_data():
-    test_data ="test/model_zoo/data_set/dnn/cmd_12_test.pkl"
-    with open(test_data, 'rb') as fp:
+def load_cmd_data(dataset):
+    with open(dataset, 'rb') as fp:
         feat_label =pickle.load(fp,encoding='iso-8859-1')
         test_idx = np.asarray(range(len(feat_label)))
     return feat_label, test_idx
@@ -62,7 +61,7 @@ def load_cmd_data():
 def infer_pytorch_rnn(executor):
     batch_size =executor.batch_size
     iters =executor.iteration
-    feat_label,test_idx = load_cmd_data()
+    feat_label,test_idx = load_cmd_data(executor.dataset)
     data_idx =test_idx
     num_of_batch = int(len(data_idx)/ batch_size)+ 1
     eval_acc =0.
@@ -88,10 +87,36 @@ def infer_pytorch_rnn(executor):
         print("Inference Accuracy:{:.6f}".format(total_acurracy))
         return total_acurracy
 
+@onnx_infer_func.register("infer_rnn")
+def infer_rnn(executor):
+    batch_size =executor.batch_size
+    iters =executor.iteration
+    feat_label,test_idx = load_cmd_data(executor.dataset)
+    data_idx =test_idx
+    num_of_batch = int(len(data_idx)/ batch_size)+ 1
+    eval_acc =0.
+    with torch.no_grad():
+        for i in range(num_of_batch):
+            np_feats = np.zeros(shape=(batch_size,25,40),dtype=np.float32)
+            ed_label =np.zeros(shape=(batch_size,1),dtype=np.int64)
+            for j in range(batch_size):
+                idx = data_idx[int(i * batch_size + j)% len(data_idx)]
+                np_feats[j]= feat_label[idx]['input']
+                ed_label[j]= feat_label[idx]['label'].argmax()
+            th_feats = np_feats
+            ed_label = ed_label
+            th_feats = th_feats
+            ed_out = executor.forward(th_feats)
+            pred =np.argmax(ed_out[0],1)
+            print('predict label:')
+            print(labels[pred[0]])
+            if iters == i+1:
+                break
+
 @pytorch_model.register("lstm")
 def lstm(weight_path=None):
     model = RnnCommon('lstm',40,24,4,12)
     if weight_path:
         model.load_state_dict(torch.load(weight_path,map_location=lambda storage, loc: storage))
-        in_dict ={"model": model,"inputs":[torch.randn((2,25,40))]}
+        in_dict ={"model": model,"inputs":[torch.randn((1,25,40))]}
     return in_dict

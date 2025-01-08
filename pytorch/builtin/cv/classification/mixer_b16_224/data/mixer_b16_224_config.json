@@ -1,0 +1,33 @@
+{
+    "quant": {
+        "model": "mixer_b16_224",
+        "weight": "weight/jx_mixer_b16_224-76587d61.pth",
+        "framework": "pytorch",
+        "infer-func": "infer_imagenet_benchmark",
+        "bit-width": 8,
+        "quant-mode": "min_max",
+        "batch-size": 1,
+        "iteration": 200,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/mixer_b16_224/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/mixer_b16_224/src/mixer_b16_224.py",
+        "data": "data/imagenet/images/val",
+        "mean": "123.675 114.75 103.53",
+        "std": "58.395 57.12 57.375",
+        "quantize-input-dtype": "uint8"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/mixer_b16_224/quant/mixer_b16_224_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/mixer_b16_224/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/mixer_b16_224/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/mixer_b16_224/npu/mixer_b16_224_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/mixer_b16_224/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/mixer_b16_224/npu/mixer_b16_224_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/mixer_b16_224/npu"
+    }
+}

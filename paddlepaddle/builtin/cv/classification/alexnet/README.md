@@ -30,7 +30,7 @@ AlexNet是一种深度卷积神经网络，由Alex Krizhevsky、Ilya Sutskever�
 
 ## Knight环境准备
 
-1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-2.0.0.4.tar.gz为例演示。
+1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.0.0.11.build1.tar.gz为例演示。
 
 2. 检查docker环境
 
@@ -43,13 +43,13 @@ AlexNet是一种深度卷积神经网络，由Alex Krizhevsky、Ilya Sutskever�
 3. 加载镜像
 	
 	```
-	docker load -i ts.knight-2.0.0.4.tar.gz
+	docker load -i ts.knight-3.0.0.11.build1.tar.gz
 	```
 
 4. 启动docker容器
 
 	```
-	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:2.0.0.4 /bin/bash
+	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.0.0.11.build1 /bin/bash
 	```
 	
 	localhost_dir为宿主机目录。
@@ -69,7 +69,7 @@ sh alexnet/scripts/run.sh
 
 ## 模型移植流程
 
-### 1. 量化
+### 1. 量化&编译
 
 -   模型准备
 	
@@ -86,36 +86,31 @@ sh alexnet/scripts/run.sh
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 `alexnet_quantize.onnx` 存放在 -s 指定输出目录。
+	在容器内执行如下量化和编译命令，具体量化、编译参数可见 alexnet_config.json
 
-    	Knight --chip TX5368AV200 quant onnx 
-			-m /ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/alexnet/weight/alexnet.pdmodel
-    		-w /ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/alexnet/weight/alexnet.pdiparams
-    		-f paddle 
-    		-uds /ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/alexnet/src/alexnet.py 
-    		-if infer_imagenet_benchmark 
-			-s ./tmp/alexnet 
-    		-d /ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/alexnet/data/imagenet/images/val 
-    		-bs 1 -i 200
+    	Knight --chip TX5368AV200 build --run-config data/alexnet_config.json
+	
+	量化后模型推理
+
+    	Knight --chip TX5368AV200 quant --run-config data/alexnet_infer_config.json
 
 
-### 2. 编译
 
-
-    Knight --chip TX5368AV200 rne-compile --onnx alexnet_quantize.onnx --outpath .
-
-
-### 3. 仿真
+### 2. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/classification/alexnet/data/imagenet/images/val/n07749582 --outpath .
+    python src/make_image_input_onnx.py --input data/demo.jpg --outpath /TS-KnightDemo/Output/alexnet/npu
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight alexnet_quantize_r.weight --config  alexnet_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 run --run-config data/alexnet_config.json
+	#仿真输出txt文件转numpy
+	show_sim_result --sim-data /TS-KnightDemo/Output/alexnet/npu/result-*_p.txt --save-dir /TS-KnightDemo/Output/alexnet/npu/
+	#模型后处理
+	python src/post_process.py --numpys /TS-KnightDemo/Output/alexnet/npu/result-*_p.npy
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --config  alexnet_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 profiling --run-config data/alexnet_config.json
 ```
 
 ### 5. 仿真库

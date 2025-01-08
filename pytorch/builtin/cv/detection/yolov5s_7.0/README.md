@@ -19,7 +19,7 @@
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里需要下载coco128数据集。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里需要下载coco128数据集。下载请前往[COCO官网](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)。
 
 2. 模型权重下载
 
@@ -31,7 +31,7 @@
 
 ## Knight环境准备
 
-1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-2.0.0.4.tar.gz为例演示。
+1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.0.0.11.build1.tar.gz为例演示。
 
 2. 检查docker环境
 
@@ -44,13 +44,13 @@
 3. 加载镜像
 	
 	```
-	docker load -i ts.knight-2.0.0.4.tar.gz
+	docker load -i ts.knight-3.0.0.11.build1.tar.gz
 	```
 
 4. 启动docker容器
 
 	```
-	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:2.0.0.4 /bin/bash
+	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.0.0.11.build1 /bin/bash
 	```
 	
 	localhost_dir为宿主机目录。
@@ -69,7 +69,7 @@ sh yolov5s_7.0/scripts/run.sh
 
 ## 模型部署流程
 
-### 1. 量化
+### 1. 量化&编译
 
 -   模型准备
 	
@@ -82,44 +82,42 @@ sh yolov5s_7.0/scripts/run.sh
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py```。将此文件放置在yolov5_7.0的官方工程内。如有找不到包问题，设置环境变量即可。
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py```。同时下载[工程](https://github.com/ultralytics/yolov5/releases/tag/v7.0)，放到src下。
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov5s_7_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化和编译命令，具体量化、编译参数可见 yolov5s_config.json
 
-    	Knight --chip TX5368AV200 quant onnx -m yolov5s_7 
-    		-w /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/weight/yolov5s.pt 
-    		-f pytorch 
-    		-uds /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py 
-    		-if infer_yolov5_v7_0 
-			-s ./tmp/yolov5s_7.0 
-    		-d /ts.knight-modelzoo-main/pytorch/builtin/cv/detection/yolov5s_7.0/data/coco128.yaml
-    		-bs 1 -i 128
+    	Knight --chip TX5368AV200 build --run-config data/yolov5s_config.json
+	
+	量化后模型推理
+
+    	Knight --chip TX5368AV200 quant --run-config data/yolov5s_infer_config.json
 
 
-### 2. 编译
 
-
-    Knight --chip TX5368AV200 rne-compile --onnx yolov5s_7_quantize.onnx --outpath .
-
-
-### 3. 仿真
+### 2. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/data/images/train2017 --outpath . 
+    python src/make_image_input_onnx.py  test_data/bus.jpg --outpath /TS-KnightDemo/Output/yolov5s_7.0/npu
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov5s_7_quantize_r.weight --config  yolov5s_7_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 run --run-config data/yolov5s_config.json
+	#仿真输出txt文件转numpy
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov5s_7.0/npu/result-357_p.txt --save-dir /TS-KnightDemo/Output/yolov5s_7.0/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov5s_7.0/npu/result-358_p.txt --save-dir /TS-KnightDemo/Output/yolov5s_7.0/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov5s_7.0/npu/result-359_p.txt --save-dir /TS-KnightDemo/Output/yolov5s_7.0/npu/
+	#模型后处理
+	python src/post_process.py --image test_data/bus.jpg --numpys /TS-KnightDemo/Output/yolov5s_7.0/npu/result-357_p.npy /TS-KnightDemo/Output/yolov5s_7.0/npu/result-358_p.npy /TS-KnightDemo/Output/yolov5s_7.0/npu/result-359_p.npy --scales 0.1755103 0.1281193 0.1337741 --save_dir /TS-KnightDemo/Output/yolov5s_7.0/npu/
 
-### 4. 性能分析
+### 3. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --config  yolov5s_7_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 profiling --run-config data/yolov5s_config.json
 ```
 
-### 5. 仿真库
+### 4. 仿真库
 
-### 6. 板端部署
+### 5. 板端部署
 
 
 

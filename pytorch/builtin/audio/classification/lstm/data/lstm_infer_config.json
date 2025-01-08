@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/lstm/quant/lstm_quantize.onnx",
+        "infer-func": "infer_rnn",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/lstm/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/audio/classification/lstm/src/lstm.py",
+        "data": "data/cmd_12_test.pkl"
+    }
+}

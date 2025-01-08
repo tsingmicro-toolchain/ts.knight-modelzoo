@@ -4,6 +4,9 @@ import argparse
 import os
 import glob
 import cv2
+from torchvision import datasets, transforms
+from PIL import Image
+
 DEBUG=0
 parser = argparse.ArgumentParser(description='make input data scripts')
 parser.add_argument(
@@ -59,47 +62,19 @@ if __name__ == '__main__':
     input = FLAGS.input
     outpath = FLAGS.outpath
     proc_mode= FLAGS.proc_mode
-    # input_data = np.load(input).astype(np.float32)
-    input_name = glob.glob(os.path.join(input, "*.jpg"))
-    input_name.extend(glob.glob(os.path.join(input, "*.JPEG")))
-    input_name.extend(glob.glob(os.path.join(input, "*.png")))
-    input_name = sorted(input_name, key=os.path.getctime)
-    Num=10
 
-    #match the specified picture for infer demo
-    img_idx=4
-    assert len(input_name) >= 10, f"expect 10 pictures, but got {len(input_name)}"
-    input_data = np.zeros((10, 3, 224, 224), dtype=np.float32)
-    if proc_mode == 'caffe2onnx':
-        mean = np.array([104.0, 117.0, 123.0]).reshape(1,3,1,1)
-        std = np.array([1.0, 1.0, 1.0]).reshape(1, 3, 1, 1)
-    else:
-        mean = np.array([0.485, 0.456, 0.406]).reshape(1, 3, 1, 1)
-        std = np.array([0.229, 0.224, 0.225]).reshape(1, 3, 1, 1)
-
-    for i in range(Num):
-        img = cv2.cvtColor(cv2.imread(input_name[i]), cv2.COLOR_BGR2RGB)
-        r = max(img.shape) / 256
-        # for other option
-        # interp = cv2.INTER_LINEAR if r < 1 else cv2.INTER_AREA
-        interp = cv2.INTER_LINEAR if r > 1 else cv2.INTER_AREA
-        if proc_mode == 'caffe2onnx':
-            img = cv2.resize(img, (256, 256), interpolation=interp)
-        else:
-            img = cv2.resize(img, (256, 256), interpolation=interp) / 255.
-        input_data[i] = img.transpose(2, 0, 1)[:, 15:239, 15: 239]
-
-    input_data = (input_data - mean) / std
-    if DEBUG:
-        write_infer_numpy_to_file(input_data[img_idx:img_idx+1], os.path.join(outpath,'model_input_all.txt'),True,3)
-    if not os.path.exists(outpath):
-        os.makedirs(outpath)
-    if proc_mode == 'tf2onnx':
-        if DEBUG:
-            print(f'SIM IMG:{input_name[img_idx]}')
-            write_infer_numpy_to_file(input_data[img_idx:img_idx+1], os.path.join(outpath,'model_input.txt'),True,4)
-        data_bin=input_data[img_idx:img_idx+1]
-        data_bin.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
-    else:
-        input_data.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
-    print("Success to save pictures to bin.")
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    image_preprocess = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        normalize,
+    ])
+    img_rgb = Image.open(input).convert('RGB')
+    img_tensor = image_preprocess(img_rgb)
+    input_numpy = img_tensor.unsqueeze_(0).numpy()
+  
+    input_numpy *= 255
+    input_numpy = input_numpy.astype(np.uint8)
+    print(f'save model_input.bin to {outpath}')
+    input_numpy.flatten().tofile(os.path.join(outpath, "model_input.bin"))

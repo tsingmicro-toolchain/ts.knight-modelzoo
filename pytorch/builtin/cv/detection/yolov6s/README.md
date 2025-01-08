@@ -19,7 +19,7 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 
 1. 数据集资源下载
 
-	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载coco128数据集。下载请前往[COCO官网](https://cocodataset.org/)。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载coco128数据集。下载请前往[COCO官网](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)。
 
 2. 工程及模型权重下载
    工程地址：https://github.com/meituan/YOLOv6/tree/main
@@ -32,7 +32,7 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 
 ## Knight环境准备
 
-1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-2.0.0.4.tar.gz为例演示。
+1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.0.0.11.build1.tar.gz为例演示。
 
 2. 检查docker环境
 
@@ -45,13 +45,13 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 3. 加载镜像
 	
 	```
-	docker load -i ts.knight-2.0.0.4.tar.gz
+	docker load -i ts.knight-3.0.0.11.build1.tar.gz
 	```
 
 4. 启动docker容器
 
 	```
-	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:2.0.0.4 /bin/bash
+	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.0.0.11.build1 /bin/bash
 	```
 	
 	localhost_dir为宿主机目录。
@@ -73,8 +73,8 @@ sh yolov6s/scripts/run.sh
 ### 1. 量化
 
 -   模型准备
-	
-	采用[yolov6-0.4.1](https://github.com/meituan/YOLOv6/tree/0.4.1)版本，将yolov6s.py放置于下载的工程内。由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line128](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L128) 增加如下一行代码：  
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/将yolov6s/src/将yolov6s.py```，同时下载[工程](https://github.com/meituan/YOLOv6/tree/0.4.1)，放到src下。
+	由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line128](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L128) 增加如下一行代码：  
 	`return cls_score_list, reg_lrtb_list`
 	执行onnx转换：
 	`python deploy/ONNX/export_onnx.py 

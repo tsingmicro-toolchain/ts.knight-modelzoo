@@ -1,1 +1,1 @@
-Knight --chip TX5368AV200 quant onnx -m mobilevit_s -w /ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilevit_s/weight/mobilevit_s-38a5a959.pth -f pytorch -uds /ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilevit_s/src/mobilevit_s.py -if infer_imagenet_benchmark -s ./tmp/mobilevit_s -d /ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilevit_s/data/imagenet/images/val -bs 1 -i 200
+Knight --chip TX5368AV200 build --run-config data/mobilevit_s_config.json

@@ -1,1 +1,1 @@
-Knight --chip TX5368AV200 quant onnx -m squeezenet1_0 -w /ts.knight-modelzoo/pytorch/builtin/cv/classification/squeezenet1_0/weight/squeezenet1_0-b66bff10.pth -f pytorch -uds /ts.knight-modelzoo/pytorch/builtin/cv/classification/squeezenet1_0/src/squeezenet1_0.py -if infer_imagenet_benchmark -s ./tmp/squeezenet1_0 -d /ts.knight-modelzoo/pytorch/builtin/cv/classification/squeezenet1_0/data/imagenet/images/val -bs 1 -i 200
+Knight --chip TX5368AV200 build --run-config data/squeezenet1_0_config.json

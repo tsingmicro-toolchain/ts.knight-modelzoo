@@ -1,9 +1,0 @@
-Knight --chip TX5368AV200 build --run-config data/deit_tiny_config.json
-Knight --chip TX5368AV200 quant --run-config data/deit_tiny_infer_config.json
-python src/make_image_input_onnx.py --input data/demo.jpg --outpath /TS-KnightDemo/Output/deit_tiny/npu
-
-Knight --chip TX5368AV200 run --run-config data/deit_tiny_config.json
-show_sim_result --sim-data /TS-KnightDemo/Output/deit_tiny/npu/result-1338_p.txt --save-dir /TS-KnightDemo/Output/deit_tiny/npu/
-
-python src/post_process.py --numpys /TS-KnightDemo/Output/deit_tiny/npu/result-1338_p.npy
-Knight --chip TX5368AV200 profiling --run-config data/deit_tiny_config.json

@@ -1,1 +1,1 @@
-Knight --chip TX5368AV200 quant onnx -m mixer_b16_224 -w /ts.knight-modelzoo/pytorch/builtin/cv/classification/mixer_b16_224/weight/jx_mixer_b16_224-76587d61.pth -f pytorch -uds /ts.knight-modelzoo/pytorch/builtin/cv/classification/mixer_b16_224/src/mixer_b16_224.py -if infer_imagenet_benchmark -s ./tmp/mixer_b16_224 -d /ts.knight-modelzoo/pytorch/builtin/cv/classification/mixer_b16_224/data/imagenet/images/val -bs 1 -i 200
+Knight --chip TX5368AV200 build --run-config data/mixer_b16_224_config.json

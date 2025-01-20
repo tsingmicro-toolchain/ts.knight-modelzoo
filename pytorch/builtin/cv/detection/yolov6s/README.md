@@ -70,7 +70,7 @@ sh yolov6s/scripts/run.sh
 
 ## 模型部署流程
 
-### 1. 量化
+### 1. 量化&编译
 
 -   模型准备
 	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/将yolov6s/src/将yolov6s.py```，同时下载[工程](https://github.com/meituan/YOLOv6/tree/0.4.1)，放到src下。
@@ -91,35 +91,47 @@ sh yolov6s/scripts/run.sh
 	
 	已提供量化依赖推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/yolov6s.py```
 
--   执行量化命令
+-   执行量化及编译命令
 
-	在容器内执行如下量化命令，-m指定为上述转换后的onnx模型，-uds指定具体的yolov6s.py路径,此时yolov6s.py在所下载的yolov6工程路径下。生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化命令，具体量化、编译参数可见yolov6s_config.json。
 
-    	Knight --chip TX5368AV200 quant onnx -m /path/to/your/exported_yolov6s.onnx 
-    		-uds /path/to/yolov6_project_path/yolov6s.py 
-    		-if yolov6s
-			-s ./tmp/yolov6s
-    		-d /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/data/coco128.yaml
-    		-bs 1 -i 128
+    	Knight --chip TX5368AV200 build --run-config data/yolov6s_config.json
 
-
-### 2. 编译
+-   量化后模型推理
+	
+		Knight --chip TX5368AV200 quant --run-config data/yolov6s_infer_config.json
 
 
-    Knight --chip TX5368AV200 rne-compile --onnx yolov6s_quantize.onnx --outpath .
-
-
-### 3. 仿真
+### 2. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/data/images/train2017 --outpath . 
-    #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov6s_quantize_r.weight --config  yolov6s_quantize_r.cfg --outpath .
+    python src/make_image_input_onnx.py --input test_data/bus.jpg --outpath /TS-KnightDemo/Output/yolov6s/npu
 
-### 4. 性能分析
+    #仿真
+    Knight --chip TX5368AV200 run --run-config data/yolov6s_config.json
+
+	#仿真输出txt文件转numpy
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-outputs_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-451_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-491_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-419_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-459_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-499_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+
+	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
+	python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpys \
+	/TS-KnightDemo/Output/yolov6s/npu/result-outputs_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-451_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-491_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-419_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-459_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-499_p.npy \
+	--scales  0.002610747 0.003320219 0.003782163 0.09804556 0.05281715 0.05505726 --save_dir /TS-KnightDemo/Output/yolov6s/npu/
+
+### 3. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --config  yolov6s_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 profiling --run-config data/yolov6s_config.json
 ```
 
 ### 5. 仿真库

@@ -70,7 +70,6 @@ sh yolov3/scripts/run.sh
 
 ### 1. 量化
 
-	
 
 -   量化数据准备
 
@@ -82,36 +81,25 @@ sh yolov3/scripts/run.sh
 
 -   执行量化命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov3_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化命令，具体量化、编译参数可见yolov3_config.json。
 
-    	Knight --chip TX5368AV200 quant onnx -m yolov3
-    		-w /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/weight/yolov3-tiny.pt 
-    		-f pytorch 
-    		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/src/infer_yolov3.py 
-    		-if infer_yolov3
-			-s ./tmp/yolov3
-    		-d /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/data/coco128.yaml
-    		-bs 1 -i 128
+    	Knight --chip TX5368AV200 quant --run-config data/yolov3_config.json
+
+-   量化后模型推理
+	
+		Knight --chip TX5368AV200 quant --run-config data/yolov3_infer_config.json
 
 
 ### 2. 编译
 
 
-    Knight --chip TX5368AV200 rne-compile --onnx yolov3_quantize.onnx --outpath .
+  由于模型中存在sigmoid 5d，暂不支持编译及后续流程
 
 
 ### 3. 仿真
 
-    #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/data/images/train2017 --outpath . 
-    #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolov3_quantize_r.weight --config  yolov3_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
-
-```
-Knight --chip TX5368AV200 rne-profiling --config  yolov3_quantize_r.cfg --outpath .
-```
 
 ### 5. 仿真库
 

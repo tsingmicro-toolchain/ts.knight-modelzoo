@@ -135,13 +135,13 @@ class Evaler:
                 from yolov6.utils.metrics import ConfusionMatrix
                 confusion_matrix = ConfusionMatrix(nc=model.nc)
 
-        for i, (imgs, targets, paths, shapes, _) in enumerate(pbar):
+        for i, (imgs, targets, paths, shapes) in enumerate(pbar):
             if i == iteration:break
             # pre-process
             t1 = time_sync()
             imgs = imgs.to(self.device, non_blocking=True)
-            imgs = imgs.half() if self.half else imgs.float()
-            imgs /= 255
+            #imgs = imgs.half() if self.half else imgs.float()
+            #imgs /= 255
             self.speed_result[1] += time_sync() - t1  # pre-process time
 
             # Inference
@@ -467,10 +467,12 @@ class Evaler:
 
     @staticmethod
     def reload_dataset(data, task='val'):
+        path = os.path.dirname(data)
         with open(data, errors='ignore') as yaml_file:
             data = yaml.safe_load(yaml_file)
         task = 'test' if task == 'test' else 'val'
-        path = data.get(task, 'val')
+        val = os.path.join(path, data.get(task, 'val'))
+        data['val'] = val
         if not os.path.exists(path):
             raise Exception('Dataset not found.')
         return data
@@ -591,8 +593,8 @@ class Evaler:
             self.speed_result[0] += self.batch_size
         return dataloader, pred_results
 
-@onnx_infer_func.register("yolov6s")
-def yolov6s(executor):
+@onnx_infer_func.register("yolov6s_quant")
+def yolov6s_quant(executor):
     data = executor.dataset
     device = torch.device('cpu')
     iteration = executor.iteration

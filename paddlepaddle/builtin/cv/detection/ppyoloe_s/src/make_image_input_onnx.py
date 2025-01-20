@@ -5,6 +5,10 @@ import os
 import glob
 import cv2
 DEBUG=0
+from tqdm import tqdm
+from ppdet.core.workspace import create, load_config
+from ppdet.data.source.category import get_categories
+
 parser = argparse.ArgumentParser(description='make input data scripts')
 parser.add_argument(
     '--input',
@@ -66,40 +70,36 @@ if __name__ == '__main__':
     input_name = sorted(input_name, key=os.path.getctime)
     Num=10
 
-    #match the specified picture for infer demo
-    img_idx=4
-    assert len(input_name) >= 10, f"expect 10 pictures, but got {len(input_name)}"
-    input_data = np.zeros((10, 3, 224, 224), dtype=np.float32)
-    if proc_mode == 'caffe2onnx':
-        mean = np.array([104.0, 117.0, 123.0]).reshape(1,3,1,1)
-        std = np.array([1.0, 1.0, 1.0]).reshape(1, 3, 1, 1)
-    else:
-        mean = np.array([0.485, 0.456, 0.406]).reshape(1, 3, 1, 1)
-        std = np.array([0.229, 0.224, 0.225]).reshape(1, 3, 1, 1)
-
-    for i in range(Num):
-        img = cv2.cvtColor(cv2.imread(input_name[i]), cv2.COLOR_BGR2RGB)
-        r = max(img.shape) / 256
-        # for other option
-        # interp = cv2.INTER_LINEAR if r < 1 else cv2.INTER_AREA
-        interp = cv2.INTER_LINEAR if r > 1 else cv2.INTER_AREA
-        if proc_mode == 'caffe2onnx':
-            img = cv2.resize(img, (256, 256), interpolation=interp)
-        else:
-            img = cv2.resize(img, (256, 256), interpolation=interp) / 255.
-        input_data[i] = img.transpose(2, 0, 1)[:, 15:239, 15: 239]
-
-    input_data = (input_data - mean) / std
-    if DEBUG:
-        write_infer_numpy_to_file(input_data[img_idx:img_idx+1], os.path.join(outpath,'model_input_all.txt'),True,3)
+    root = os.path.dirname(os.path.dirname(__file__))
+    font = os.path.join(root, 'src/yolov6/utils/Arial.ttf')
+    config = os.path.dirname(__file__)
+    cfg = load_config(config + '/configs/ppyoloe/ppyoloe_plus_crn_s_80e_coco.yml')
     if not os.path.exists(outpath):
         os.makedirs(outpath)
-    if proc_mode == 'tf2onnx':
-        if DEBUG:
-            print(f'SIM IMG:{input_name[img_idx]}')
-            write_infer_numpy_to_file(input_data[img_idx:img_idx+1], os.path.join(outpath,'model_input.txt'),True,4)
-        data_bin=input_data[img_idx:img_idx+1]
-        data_bin.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
-    else:
-        input_data.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
-    print("Success to save pictures to bin.")
+    print(outpath)
+    capital_mode = 'Test'
+    dataset = create(
+            '{}Dataset'.format(capital_mode))()
+    dataset.set_images([input], do_eval=False)
+    loader = create('TestReader')(dataset, 0)
+    
+    imid2path = dataset.get_imid2path()
+
+    anno_file = dataset.get_anno()
+    clsid2catid, catid2name = get_categories(
+        cfg.metric, anno_file=anno_file)
+
+    # Run Infer
+    #self.status['mode'] = 'test'
+    #self.model.eval()
+    if cfg.get('print_flops', False):
+        flops_loader = create('TestReader')(dataset, 0)
+        self._flops(flops_loader)
+    results = []
+    for step_id, data in enumerate(tqdm(loader)):
+        # forward
+        input_data = data['image'].numpy()*255
+        input_data.astype(np.uint8).flatten().tofile(os.path.join(outpath,"model_input.bin"))
+        outpath = os.path.join(outpath,"model_input.bin")
+        print(f"Success to save bin {outpath}")
+        break

@@ -1,1 +1,1 @@
-Knight --chip TX5368AV200 quant onnx -m /path/to/your/exported_yolov6s.onnx -uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/src/yolov6s.py -if yolov6s -s ./tmp/yolov6s -d /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov6s/data/coco128.yaml -bs 1 -i 128
+Knight --chip TX5368AV200 build --run-config data/yolov6s_config.json

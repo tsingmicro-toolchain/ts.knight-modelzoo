@@ -592,7 +592,7 @@ def ppyoloe_s(executor):
 
     # init
     data['val'] = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')), data['val'])
-    data['anno_path'] = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')), data['anno_path'])
+    #data['anno_path'] = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')), data['anno_path'])
     val = Evaler(data, batch_size, img_size, conf_thres, \
                  iou_thres, device, False, save_dir, \
                  test_load_size, letterbox_return_int, force_no_pad, not_infer_on_rect, scale_exact,
@@ -605,5 +605,89 @@ def ppyoloe_s(executor):
     eval_result = val.eval_model(pred_result, model, dataloader, task)
     print(eval_result)
     return None
+
+from ppdet.core.workspace import create, load_config
+from ppdet.data.source.category import get_categories
+
+@onnx_infer_func.register("ppyoloe_s_quant")
+def ppyoloe_s_quant(executor):
+    data = executor.dataset
+    device = torch.device('cpu')
+    iteration = executor.iteration
+    batch_size = 1
+    img_size = 640
+    conf_thres = 0.03
+    iou_thres = 0.65
+    test_load_size = 634
+    letterbox_return_int = True
+    force_no_pad = True
+    not_infer_on_rect = True
+    scale_exact = True
+    verbose = False
+    do_coco_metric = True
+    do_pr_metric = False
+    plot_curve = True
+    plot_confusion_matrix = False
+    images = executor.dataset
+    imgsz = img_size = 640
+    save_dir = output_dir = executor.save_dir
+    draw_threshold=0.5
+    save_results=False
+    visualize=True
+    save_threshold=0
+    do_eval=False
+
+    stride = 32
+    half = False
+    max_det = 300
+    save_img=True
+    classes=None
+    agnostic_nms=True
+    save_txt=False
+    hide_labels=False
+    hide_conf=False
+    view_img=False
+    root = os.path.dirname(os.path.dirname(__file__))
+    font = os.path.join(root, 'src/yolov6/utils/Arial.ttf')
+    config = os.path.dirname(__file__)
+    cfg = load_config(config + '/configs/ppyoloe/ppyoloe_plus_crn_s_80e_coco.yml')
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    if do_eval:
+        save_threshold = 0.0
+    capital_mode = 'Test'
+    dataset = create(
+            '{}Dataset'.format(capital_mode))()
+    dataset.set_images([images], do_eval=do_eval)
+    loader = create('TestReader')(dataset, 0)
+    
+    imid2path = dataset.get_imid2path()
+
+    if save_results:
+        metrics = setup_metrics_for_loader()
+    else:
+        metrics = []
+
+    anno_file = dataset.get_anno()
+    clsid2catid, catid2name = get_categories(
+        cfg.metric, anno_file=anno_file)
+
+    # Run Infer
+    #self.status['mode'] = 'test'
+    #self.model.eval()
+    if cfg.get('print_flops', False):
+        flops_loader = create('TestReader')(dataset, 0)
+        self._flops(flops_loader)
+    results = []
+    for step_id, data in enumerate(tqdm(loader)):
+        # forward
+        outs = {}
+        input_data = data['image'].numpy()*255
+        input_data = input_data.astype(np.uint8)
+        executor.forward(input_data)
+        if step_id >= executor.iteration:
+            break
+    return
 
 

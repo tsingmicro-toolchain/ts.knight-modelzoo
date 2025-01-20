@@ -78,7 +78,7 @@ sh yolonas_s/scripts/run.sh
 ### 2. 编译
 
 
-    Knight --chip TX5368AV200 rne-compile --onnx yolonas_s_quantize.onnx --outpath .
+    Knight --chip TX5368AV200 compile --onnx yolonas_s_quantize.onnx --outpath .
 
 
 ### 3. 仿真
@@ -86,12 +86,12 @@ sh yolonas_s/scripts/run.sh
     #准备bin数据
     python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/data/images/train2017 --outpath . 
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 sim --input model_input.bin --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
 
 ### 4. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --config  yolonas_s_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 profiling --config  yolonas_s_quantize_r.cfg --outpath .
 ```
 
 ### 5. 仿真库

@@ -69,7 +69,7 @@ sh ppyoloe_s/scripts/run.sh
 
 ## 模型部署流程
 
-### 1. 量化
+### 1. 量化&编译
 
 -   模型准备
 	
@@ -79,58 +79,50 @@ sh ppyoloe_s/scripts/run.sh
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集,将数据放在`${localhost_dir}/ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/data/`， 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集,将数据放在`${localhost_dir}/ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/dataset/`， 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
 
 -   模型转换函数、推理函数准备
 	
 	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s.py```
 
--   执行量化命令
+-   执行量化及编译命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
-		
-		#paddle转onnx
-    	Knight --chip TX5368AV200 quant onnx -m /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_s.pdmodel
-    		-w /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/weight/ppyoloe_s.pdiparams
-    		-f paddle 
-    		-r convert
-			-s ./tmp/ppyoloe_s
-    	
-		# 后处理部分裁剪掉
-		cd /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src
-		python cut_graph.py --model ./tmp/ppyoloe_s/ppyoloe_s.onnx -on transpose_3.tmp_0 p2o.Concat.31 -sn ppyoloe_s -s ./tmp/ppyoloe_s
-		
-		#对裁剪后onnx模型进行量化
-		Knight --chip TX5368AV200 quant onnx -m tmp/ppyoloe_s/ppyoloe_s.onnx 
-    		-uds /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s.py 
-    		-if ppyoloe_s
-			-s ./tmp/ppyoloe_s
-    		-d /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/data/coco128.yaml
-    		-bs 1 -i 128
+	在容器内执行如下量化命令，具体量化、编译参数可见yolox_s_config.json。
+
+    	Knight --chip TX5368AV200 build --run-config dataset/ppyoloe_s_config.json
+
+-   量化后模型推理
+	
+		Knight --chip TX5368AV200 quant --run-config dataset/ppyoloe_s_infer_config.json
 
 
-### 2. 编译
-
-
-    Knight --chip TX5368AV200 rne-compile --onnx ppyoloe_s_quantize.onnx --outpath .
-
-
-### 3. 仿真
+### 2. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/data/images/train2017 --outpath .
+    python src/make_image_input_onnx.py --input test_data/bus.jpg --outpath /TS-KnightDemo/Output/ppyoloe_s/npu
+
     #仿真
-    Knight --chip TX5368AV200 rne-sim --input model_input.bin --weight ppyoloe_s_quantize_r.weight --config  ppyoloe_s_quantize_r.cfg --outpath .
+    Knight --chip TX5368AV200 run --run-config dataset/ppyoloe_s_config.json
 
-### 4. 性能分析
+	#仿真输出txt文件转numpy
+	show_sim_result --sim-data /TS-KnightDemo/Output/ppyoloe_s/npu/result-transpose_3.tmp_0_p.txt --save-dir /TS-KnightDemo/Output/ppyoloe_s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/ppyoloe_s/npu/result-concat_15.tmp_0_p.txt --save-dir /TS-KnightDemo/Output/ppyoloe_s/npu/
+
+	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
+	python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpys \
+	/TS-KnightDemo/Output/ppyoloe_s/npu/result-transpose_3.tmp_0_p.npy \
+	/TS-KnightDemo/Output/ppyoloe_s/npu/result-concat_15.tmp_0_p.npy \
+	--scales 0.00383477 0.05996619  --save_dir /TS-KnightDemo/Output/ppyoloe_s/npu/
+
+### 3. 性能分析
 
 ```
-Knight --chip TX5368AV200 rne-profiling --config  ppyoloe_s_quantize_r.cfg --outpath .
+Knight --chip TX5368AV200 profiling --config dataset/ppyoloe_s_config.json
 ```
 
-### 5. 仿真库
+### 4. 仿真库
 
-### 6. 板端部署
+### 5. 板端部署
 
 
 

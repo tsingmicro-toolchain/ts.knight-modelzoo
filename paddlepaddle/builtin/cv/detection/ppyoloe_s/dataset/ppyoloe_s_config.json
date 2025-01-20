@@ -1,0 +1,34 @@
+{
+    "quant": {
+        "model": "weight/ppyoloe_s.pdmodel",
+        "weight": "weight/ppyoloe_s.pdiparams",
+        "framework": "paddle",
+        "infer-func": "ppyoloe_s_quant",
+        "bit-width": 8,
+        "quant-mode": "min_max",
+        "batch-size": 1,
+        "iteration": 10,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/ppyoloe_s/quant",
+        "user-defined-script": "src/ppyoloe_s.py",
+        "data": "dataset/images/train2017",
+        "output-name": "transpose_3.tmp_0 concat_15.tmp_0",
+        "quantize-input-dtype": "uint8",
+        "mean": "0 0 0 ",
+        "std": "255 255 255"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/ppyoloe_s/quant/ppyoloe_s_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/ppyoloe_s/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/ppyoloe_s/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/ppyoloe_s/npu/ppyoloe_s_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/ppyoloe_s/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/ppyoloe_s/npu/ppyoloe_s_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/ppyoloe_s/npu"
+    }
+}

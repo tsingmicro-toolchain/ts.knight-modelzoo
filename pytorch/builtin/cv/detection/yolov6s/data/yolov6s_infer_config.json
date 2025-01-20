@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/yolov6s/quant/yolov6s_quantize.onnx",
+        "infer-func": "yolov6s_infer",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/yolov6s/quant",
+        "user-defined-script": "src/yolov6s_infer.py",
+        "data": "test_data"
+    }
+}

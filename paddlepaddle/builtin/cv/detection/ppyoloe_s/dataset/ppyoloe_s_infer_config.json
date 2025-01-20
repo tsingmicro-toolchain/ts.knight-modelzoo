@@ -1,0 +1,12 @@
+{
+    "quant": {
+        "model": "/TS-KnightDemo/Output/ppyoloe_s/quant/ppyoloe_s_quantize.onnx",
+        "infer-func": "ppyoloe_s_infer",
+        "batch-size": 1,
+        "iteration": 1,
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/Output/ppyoloe_s/quant",
+        "user-defined-script": "/ts.knight-modelzoo/paddlepaddle/builtin/cv/detection/ppyoloe_s/src/ppyoloe_s_infer.py",
+        "data": "test_data/bus.jpg"
+    }
+}

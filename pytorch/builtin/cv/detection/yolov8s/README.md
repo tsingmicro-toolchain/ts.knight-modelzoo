@@ -121,7 +121,6 @@ Knight --chip TX5368AV200 profiling --run-config data/yolov8s_config.json
 
 ### 5. 板端部署
 
-板端部署时,为了提升推理性能，需要删除--output-dequant进行量化，并且在后处理中增加反量化步骤，以保证流程的正确性。
 
 ## 支持芯片情况
 

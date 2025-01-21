@@ -134,9 +134,9 @@ sh yolov6s/scripts/run.sh
 Knight --chip TX5368AV200 profiling --run-config data/yolov6s_config.json
 ```
 
-### 5. 仿真库
+### 4. 仿真库
 
-### 6. 板端部署
+### 5. 板端部署
 
 
 

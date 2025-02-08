@@ -109,7 +109,7 @@ sh yolov8s/scripts/run.sh
 	show_sim_result --sim-data /TS-KnightDemo/Output/yolov8s/npu/result-739_p.txt --save-dir /TS-KnightDemo/Output/yolov8s/npu/
 
 	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
-    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpys /TS-KnightDemo/Output/yolov8s/npu/result-699_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-719_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-739_p.npy --scales  0.2689846 0.4109275  0.4786172 --save_dir output
+    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpys /TS-KnightDemo/Output/yolov8s/npu/result-699_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-719_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-739_p.npy --scales  0.2132314 0.3207429 0.4423098 --save_dir output
 
 ### 3. 性能分析
 

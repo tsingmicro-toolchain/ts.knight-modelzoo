@@ -49,6 +49,7 @@ colors = Colors()  # create instance for 'from utils.plots import colors'
 
 
 def check_font(font='Arial.ttf', size=10):
+    return
     # Return a PIL TrueType Font, downloading to CONFIG_DIR if necessary
     font = Path(font)
     font = font if font.exists() else (CONFIG_DIR / font.name)

@@ -306,9 +306,9 @@ def yolov8s_infer(executor):
             im = im[None]  # expand for batch dim  
         im.flatten().tofile(os.path.join(executor.save_dir, "model_input.bin"))
         cls0, cls1, cls2 = run(im) #, npys[count].astype(np.float32))   # [1 165 80 80] [1 165 40 40] [1 165 20 20]  
-        write_numpy_to_file(cls0, os.path.join(executor.save_dir, "cls0.txt"))
-        write_numpy_to_file(cls1, os.path.join(executor.save_dir, "cls1.txt"))
-        write_numpy_to_file(cls2, os.path.join(executor.save_dir, "cls2.txt"))
+        write_numpy_to_file(cls0, os.path.join(executor.save_dir, "699.txt"))
+        write_numpy_to_file(cls1, os.path.join(executor.save_dir, "719.txt"))
+        write_numpy_to_file(cls2, os.path.join(executor.save_dir, "739.txt"))
         # continue
         # names = _names[count]
 
@@ -317,7 +317,6 @@ def yolov8s_infer(executor):
         cls0 = torch.from_numpy(cls0)
         cls1 = torch.from_numpy(cls1)
         cls2 = torch.from_numpy(cls2)  
-        
         cls0[:,64:,...] = cls0[:,64:,...].sigmoid() # 前64是框的信息 
         cls1[:,64:,...] = cls1[:,64:,...].sigmoid()
         cls2[:,64:,...] = cls2[:,64:,...].sigmoid() 
@@ -370,8 +369,7 @@ def yolov8s_infer(executor):
                         c = int(cls)  # integer class 
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
-                        #print("x1,y1,x2,y2")
-                        #print(xyxy)
+                        print("x1,y1,x2,y2", xyxy)
 
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)

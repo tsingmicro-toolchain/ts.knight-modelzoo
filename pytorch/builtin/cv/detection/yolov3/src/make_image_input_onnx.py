@@ -89,7 +89,7 @@ if __name__ == '__main__':
             img = cv2.resize(img, (256, 256), interpolation=interp) / 255.
         input_data[i] = img.transpose(2, 0, 1)[:, 15:239, 15: 239]
 
-    input_data = (input_data - mean) / std
+    #input_data = (input_data - mean) / std
     if DEBUG:
         write_infer_numpy_to_file(input_data[img_idx:img_idx+1], os.path.join(outpath,'model_input_all.txt'),True,3)
     if not os.path.exists(outpath):
@@ -101,5 +101,5 @@ if __name__ == '__main__':
         data_bin=input_data[img_idx:img_idx+1]
         data_bin.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
     else:
-        input_data.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
+        input_data.flatten().tofile(os.path.join(outpath,"model_input.bin"))
     print("Success to save pictures to bin.")

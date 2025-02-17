@@ -22,7 +22,7 @@ Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V1.4.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
 	
 	```
 	docker -v   
@@ -42,17 +42,6 @@ Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 	
 	localhost_dir为宿主机目录。
 
-## 快速体验
-
-在docker 容器内运行以下命令:
-
-```
-cd /ts.knight-modelzoo/pytorch/builtin/cv/detection/
-```
-
-```
-sh yolonas_s/scripts/run.sh
-```
 
 ## 模型部署流程
 

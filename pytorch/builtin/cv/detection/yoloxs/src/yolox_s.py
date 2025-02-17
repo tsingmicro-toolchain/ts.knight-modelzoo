@@ -277,7 +277,7 @@ def infer_yolox_small(executor):
 
     for cur_iter, (imgs, _, info_imgs, ids) in enumerate(progress_bar(evaluator.dataloader)):
         imgs *= 255
-        imgs = imgs.numpy()
+        imgs = imgs.numpy().astype(np.uint8)
         outputs = executor.forward(imgs)
         for i in range(len(outputs)):
             outputs[i] = torch.from_numpy(outputs[i])
@@ -300,7 +300,7 @@ def infer_yolox_small(executor):
 
     eval_results = evaluate_prediction(evaluator, data_list)
     print(eval_results)
-    return
+    return 1
 
 from yolox.data.data_augment import preproc as preprocess
 from yolox.data.datasets import COCO_CLASSES
@@ -346,9 +346,10 @@ def infer_yolox_small_plot(executor):
     write_numpy_to_file(output[0], os.path.join(executor.save_dir, "817.txt"))
     write_numpy_to_file(output[1], os.path.join(executor.save_dir, "843.txt"))
     write_numpy_to_file(output[2], os.path.join(executor.save_dir, "869.txt"))
-    output[0] = torch.from_numpy(output[0])
-    output[1] = torch.from_numpy(output[1])
-    output[2] = torch.from_numpy(output[2])
+    print(f'\nsave result to {executor.save_dir}')
+    output[0] = torch.from_numpy(output[0])*0.02798874
+    output[1] = torch.from_numpy(output[1])*0.02818405
+    output[2] = torch.from_numpy(output[2])*0.02513285
     output = torch.cat([x.flatten(start_dim=2) for x in output], dim=2).permute(0, 2, 1)
     
     predictions = demo_postprocess(output.numpy(), input_shape)[0]
@@ -364,10 +365,21 @@ def infer_yolox_small_plot(executor):
     boxes_xyxy[:, 3] = boxes[:, 1] + boxes[:, 3]/2.
     boxes_xyxy /= ratio
     dets = multiclass_nms(boxes_xyxy, scores, nms_thr=0.45, score_thr=0.15)
+    conf = 0.9
     if dets is not None:
         final_boxes, final_scores, final_cls_inds = dets[:, :4], dets[:, 4], dets[:, 5]
+        for i in range(len(final_boxes)):
+            box = final_boxes[i]
+            score = final_scores[i]
+            if score < conf:
+                continue
+            x0 = int(box[0])
+            y0 = int(box[1])
+            x1 = int(box[2])
+            y1 = int(box[3])
+            print("x0,y0,x1,y1 ", x0,y0,x1,y1)
         origin_img = vis(origin_img, final_boxes, final_scores, final_cls_inds,
-                         conf=0.9, class_names=COCO_CLASSES)
+                         conf=conf, class_names=COCO_CLASSES)
 
     output_path = os.path.abspath(os.path.join(executor.save_dir, os.path.basename(image_path)))
     print(f'save picture to {output_path}')

@@ -36,7 +36,7 @@ RestNet是2015年由微软团队提出的，在当时获得分类任务，目标
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V1.4.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
 	
 	```
 	docker -v   
@@ -56,18 +56,6 @@ RestNet是2015年由微软团队提出的，在当时获得分类任务，目标
 	
 	localhost_dir为宿主机目录。
 
-## 快速体验
-将下载好的数据放在`/ts.knight-modelzoo/pytorch/builtin/cv/classification/resnet50/data/imagenet/images/val`，并执行[valprep.sh](https://pan.baidu.com/s/12j74t9xiHWHiVD-pDILBng?pwd=li7r)脚本对图片进行分类。
-
-在docker 容器内运行以下命令:
-
-```
-cd /ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/
-```
-
-```
-sh resnet50/scripts/run.sh
-```
 
 ## 模型移植流程
 
@@ -80,7 +68,7 @@ sh resnet50/scripts/run.sh
 
 -   量化数据准备
 
-    将下载好的数据放在`${localhost_dir}/ts.knight-modelzoo/pytorch/builtin/cv/classification/resnet50/data/imagenet/images/val`，并执行[valprep.sh](https://pan.baidu.com/s/1rAOzMAZhlN6sCvJMoBQROg?pwd=u2np)脚本对图片进行分类。在数据集中选200张图片作为量化校准数据集, 通过命令行参数```-i 200```指定图片数量，```-d```指定数据集路径。
+    将下载好的数据放在`${localhost_dir}/ts.knight-modelzoo/pytorch/builtin/cv/classification/resnet50/data/imagenet/images/val`，并执行[valprep.sh](https://pan.baidu.com/s/1rAOzMAZhlN6sCvJMoBQROg?pwd=u2np)脚本对图片进行分类。
 
 -   模型转换函数、推理函数准备
 	

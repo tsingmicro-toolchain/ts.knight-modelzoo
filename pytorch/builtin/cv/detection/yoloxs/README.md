@@ -33,7 +33,7 @@ Github工程地址：https://github.com/Megvii-BaseDetection/YOLOX
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V1.4.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
 	
 	```
 	docker -v   
@@ -53,17 +53,6 @@ Github工程地址：https://github.com/Megvii-BaseDetection/YOLOX
 	
 	localhost_dir为宿主机目录。
 
-## 快速体验
-
-在docker 容器内运行以下命令:
-
-```
-cd /ts.knight-modelzoo/pytorch/builtin/cv/detection/
-```
-
-```
-sh yoloxs/scripts/run.sh
-```
 
 ## 模型部署流程
 
@@ -88,10 +77,11 @@ sh yoloxs/scripts/run.sh
 
 	![alt text](image.png)
 	
-    如上图修改yolox/models/yolo_head.py，并将改工程放在src目录下。
+    如上图修改`yolox/models/yolo_head.py`，并将改工程放在src目录下。
+    ![alt text](image2.png) 
 
-    执行`python3 tools/export_onnx.py --output-name yolox_s.onnx -n yolox-s -c yolox_s.pth` 进行onnx模型转换。
-    
+	如上图修改`yolox/utils/demo_utils.py`
+
     已提供量化依赖的模型推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/yolox_s.py```。
 
 -   执行量化及编译命令
@@ -101,7 +91,10 @@ sh yoloxs/scripts/run.sh
     	Knight --chip TX5368AV200 build --run-config data/yolox_s_config.json
 
 -   量化后模型推理
-	
+
+	   推理时需要根据量化模型中实际的反量化系数 top\_scale，修改yolox_s.py中的代码:
+		![alt text](image1.png)
+
 		Knight --chip TX5368AV200 quant --run-config data/yolox_s_infer_config.json
 
 
@@ -120,7 +113,7 @@ sh yoloxs/scripts/run.sh
 	show_sim_result --sim-data /TS-KnightDemo/Output/yolox_s/npu/result-869_p.txt --save-dir /TS-KnightDemo/Output/yolox_s/npu/
 
 	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
-    python src/post_process.py --image test_data/bus.jpg --numpys  /TS-KnightDemo/Output/yolox_s/npu/result-817_p.npy /TS-KnightDemo/Output/yolox_s/npu/result-843_p.npy /TS-KnightDemo/Output/yolox_s/npu/result-869_p.npy  --scales 0.02812371 0.02926355 0.02422856 --save_dir output
+    python src/post_process.py --image test_data/bus.jpg --numpys  /TS-KnightDemo/Output/yolox_s/npu/result-817_p.npy /TS-KnightDemo/Output/yolox_s/npu/result-843_p.npy /TS-KnightDemo/Output/yolox_s/npu/result-869_p.npy  --scales 0.02798874 0.02818405 0.02513285 --save_dir /TS-KnightDemo/Output/yolox_s/npu/
 
 ### 3. 性能分析
 

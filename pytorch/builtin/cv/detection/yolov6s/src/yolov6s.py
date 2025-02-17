@@ -135,7 +135,7 @@ class Evaler:
                 from yolov6.utils.metrics import ConfusionMatrix
                 confusion_matrix = ConfusionMatrix(nc=model.nc)
 
-        for i, (imgs, targets, paths, shapes) in enumerate(pbar):
+        for i, (imgs, targets, paths, shapes, _) in enumerate(pbar):
             if i == iteration:break
             # pre-process
             t1 = time_sync()

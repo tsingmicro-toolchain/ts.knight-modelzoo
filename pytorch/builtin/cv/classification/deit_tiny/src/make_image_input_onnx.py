@@ -68,7 +68,7 @@ if __name__ == '__main__':
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        normalize,
+        #normalize,
     ])
     img_rgb = Image.open(input).convert('RGB')
     img_tensor = image_preprocess(img_rgb)

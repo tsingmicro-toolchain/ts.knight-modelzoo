@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import pickle
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
+labels = ['_slilence_', '_unknown_', 'yes', 'no', 'up', 'down', 'left', 'right', 'on', 'off', 'stop', 'go']
 class RnnCommon(nn.Module):
     def __init__ (self, model_type, input_dim, hidden_dim,n_layer, ed_class):
         super(RnnCommon,self).__init__()

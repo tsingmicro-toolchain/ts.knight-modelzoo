@@ -344,7 +344,7 @@ def yolov7_tiny_quant(executor):
 
             # Append statistics (correct, conf, pcls, tcls)
             stats.append((correct.cpu(), pred[:, 4].cpu(), pred[:, 5].cpu(), tcls))
-        if batch_i > iteration:
+        if batch_i >= iteration:
             break
 
     # Compute statistics

@@ -79,7 +79,7 @@ def detect(save_img=True):
     capital_mode = 'Test'
     dataset = create(
             '{}Dataset'.format(capital_mode))()
-    dataset.set_images([images], do_eval=do_eval)
+    dataset.set_images([images])
     loader = create('TestReader')(dataset, 0)
     
     imid2path = dataset.get_imid2path()

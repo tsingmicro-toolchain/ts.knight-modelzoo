@@ -413,7 +413,7 @@ def yolov5s_infer(executor):
  
         # Inference
         pred = executor.forward(img.numpy())
-        pred = [torch.from_numpy(pred[0]), torch.from_numpy(pred[1]), torch.from_numpy(pred[2])]
+        pred = [torch.from_numpy(pred[0]*0.1755103), torch.from_numpy(pred[1]*0.1281193), torch.from_numpy(pred[2]*0.1337741)]
         pred = detect_process.post_process(pred)
         # Apply NMS
         pred = non_max_suppression(pred, 0.25, 0.45)

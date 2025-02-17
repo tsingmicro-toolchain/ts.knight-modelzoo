@@ -12,7 +12,9 @@
         "save-dir": "/TS-KnightDemo/Output/yolov7_tiny/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/src/yolov7_tiny.py",
         "data": "data/coco128.yaml",
-        "quantize-input-dtype": "uint8"
+        "quantize-input-dtype": "uint8",
+        "mean": "0 0 0",
+        "std": "255 255 255"
     },
     "compile": {
         "onnx": "/TS-KnightDemo/Output/yolov7_tiny/quant/yolov7_tiny_quantize.onnx",

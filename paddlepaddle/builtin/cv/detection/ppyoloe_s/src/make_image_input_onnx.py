@@ -80,7 +80,7 @@ if __name__ == '__main__':
     capital_mode = 'Test'
     dataset = create(
             '{}Dataset'.format(capital_mode))()
-    dataset.set_images([input], do_eval=False)
+    dataset.set_images([input])
     loader = create('TestReader')(dataset, 0)
     
     imid2path = dataset.get_imid2path()

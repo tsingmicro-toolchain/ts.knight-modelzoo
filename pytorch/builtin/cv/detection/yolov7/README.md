@@ -35,7 +35,7 @@
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V1.4.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
 	
 	```
 	docker -v   
@@ -55,17 +55,6 @@
 	
 	localhost_dir为宿主机目录。
 
-## 快速体验
-
-在docker 容器内运行以下命令:
-
-```
-cd /ts.knight-modelzoo/pytorch/builtin/cv/detection/
-```
-
-```
-sh yolov7/scripts/run.sh
-```
 
 ## 模型部署流程
 
@@ -78,7 +67,7 @@ sh yolov7/scripts/run.sh
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量，```-d```指定coco128.yaml所在的路径。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集。
 
 -   模型转换函数、推理函数准备
 	
@@ -109,7 +98,7 @@ sh yolov7/scripts/run.sh
 	show_sim_result --sim-data /TS-KnightDemo/Output/yolov7/npu/result-543_p.txt --save-dir /TS-KnightDemo/Output/yolov7/npu/
 
 	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
-    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpy /TS-KnightDemo/Output/yolov7/npu/result-509_p.npy  /TS-KnightDemo/Output/yolov7/npu/result-526_p.npy /TS-KnightDemo/Output/yolov7/npu/result-543_p.npy --scales 0.2363354 0.2245685 0.2203367 --save_dir output
+    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpy /TS-KnightDemo/Output/yolov7/npu/result-509_p.npy  /TS-KnightDemo/Output/yolov7/npu/result-526_p.npy /TS-KnightDemo/Output/yolov7/npu/result-543_p.npy --scales 0.2304962 0.2097584 0.1714141 --save_dir output
 ### 3. 性能分析
 
 ```

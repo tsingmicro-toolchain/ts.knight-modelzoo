@@ -140,7 +140,7 @@ def detect(save_img=False):
             img = img.unsqueeze(0)
         pred = []
         for numpy, scale in zip(numpys, scales):
-            pred.append(torch.from_numpy(np.load(numpy)*scale))
+            pred.append(torch.from_numpy(np.array([np.load(numpy)])*scale))
         pred = detect_process.post_process(pred)
         #pred = torch.from_numpy(pred[0])
         # Apply NMS

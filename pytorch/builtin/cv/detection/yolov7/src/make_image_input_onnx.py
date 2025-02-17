@@ -147,5 +147,5 @@ if __name__ == '__main__':
     else:
         input_data = np.array(input_data[0])
         print(input_data.shape)
-        input_data.astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
+        input_data.flatten().tofile(os.path.join(outpath,"model_input.bin"))
     print("Success to save pictures to bin.")

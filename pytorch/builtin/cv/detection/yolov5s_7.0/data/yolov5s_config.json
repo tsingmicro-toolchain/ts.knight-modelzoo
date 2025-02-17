@@ -12,7 +12,8 @@
         "save-dir": "/TS-KnightDemo/Output/yolov5s_7.0/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py",
         "data": "data/coco128.yaml",
-        "mean": "255 255 255",
+        "mean": "0 0 0",
+        "std": "255 255 255",
         "quantize-input-dtype": "uint8"
     },
     "compile": {

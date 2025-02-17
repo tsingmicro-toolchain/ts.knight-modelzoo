@@ -36,7 +36,7 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V1.4.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
 	
 	```
 	docker -v   
@@ -56,17 +56,7 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 	
 	localhost_dir为宿主机目录。
 
-## 快速体验
 
-在docker 容器内运行以下命令:
-
-```
-cd /ts.knight-modelzoo/pytorch/builtin/cv/detection/
-```
-
-```
-sh yolov6s/scripts/run.sh
-```
 
 ## 模型部署流程
 
@@ -85,7 +75,7 @@ sh yolov6s/scripts/run.sh
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。如有找不到包问题，设置环境变量即可。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集。如有找不到包问题，设置环境变量即可。
 
 -   推理函数准备
 	
@@ -112,20 +102,20 @@ sh yolov6s/scripts/run.sh
 
 	#仿真输出txt文件转numpy
 	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-outputs_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
-	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-451_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
-	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-491_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
-	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-419_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
-	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-459_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
-	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-499_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-323_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-353_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-301_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-331_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolov6s/npu/result-361_p.txt --save-dir /TS-KnightDemo/Output/yolov6s/npu/
 
 	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
 	python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpys \
 	/TS-KnightDemo/Output/yolov6s/npu/result-outputs_p.npy \
-	/TS-KnightDemo/Output/yolov6s/npu/result-451_p.npy \
-	/TS-KnightDemo/Output/yolov6s/npu/result-491_p.npy \
-	/TS-KnightDemo/Output/yolov6s/npu/result-419_p.npy \
-	/TS-KnightDemo/Output/yolov6s/npu/result-459_p.npy \
-	/TS-KnightDemo/Output/yolov6s/npu/result-499_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-323_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-353_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-301_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-331_p.npy \
+	/TS-KnightDemo/Output/yolov6s/npu/result-361_p.npy \
 	--scales  0.002610747 0.003320219 0.003782163 0.09804556 0.05281715 0.05505726 --save_dir /TS-KnightDemo/Output/yolov6s/npu/
 
 ### 3. 性能分析

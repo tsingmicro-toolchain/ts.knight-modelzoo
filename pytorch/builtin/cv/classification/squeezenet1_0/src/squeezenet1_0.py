@@ -76,7 +76,7 @@ def imagenet_benchmark(executor, crop_size=224):
             transforms.Resize(256),
             transforms.CenterCrop(crop_size),
             transforms.ToTensor(),
-            normalize,
+            #normalize,
         ]))
     val_loader = torch.utils.data.DataLoader(
         val_dataset,
@@ -92,7 +92,8 @@ def imagenet_benchmark(executor, crop_size=224):
     end = time.time()
 
     for i, (input, label) in enumerate(val_loader):
-        input_numpy = input.numpy()
+        input_numpy = input.numpy()*255
+        input_numpy = input_numpy.astype(np.uint8)
         output = executor.forward(input_numpy)
         output = torch.from_numpy(output[0]).data
 
@@ -258,7 +259,7 @@ def image(executor):
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        normalize,
+        #normalize,
     ])
     img_rgb = Image.open(image).convert('RGB')
     img_tensor = image_preprocess(img_rgb)

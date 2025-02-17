@@ -33,7 +33,7 @@ Github工程地址：https://github.com/ultralytics/ultralytics
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V1.4.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
 	
 	```
 	docker -v   
@@ -53,17 +53,6 @@ Github工程地址：https://github.com/ultralytics/ultralytics
 	
 	localhost_dir为宿主机目录。
 
-## 快速体验
-
-在docker 容器内运行以下命令:
-
-```
-cd /ts.knight-modelzoo/pytorch/builtin/cv/detection/
-```
-
-```
-sh yolov8s/scripts/run.sh
-```
 
 ## 模型部署流程
 
@@ -72,13 +61,13 @@ sh yolov8s/scripts/run.sh
 -   模型准备 
 	以版本[ultralytics-8.3.23](https://github.com/ultralytics/ultralytics/tree/v8.3.23)为例，
 
-	 ![head.py](https://i-blog.csdnimg.cn/direct/fb18f4b695854ea7be7adf7ac76abd06.png)
+	 ![alt text](image.png)
 
 	在ultralytics/nn/modules/head.py里_inference函数修改如上图所示，并将该工程放在src目录下。
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集。
 
 -   模型转换函数、推理函数准备
 	
@@ -91,6 +80,10 @@ sh yolov8s/scripts/run.sh
     	Knight --chip TX5368AV200 build --run-config data/yolov8s_config.json
 
 -   量化后模型推理
+	
+    首先需要修改yolov8s_infer.py反量化系数：
+
+	![alt text](image1.png)
 	
 		Knight --chip TX5368AV200 quant --run-config data/yolov8s_infer_config.json
 
@@ -109,7 +102,7 @@ sh yolov8s/scripts/run.sh
 	show_sim_result --sim-data /TS-KnightDemo/Output/yolov8s/npu/result-739_p.txt --save-dir /TS-KnightDemo/Output/yolov8s/npu/
 
 	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
-    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpys /TS-KnightDemo/Output/yolov8s/npu/result-699_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-719_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-739_p.npy --scales  0.2132314 0.3207429 0.4423098 --save_dir output
+    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpys /TS-KnightDemo/Output/yolov8s/npu/result-699_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-719_p.npy /TS-KnightDemo/Output/yolov8s/npu/result-739_p.npy --scales  0.2132314 0.3207429 0.4423098 --save_dir /TS-KnightDemo/Output/yolov8s/npu/
 
 ### 3. 性能分析
 

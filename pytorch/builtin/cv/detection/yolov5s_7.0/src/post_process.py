@@ -162,7 +162,6 @@ def detect(save_img=False):
          'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear',
          'hair drier', 'toothbrush' ]
     random.seed(1)
-    colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
     for path, im, im0s, vid_cap, s in dataset:
         im = torch.from_numpy(im)

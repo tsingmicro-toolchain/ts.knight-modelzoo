@@ -351,8 +351,8 @@ def infer_yolov3(executor):
         nb, _, height, width = im0.shape  # batch size, channels, height, width
         img, ratio, (dw,dh) = letterbox_my(img.squeeze(0).permute(1,2,0).numpy(), (416,416), auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
-        img = img.float()  # uint8 to fp16/32
-        img /= 255.0  # 0 - 255 to 0.0 - 1.0
+        #img = img.float()  # uint8 to fp16/32
+        #img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
         # Inference

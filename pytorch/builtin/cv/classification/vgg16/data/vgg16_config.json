@@ -10,7 +10,7 @@
         "iteration": 200,
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/vgg16/quant",
-        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/vgg16/src/deit_tiny.py",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/vgg16/src/vgg16.py",
         "data": "data/imagenet/images/val",
         "mean": "123.675 114.75 103.53",
         "std": "58.395 57.12 57.375",

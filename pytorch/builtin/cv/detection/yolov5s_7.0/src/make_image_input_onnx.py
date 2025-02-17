@@ -120,7 +120,7 @@ if __name__ == '__main__':
     #path = os.path.join(os.path.abspath(os.path.join(executor.dataset, '..')),path)
     dataset = LoadImages(input, img_size=640, stride=32)
 
-    for path, img, im0s, vid_cap in dataset:
+    for path, img, im0s, vid_cap, _ in dataset:
         print(img.shape)
         img = torch.from_numpy(img)
         img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
@@ -129,5 +129,5 @@ if __name__ == '__main__':
         #img /= 255.0  # 0 - 255 to 0.0 - 1.0
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
-        img.numpy().astype(np.float32).flatten().tofile(os.path.join(outpath,"model_input.bin"))
+        img.numpy().flatten().tofile(os.path.join(outpath,"model_input.bin"))
         print(f"Success to save bin to {outpath}")

@@ -35,7 +35,7 @@
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V1.4.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
 	
 	```
 	docker -v   
@@ -55,17 +55,7 @@
 	
 	localhost_dir为宿主机目录。
 
-## 快速体验
 
-在docker 容器内运行以下命令:
-
-```
-cd /ts.knight-modelzoo/pytorch/builtin/cv/detection/
-```
-
-```
-sh yolov5s_7.0/scripts/run.sh
-```
 
 ## 模型部署流程
 
@@ -78,7 +68,7 @@ sh yolov5s_7.0/scripts/run.sh
 
 -   量化数据准备
 
-    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集, 通过命令行参数```-i 128```指定图片数量,```-d```指定coco128.yaml所在的路径。
+    这里使用[COCO128](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)数据集作为量化校准数据集。
 
 -   模型转换函数、推理函数准备
 	
@@ -90,7 +80,11 @@ sh yolov5s_7.0/scripts/run.sh
 
     	Knight --chip TX5368AV200 build --run-config data/yolov5s_config.json
 	
-	量化后模型推理
+-   量化后模型推理
+
+    首先需要修改yolov5s_7_0.py反量化系数：
+
+	![alt text](image.png)
 
     	Knight --chip TX5368AV200 quant --run-config data/yolov5s_infer_config.json
 
@@ -99,7 +93,7 @@ sh yolov5s_7.0/scripts/run.sh
 ### 2. 仿真
 
     #准备bin数据
-    python src/make_image_input_onnx.py  test_data/bus.jpg --outpath /TS-KnightDemo/Output/yolov5s_7.0/npu
+    python src/make_image_input_onnx.py --input test_data/bus.jpg --outpath /TS-KnightDemo/Output/yolov5s_7.0/npu
     #仿真
     Knight --chip TX5368AV200 run --run-config data/yolov5s_config.json
 	#仿真输出txt文件转numpy

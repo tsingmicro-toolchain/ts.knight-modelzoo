@@ -80,6 +80,9 @@
     	Knight --chip TX5368AV200 build --run-config data/yolov7_tiny_config.json
 
 -   量化后模型推理
+    首先需要修改yolov7_tiny.py反量化系数：
+
+	![alt text](image.png)
 	
 		Knight --chip TX5368AV200 quant --run-config data/yolov7_tiny_infer_config.json
 
@@ -98,7 +101,7 @@
 	show_sim_result --sim-data /TS-KnightDemo/Output/yolov7_tiny/npu/result-313_p.txt --save-dir /TS-KnightDemo/Output/yolov7_tiny/npu/
 
 	#模型后处理。 scales为模型输出top_scale，需要根据实际量化结果指定该值
-    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpy /TS-KnightDemo/Output/yolov7_tiny/npu/result-279_p.npy  /TS-KnightDemo/Output/yolov7_tiny/npu/result-296_p.npy /TS-KnightDemo/Output/yolov7_tiny/npu/result-313_p.npy --scales 0.2363354 0.2245685 0.2203367 --save_dir output
+    python src/post_process.py --image test_data/bus.jpg --img-size 640 --numpy /TS-KnightDemo/Output/yolov7_tiny/npu/result-279_p.npy  /TS-KnightDemo/Output/yolov7_tiny/npu/result-296_p.npy /TS-KnightDemo/Output/yolov7_tiny/npu/result-313_p.npy --scales 0.2753585 0.2232532 0.182288 --save_dir output
 ### 3. 性能分析
 
 ```

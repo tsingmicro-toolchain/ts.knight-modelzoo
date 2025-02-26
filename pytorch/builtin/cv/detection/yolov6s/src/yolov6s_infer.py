@@ -54,7 +54,7 @@ def yolov6s_infer(executor):
     webcam_addr=0
     yaml= osp.join(ROOT, 'data/coco128.yaml')
     img_size=640
-    conf_thres=0.4
+    conf_thres=0.25
     iou_thres=0.45
     max_det=1000
     device=''

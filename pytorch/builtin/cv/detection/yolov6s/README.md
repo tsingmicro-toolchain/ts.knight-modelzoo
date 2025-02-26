@@ -11,7 +11,7 @@
 <!--可选-->
 论文地址：[YOLOv6: A Single-Stage Object Detection Framework for Industrial Applications](https://arxiv.org/abs/2209.02976)
 
-Github工程地址：https://github.com/meituan/YOLOv6/tree/main
+Github工程地址：https://github.com/meituan/YOLOv6/tree/0.4.1
 
 数据集（COCO）：https://cocodataset.org/
 
@@ -21,10 +21,7 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 
 	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里只需要下载coco128数据集。下载请前往[COCO官网](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)。
 
-2. 工程及模型权重下载
-   工程地址：https://github.com/meituan/YOLOv6/tree/main
-   权重地址：https://github.com/meituan/YOLOv6/releases/download/0.4.0/yolov6s.pt
-
+2. [工程](https://github.com/meituan/YOLOv6/tree/0.4.1)及[模型权重](https://github.com/meituan/YOLOv6/releases/download/0.4.0/yolov6s.pt)下载
 
 3. 清微github modelzoo仓库下载
 
@@ -64,7 +61,7 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/main
 
 -   模型准备
 	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/将yolov6s/src/将yolov6s.py```，同时下载[工程](https://github.com/meituan/YOLOv6/tree/0.4.1)，放到src下。
-	由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line128](https://github.com/meituan/YOLOv6/blob/e9656c307ae62032f40b39c7a7a5ccc31c2f0242/yolov6/models/heads/effidehead_distill_ns.py#L128) 增加如下一行代码：  
+	由于yolov6s的后处理已经放在infer函数中处理，所以需要对原工程目录下的[line128](https://github.com/meituan/YOLOv6/blob/0.4.1/yolov6/models/heads/effidehead_distill_ns.py#L128) 增加如下一行代码：  
 	`return cls_score_list, reg_lrtb_list`
 	执行onnx转换：
 	`python deploy/ONNX/export_onnx.py 

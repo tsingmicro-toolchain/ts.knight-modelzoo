@@ -4,8 +4,8 @@
         "weight": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/weight/yolov3-tiny.pt",
         "framework": "pytorch",
         "infer-func": "yolov3_quant",
-        "bit-width": 16,
-        "quant-mode": "kl",
+        "bit-width": 8,
+        "quant-mode": "min_max",
         "batch-size": 1,
         "iteration": 10,
         "run-mode": "quant",
@@ -14,7 +14,8 @@
         "data": "data/coco128.yaml",
         "quantize-input-dtype": "uint8",
         "mean": "0 0 0",
-        "std": "255 255 255"
+        "std": "255 255 255",
+        "output-name": "onnx::Sigmoid_143 onnx::Sigmoid_193"
     },
     "compile": {
         "onnx": "/TS-KnightDemo/Output/yolov3/quant/yolov3_quantize.onnx",

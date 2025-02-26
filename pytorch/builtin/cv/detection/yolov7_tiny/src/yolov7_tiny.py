@@ -437,7 +437,7 @@ def yolov7_tiny_infer(executor):
         np.save(os.path.join(executor.save_dir, "279.npy"), pred[0])
         np.save(os.path.join(executor.save_dir, "296.npy"), pred[1])
         np.save(os.path.join(executor.save_dir, "313.npy"), pred[2])
-        pred = [torch.from_numpy(pred[0]), torch.from_numpy(pred[1]), torch.from_numpy(pred[2])]
+        pred = [torch.from_numpy(pred[0]*0.2753585), torch.from_numpy(pred[1]*0.2232532), torch.from_numpy(pred[2]*0.182288)]
         detect_process = Detect_process(config_yolov7_tiny_relu['anchors'], nc=config_yolov7_tiny_relu['nc'])
         pred = detect_process.post_process(pred)
         # Apply NMS

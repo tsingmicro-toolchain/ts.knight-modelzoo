@@ -9,9 +9,9 @@ from yolox.utils import multiclass_nms, demo_postprocess, vis
 
 def detect():
     source, numpys, imgsz, save_dir, scales = opt.image, opt.numpys, opt.img_size, opt.save_dir, opt.scales
+    input_shape = (640, 640)
     origin_img = cv2.imread(source)
     img, ratio = preprocess(origin_img, input_shape)
-    input_shape = (640, 640)
     out0 = np.load(numpys[0])*scales[0]
     out1 = np.load(numpys[1])*scales[1]
     out2 = np.load(numpys[2])*scales[2]

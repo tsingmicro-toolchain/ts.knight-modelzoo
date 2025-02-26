@@ -75,7 +75,11 @@ Github工程地址：https://github.com/ultralytics/yolov3
     	Knight --chip TX5368AV200 quant --run-config data/yolov3_config.json
 
 -   量化后模型推理
-	
+
+	首先需要修改yolov3_infer.py反量化系数：
+
+	![alt text](image.png)
+
 		Knight --chip TX5368AV200 quant --run-config data/yolov3_infer_config.json
 
 

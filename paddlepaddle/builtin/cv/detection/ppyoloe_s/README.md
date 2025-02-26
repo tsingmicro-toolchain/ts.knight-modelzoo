@@ -81,7 +81,11 @@ Github工程地址：[ppyoloe](https://github.com/PaddlePaddle/PaddleDetection/t
     	Knight --chip TX5368AV200 build --run-config dataset/ppyoloe_s_config.json
 
 -   量化后模型推理
-	
+
+	首先需要修改ppyoloe\_s_infer.py反量化系数：
+
+	![alt text](image.png)
+
 		Knight --chip TX5368AV200 quant --run-config dataset/ppyoloe_s_infer_config.json
 
 

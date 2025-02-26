@@ -126,8 +126,8 @@ def ppyoloe_s_infer(executor):
         input_data = data['image'].numpy()*255
         input_data = input_data.astype(np.uint8)
         cls_score_list, reg_lrtb_list = executor.forward(input_data)
-        cls_score_list = torch.from_numpy(cls_score_list)
-        reg_lrtb_list = torch.from_numpy(reg_lrtb_list)
+        cls_score_list = torch.from_numpy(cls_score_list*0.00383477)
+        reg_lrtb_list = torch.from_numpy(reg_lrtb_list*0.05996619)
         
         anchor_points = torch.from_numpy(np.load(os.path.join(os.path.dirname(__file__), "anchor_points.npy"))) # yolov6small
         stride_tensor = torch.from_numpy(np.load(os.path.join(os.path.dirname(__file__), "stride_tensor.npy")))

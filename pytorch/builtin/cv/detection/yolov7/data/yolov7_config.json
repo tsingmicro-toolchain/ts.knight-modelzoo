@@ -7,7 +7,7 @@
         "bit-width": 8,
         "quant-mode": "kl",
         "batch-size": 1,
-        "iteration": 128,
+        "iteration": 10,
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/yolov7/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7/src/yolov7.py",

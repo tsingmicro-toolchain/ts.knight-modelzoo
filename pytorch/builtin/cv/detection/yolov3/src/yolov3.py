@@ -154,49 +154,6 @@ def letterbox_my(im, new_shape=(384, 640), color=(114, 114, 114), auto=True, sca
     im = cv2.copyMakeBorder(im, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)  # add border
     return im, ratio, (dw, dh)
 
-class Detect_process(nn.Module):
-    def __init__(self, anchors, nc=1, nl=3, ch=3, na=3, inplace=True):
-        self.nc = nc  # number of classes
-        self.no = nc + 5  # number of outputs per anchor
-        self.nl = len(anchors)  # number of detection layers
-        self.na = len(anchors[0]) // 2  # number of anchors
-        self.grid = [torch.zeros(1)] * self.nl  # init grid
-        self.anchor_grid = [torch.zeros(1)] * self.nl  # init anchor grid
-        self.anchors = torch.tensor(anchors).float().view(self.nl, -1, 2)  # shape(nl,na,2)
-
-        self.inplace = inplace  # use in-place ops (e.g. slice assignment)
-        # yolov3_tiny
-        self.stride = torch.Tensor([16, 32])
-        # # yolov3
-        # self.stride = torch.Tensor([8, 16, 32])
-        self.anchors /= self.stride.view(-1, 1, 1)
-
-
-
-    def post_process(self, x):
-        z = []  # inference output
-        for i in range(len(x)):
-            # x[i] = torch.nn.functional.sigmoid(x[i])
-            bs, _, ny, nx = x[i].shape  # x(bs,255,20,20) to x(bs,3,20,20,85)
-            x[i] = x[i].view(bs, self.na, self.no, ny, nx).permute(0, 1, 3, 4, 2).contiguous()
-
-            if self.grid[i].shape[2:4] != x[i].shape[2:4]:
-                self.grid[i], self.anchor_grid[i] = self._make_grid(nx, ny, i)
-
-            y = x[i].sigmoid()
-            if self.inplace:
-                y[..., 0:2] = (y[..., 0:2] * 2. + self.grid[i]) * self.stride[i]  # xy
-                y[..., 2:4] = (y[..., 2:4] * 2) ** 2 * self.anchor_grid[i]  # wh
-            z.append(y.view(bs, -1, self.no))
-        return torch.cat(z, 1)
-
-    def _make_grid(self, nx=20, ny=20, i=0):
-        d = self.anchors[i]
-        shape = 1, self.na, ny, nx, 2  # grid shape
-        yv, xv = torch.meshgrid(torch.arange(ny), torch.arange(nx))
-        grid = torch.stack((xv, yv), 2).expand(shape).float() - 0.5  # add grid offset, i.e. y = 2.0 * x - 0.5
-        anchor_grid = (self.anchors[i] * self.stride[i]).view((1, self.na, 1, 1, 2)).expand(shape).float()
-        return grid, anchor_grid
 
 class ArgParser:
     def __init__(self, args: dict):
@@ -317,7 +274,6 @@ def yolov3_quant(executor):
     # Load model
     device = select_device(device, batch_size=1)
     imgsz = check_img_size(imgsz, s=32)  # check img_size
-    detect_process = Detect_process(config_yolov3_tiny['anchors'], nc=config_yolov3_tiny['nc'])
     names = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}
     with open(data) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)  # model dict
@@ -352,9 +308,31 @@ def yolov3_quant(executor):
         # Inference
         t1 = time_sync()
         preds = executor.forward(im.numpy())
-        preds = [torch.from_numpy(preds[0]), torch.from_numpy(preds[1]), torch.from_numpy(preds[2])]
+        nms = True
+        if nms:
+            root = os.path.dirname(os.path.abspath(__file__))
+            tensor0_0 = torch.from_numpy(np.load(os.path.join(root, 'tensor0_0.npy')))
+            tensor0_1 = torch.from_numpy(np.load(os.path.join(root, 'tensor0_1.npy')))
+            tensor1_0 = torch.from_numpy(np.load(os.path.join(root, 'tensor1_0.npy')))
+            tensor1_1 = torch.from_numpy(np.load(os.path.join(root, 'tensor1_1.npy')))
+            out = torch.from_numpy(preds[0])
+            out = torch.sigmoid(out)
+            out0, out1, out2 = torch.split(out, [2,2,81], dim=-1)
+            out0 = (out0*2+tensor0_0)*16
+            out1 = (out1*2)**2*tensor0_1
+            outs0 = torch.cat([out0, out1, out2], dim=-1)
+            outs0 = outs0.reshape((1, 4800, 85))
+
+            out = torch.from_numpy(preds[1])
+            out = torch.sigmoid(out)
+            out0, out1, out2 = torch.split(out, [2,2,81], dim=-1)
+            out0 = (out0*2+tensor1_0)*32
+            out1 = (out1*2)**2*tensor1_1
+            outs1 = torch.cat([out0, out1, out2], dim=-1)
+            outs1 = outs1.reshape((1,1200,85))
+            output = torch.cat([outs0, outs1], dim=1)
+        preds = [output, torch.from_numpy(preds[0]), torch.from_numpy(preds[1])] 
         #pred = [torch.from_numpy(preds[0]), torch.from_numpy(pred[1]s)]
-        #pred = detect_process.post_process(pred)
         # NMS
         targets[:, 2:] *= torch.Tensor([width, height, width, height])  # to pixels
         lb = [targets[targets[:, 0] == i, 1:] for i in range(nb)] if save_hybrid else []  # for autolabelling

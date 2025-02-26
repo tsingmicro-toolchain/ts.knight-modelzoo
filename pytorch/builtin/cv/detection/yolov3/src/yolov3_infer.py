@@ -190,11 +190,35 @@ def yolov3_infer(executor):
             im = im[None]  # expand for batch dim
         im = np.transpose(im, (0,3,1,2))
         # Inference
-        pred = executor.forward(im)
-        pred = [torch.from_numpy(pred[0]), torch.from_numpy(pred[1]), torch.from_numpy(pred[2])]
+        preds = executor.forward(im)
+        preds = [preds[0]*0.2433417, preds[1]*0.3090818]
+        nms = True
+        if nms:
+            root = os.path.dirname(os.path.abspath(__file__))
+            tensor0_0 = torch.from_numpy(np.load(os.path.join(root, 'tensor0_0.npy')))
+            tensor0_1 = torch.from_numpy(np.load(os.path.join(root, 'tensor0_1.npy')))
+            tensor1_0 = torch.from_numpy(np.load(os.path.join(root, 'tensor1_0.npy')))
+            tensor1_1 = torch.from_numpy(np.load(os.path.join(root, 'tensor1_1.npy')))
+            out = torch.from_numpy(preds[0])
+            out = torch.sigmoid(out)
+            out0, out1, out2 = torch.split(out, [2,2,81], dim=-1)
+            out0 = (out0*2+tensor0_0)*16
+            out1 = (out1*2)**2*tensor0_1
+            outs0 = torch.cat([out0, out1, out2], dim=-1)
+            outs0 = outs0.reshape((1, 4800, 85))
+
+            out = torch.from_numpy(preds[1])
+            out = torch.sigmoid(out)
+            out0, out1, out2 = torch.split(out, [2,2,81], dim=-1)
+            out0 = (out0*2+tensor1_0)*32
+            out1 = (out1*2)**2*tensor1_1
+            outs1 = torch.cat([out0, out1, out2], dim=-1)
+            outs1 = outs1.reshape((1,1200,85))
+            output = torch.cat([outs0, outs1], dim=1)
+        preds = [output, torch.from_numpy(preds[0]), torch.from_numpy(preds[1])] 
 
         # NMS
-        pred = non_max_suppression(pred, conf_thres, iou_thres, classes, agnostic_nms, max_det=max_det)
+        pred = non_max_suppression(preds, conf_thres, iou_thres, classes, agnostic_nms, max_det=max_det)
 
         # Second-stage classifier (optional)
         # pred = utils.general.apply_classifier(pred, classifier_model, im, im0s)

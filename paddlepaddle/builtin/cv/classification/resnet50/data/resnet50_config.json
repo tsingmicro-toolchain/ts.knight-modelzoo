@@ -7,7 +7,7 @@
         "bit-width": 8,
         "quant-mode": "min_max",
         "batch-size": 1,
-        "iteration": 200,
+        "iteration": 10,
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/resnet50/quant",
         "user-defined-script": "/ts.knight-modelzoo/paddlepaddle/builtin/cv/classification/resnet50/src/resnet50.py",

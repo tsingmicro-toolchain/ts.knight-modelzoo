@@ -7,7 +7,7 @@
         "bit-width": 8,
         "quant-mode": "min_max",
         "batch-size": 1,
-        "iteration": 200,
+        "iteration": 10,
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/mobilevit_s/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/mobilevit_s/src/mobilevit_s.py",

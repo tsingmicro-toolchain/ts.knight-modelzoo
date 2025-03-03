@@ -7,7 +7,7 @@
         "bit-width": 8,
         "quant-mode": "min_max",
         "batch-size": 1,
-        "iteration": 200,
+        "iteration": 10,
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/inception_v3/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/inception_v3/src/inception_v3.py",

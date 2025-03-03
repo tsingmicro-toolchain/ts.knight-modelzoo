@@ -7,7 +7,7 @@
         "bit-width": 8,
         "quant-mode": "min_max",
         "batch-size": 1,
-        "iteration": 200,
+        "iteration": 10,
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/mixer_b16_224/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/mixer_b16_224/src/mixer_b16_224.py",

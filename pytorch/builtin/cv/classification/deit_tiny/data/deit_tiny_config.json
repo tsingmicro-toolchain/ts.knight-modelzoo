@@ -12,7 +12,7 @@
         "save-dir": "/TS-KnightDemo/Output/deit_tiny/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/deit_tiny/src/deit_tiny.py",
         "data": "data/imagenet/images/val",
-        "mean": "123.675 114.75 103.53",
+        "mean": "123.675 116.28 103.53",
         "std": "58.395 57.12 57.375",
         "quantize-input-dtype": "uint8"
     },

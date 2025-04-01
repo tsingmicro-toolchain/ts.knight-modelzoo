@@ -1,0 +1,31 @@
+{
+    "quant": {
+        "model": "weight/ocrV3_det/ocrV3_det.pdmodel",
+        "weight": "weight/ocrV3_det/ocrV3_det.pdiparams",
+        "framework": "paddle",
+        "input-shapes": "-1 3 512 896",
+        "infer-func": "infer_ocr_det_model",
+        "bit-width": 8,
+        "quant-mode": "kl",
+        "batch-size": 1,
+        "iteration": 10,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_det/quant",
+        "user-defined-script": "src/infer_ocr.py",
+        "data": "data/det_b1.pd"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/ocrV3_det/quant/ocrV3_det_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_det/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/ocrV3_det/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/ocrV3_det/npu/ocrV3_det_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_det/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/ocrV3_cls/npu/ocrV3_det_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_det/npu"
+    }
+}

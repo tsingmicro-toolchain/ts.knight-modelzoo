@@ -1,0 +1,32 @@
+{
+    "quant": {
+        "model": "weight/ocrV3_rec/ocrV3_rec.pdmodel",
+        "weight": "weight/ocrV3_rec/ocrV3_rec.pdiparams",
+        "framework": "paddle",
+        "input-shapes": "-1 3 48 320",
+        "infer-func": "infer_ocr_rec_model",
+        "bit-width": 16,
+        "quant-mode": "kl",
+        "batch-size": 1,
+        "iteration": 10,
+        "run-mode": "quant",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_rec/quant",
+        "user-defined-script": "src/infer_ocr.py",
+        "data": "data/rec_b1.pd",
+        "output-name": "linear_43.tmp_1"
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/Output/ocrV3_rec_quant/ocrV3_rec_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_rec/npu"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/ocrV3_rec/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/ocrV3_rec/npu/ocrV3_rec_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_rec/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/ocrV3_rec/npu/ocrV3_rec_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/ocrV3_rec/npu"
+    }
+}

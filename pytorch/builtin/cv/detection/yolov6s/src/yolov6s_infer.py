@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
 
 from yolov6.utils.events import LOGGER
 from inferer import Inferer
-
+from yolov6s import IMAGE_SIZE
 
 def get_args_parser(add_help=True):
     parser = argparse.ArgumentParser(description='YOLOv6 PyTorch Inference.', add_help=add_help)

@@ -19,6 +19,7 @@ import torch
 import torch.nn as nn
 import os
 import re
+from yolov7_tiny import IMAGE_SIZE
 def clip_coords(boxes, img_shape):
     # Clip bounding xyxy bounding boxes to image shape (height, width)
     boxes[:, 0].clamp_(0, img_shape[1])  # x1
@@ -119,7 +120,7 @@ class Detect_process(nn.Module):
 
 def detect(save_img=False):
     source, numpys, imgsz, save_dir, scales = opt.image, opt.numpys, opt.img_size, opt.save_dir, opt.scales
-    dataset = LoadImages(source, img_size=imgsz, stride=32)
+    dataset = LoadImages(source, img_size=IMAGE_SIZE, stride=32)
     detect_process = Detect_process(config_yolov7_tiny_relu['anchors'], nc=config_yolov7_tiny_relu['nc'])
     # Get names and colors
     names = [ 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',

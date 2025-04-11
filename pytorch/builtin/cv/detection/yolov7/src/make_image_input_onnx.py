@@ -6,7 +6,7 @@ import glob
 import cv2
 import torch
 from utils.datasets import LoadStreams, LoadImages
-
+from yolov7 import IMAGE_SIZE
 DEBUG=0
 parser = argparse.ArgumentParser(description='make input data scripts')
 parser.add_argument(
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     for path, img, im0s, vid_cap in dataset:
         print(img.shape)
         img = torch.from_numpy(img)
-        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), IMAGE_SIZE, auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
         #img = img.float()  # uint8 to fp16/32
         #img /= 255.0  # 0 - 255 to 0.0 - 1.0

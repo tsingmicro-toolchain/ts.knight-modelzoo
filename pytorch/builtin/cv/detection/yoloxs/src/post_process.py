@@ -6,10 +6,10 @@ import cv2
 from yolox.data.data_augment import preproc as preprocess
 from yolox.data.datasets import COCO_CLASSES
 from yolox.utils import multiclass_nms, demo_postprocess, vis
-
+from yolox_s import IMAGE_SIZE
 def detect():
     source, numpys, imgsz, save_dir, scales = opt.image, opt.numpys, opt.img_size, opt.save_dir, opt.scales
-    input_shape = (640, 640)
+    input_shape = IMAGE_SIZE
     origin_img = cv2.imread(source)
     img, ratio = preprocess(origin_img, input_shape)
     out0 = np.load(numpys[0])*scales[0]

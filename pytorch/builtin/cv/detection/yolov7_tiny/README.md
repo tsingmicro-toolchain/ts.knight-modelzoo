@@ -74,6 +74,10 @@
 	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov7_tiny/src/yolov7_tiny.py```，同时下载[工程](https://github.com/WongKinYiu/yolov7)，放到`src`下
 
 -   执行量化命令及编译
+ 
+	模型输入shape默认为（1，3，640，640），如需修改，请修改`yolov7_tiny.py`中`IMAGE_SIZE`定义：
+
+    ![alt text](image1.png)
 
 	在容器内执行如下量化命令，具体量化、编译参数可见yolov7_tiny_config.json。
 

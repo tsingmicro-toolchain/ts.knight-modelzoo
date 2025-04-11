@@ -7,7 +7,7 @@ import cv2
 import torch
 from tqdm import tqdm
 from yolov6.data.datasets import LoadData
-
+from yolov6s import IMAGE_SIZE
 def letterbox_my(im, new_shape=(384, 640), color=(114, 114, 114), auto=False, scaleFill=False, scaleup=True, stride=32):
     # Resize and pad image while meeting stride-multiple constraints
     shape = im.shape[:2]  # current shape [height, width]
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     outpath = FLAGS.outpath
     files = LoadData(input, False, 0)
     for img_src, img_path, vid_cap in tqdm(files):
-        img, img_src = process_image(img_src, FLAGS.img_size, 32, False)
+        img, img_src = process_image(img_src, IMAGE_SIZE, 32, False)
         if len(img.shape) == 3:
             img = img[None]
             # expand for batch dim

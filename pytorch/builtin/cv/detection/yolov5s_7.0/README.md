@@ -75,6 +75,9 @@
 	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov5s_7.0/src/yolov5s_7_0.py```。同时下载[工程](https://github.com/ultralytics/yolov5/releases/tag/v7.0)，放到src下。
 
 -   执行量化命令
+  
+    模型输入shape默认为（1，3，640，640），如需修改，请修改`yolov5s_7_0.py`中IMAGE_SIZE定义：
+    ![alt text](image1.png)
 
 	在容器内执行如下量化和编译命令，具体量化、编译参数可见 yolov5s_config.json
 

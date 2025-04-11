@@ -13,7 +13,7 @@ from ts_utils.metrics import ap_per_class
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
 from ts_utils.datasets import LoadImages
 from ts_utils.plots import Annotator, colors, save_one_box 
-
+from yolov8s_quant import IMAGE_SIZE
 DEBUG=0
 parser = argparse.ArgumentParser(description='make input data scripts')
 parser.add_argument(
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     imgsz = FLAGS.img_size
     #imgsz = (640, 640)
 
-    dataset = LoadImages(input, img_size=imgsz)
+    dataset = LoadImages(input, img_size=IMAGE_SIZE)
     for path, im, im0s, vid_cap, s in dataset: 
         # import pdb;pdb.set_trace()
         # if 'zidane' not in path:

@@ -85,6 +85,10 @@ Github工程地址：https://github.com/Megvii-BaseDetection/YOLOX
     已提供量化依赖的模型推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yoloxs/src/yolox_s.py```。
 
 -   执行量化及编译命令
+	
+	模型输入shape默认为（1，3，640，640），如需修改，请修改`yolox_s.py`中`IMAGE_SIZE`定义：
+
+    ![alt text](image3.png)
 
 	在容器内执行如下量化命令，具体量化、编译参数可见yolox_s_config.json。
 

@@ -16,6 +16,7 @@ import torch
 import torch.nn as nn
 import os
 import re
+from yolov5s_7_0 import IMAGE_SIZE
 def clip_coords(boxes, img_shape):
     # Clip bounding xyxy bounding boxes to image shape (height, width)
     boxes[:, 0].clamp_(0, img_shape[1])  # x1
@@ -165,7 +166,7 @@ def detect(save_img=False):
 
     for path, im, im0s, vid_cap, s in dataset:
         im = torch.from_numpy(im)
-        im, ratio, (dw,dh) = letterbox_my(im.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        im, ratio, (dw,dh) = letterbox_my(im.permute(1,2,0).numpy(), IMAGE_SIZE, auto=False, stride=32)
         im = torch.from_numpy(im.transpose(2,0,1))
         #im = im.float()  # uint8 to fp16/32
         #im /= 255.0  # 0 - 255 to 0.0 - 1.0

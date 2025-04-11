@@ -20,7 +20,7 @@ from yolov6.layers.common import DetectBackend
 from yolov6.data.datasets import LoadData
 from yolov6.utils.nms import non_max_suppression
 from yolov6.utils.torch_utils import get_model_info
-
+from yolov6s import IMAGE_SIZE
 
 class_names = [ 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
          'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
@@ -117,7 +117,7 @@ def detect(save_img=True):
         font_check(font)
 
         if len(det):
-            det[:, :4] = rescale((imgsz, imgsz), det[:, :4], img_src.shape).round()
+            det[:, :4] = rescale(IMAGE_SIZE, det[:, :4], img_src.shape).round()
             for *xyxy, conf, cls in reversed(det):
                 if save_txt:  # Write to file
                     xywh = (box_convert(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh

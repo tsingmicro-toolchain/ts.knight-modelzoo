@@ -19,7 +19,7 @@ from yolov6.layers.common import DetectBackend
 from yolov6.data.datasets import LoadData
 from yolov6.utils.nms import non_max_suppression
 from yolov6.utils.torch_utils import get_model_info
-
+from yolov6s import IMAGE_SIZE
 def letterbox_my(im, new_shape=(384, 640), color=(114, 114, 114), auto=False, scaleFill=False, scaleup=True, stride=32):
     # Resize and pad image while meeting stride-multiple constraints
     shape = im.shape[:2]  # current shape [height, width]
@@ -80,7 +80,7 @@ class Inferer:
         vid_path, vid_writer, windows = None, None, []
         fps_calculator = CalcFPS()
         for img_src, img_path, vid_cap in tqdm(self.files):
-            img, img_src = self.process_image(img_src, self.img_size, self.stride, self.half)
+            img, img_src = self.process_image(img_src, IMAGE_SIZE, self.stride, self.half)
             img = img.to(self.device)
             if len(img.shape) == 3:
                 img = img[None]

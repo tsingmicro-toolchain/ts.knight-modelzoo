@@ -75,6 +75,10 @@
 
 -   执行量化命令及编译
 
+	模型输入shape默认为（1，3，640，640），如需修改，请修改`yolov7.py`中`IMAGE_SIZE`定义：
+
+    ![alt text](image1.png)
+
 	在容器内执行如下量化命令，具体量化、编译参数可见yolov7_config.json。
 
     	Knight --chip TX5368AV200 build --run-config data/yolov7_config.json

@@ -18,7 +18,7 @@ from ts_utils_quant.nms import non_max_suppression
 from ts_utils_quant.torch_utils import time_sync
 from ts_utils_quant.datasets import LoadImages
 import torch.nn as nn
-
+IMAGE_SIZE=(640,640)
 
 @pytorch_model.register("yolov8s")
 def yolov8s(weight_path=None):
@@ -27,7 +27,7 @@ def yolov8s(weight_path=None):
     model = YOLO(weight_path)
     in_dict = {
         "model": model.model,
-        "inputs": [torch.randn((1, 3, 640, 640))],
+        "inputs": [torch.randn((1, 3, IMAGE_SIZE[0], IMAGE_SIZE[1]))],
         "concrete_args": concrete_args
     }
     return in_dict
@@ -146,7 +146,7 @@ class Evaler:
                 pad = 0.0
             rect = not self.not_infer_on_rect
             dataloader = create_dataloader(self.data[task if task in ('train', 'val', 'test') else 'val'],
-                                           self.img_size, self.batch_size, self.stride, hyp=eval_hyp, check_labels=True,
+                                           IMAGE_SIZE, self.batch_size, self.stride, hyp=eval_hyp, check_labels=True,
                                            pad=pad, rect=rect,
                                            data_dict=self.data, task=task)[0]
         return dataloader
@@ -418,7 +418,7 @@ class Evaler:
             self.ids = self.coco80_to_coco91_class() if self.is_coco else list(range(1000))
             pad = 0.0 if task == 'speed' else 0.5
             dataloader = create_dataloader(self.data[task if task in ('train', 'val', 'test') else 'val'],
-                                           self.img_size, self.batch_size, self.stride, check_labels=True, pad=pad,
+                                           IMAGE_SIZE, self.batch_size, self.stride, check_labels=True, pad=pad,
                                            rect=False,
                                            data_dict=self.data, task=task)[0]
             return dataloader

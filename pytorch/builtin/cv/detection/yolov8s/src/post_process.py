@@ -21,6 +21,7 @@ from ts_utils.metrics import ap_per_class
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
 from ts_utils.datasets import LoadImages
 from ts_utils.plots import Annotator, colors, save_one_box 
+from yolov8s_quant import IMAGE_SIZE
 # parameters
 config_yolov5s={
 'nc': 4,  # number of classes
@@ -238,7 +239,7 @@ def detect(save_img=True):
     line_thickness = 1
     # Dataloader
     bs = 1  # batch_size
-    dataset = LoadImages(source, img_size=imgsz)
+    dataset = LoadImages(source, img_size=IMAGE_SIZE)
     vid_path, vid_writer = [None] * bs, [None] * bs
     dfl = DFL(16)
     # Run inference

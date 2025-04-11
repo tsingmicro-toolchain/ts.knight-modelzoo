@@ -20,7 +20,7 @@ from utils.metrics import ap_per_class
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device
 from models.experimental import attempt_load
-
+IMAGE_SIZE = (640, 640)
 names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
         'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
         'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
@@ -204,7 +204,7 @@ def yolov7_tiny(weight_path=None):
     model.eval()
     in_dict = {
         "model": model,
-        "inputs": [torch.randn((1,3,640,640))],
+        "inputs": [torch.randn((1,3,IMAGE_SIZE[0],IMAGE_SIZE[1]))],
         "concrete_args":{"augment":False,"profile":False,"visualize":False,"val":True}
     }
     return in_dict
@@ -270,7 +270,7 @@ def yolov7_tiny_quant(executor):
         im0 = img
         nb, _, height, width = im0.shape  # batch size, channels, height, width
         whwh = torch.Tensor([width, height, width, height])
-        img, ratio, (dw,dh) = letterbox_my(img.squeeze(0).permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img, ratio, (dw,dh) = letterbox_my(img.squeeze(0).permute(1,2,0).numpy(), IMAGE_SIZE, auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
         #img = img.float()  # uint8 to fp16/32
         #img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -426,7 +426,7 @@ def yolov7_tiny_infer(executor):
     dataset = LoadImages(data, img_size=640, stride=32)
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img)
-        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), IMAGE_SIZE, auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
         if img.ndimension() == 3:
             img = img.unsqueeze(0)

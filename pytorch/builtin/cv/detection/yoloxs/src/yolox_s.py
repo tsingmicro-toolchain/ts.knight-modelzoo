@@ -23,7 +23,7 @@ from yolox.utils import (
     xyxy2xywh,
     meshgrid
 )
-
+IMAGE_SIZE = (640, 640)
 
 def get_eval_dataset(**kwargs):
 
@@ -34,7 +34,7 @@ def get_eval_dataset(**kwargs):
         data_dir=data_dir,
         json_file='instances_val2017.json',
         name="val2017",
-        img_size=(640, 640),
+        img_size=IMAGE_SIZE,
         # img_size=(416, 416),
         preproc=ValTransform(legacy=legacy),
     )
@@ -59,7 +59,7 @@ def get_evaluator(batch_size, is_distributed, testdev=False, legacy=False, data_
     return COCOEvaluator(
         dataloader=get_eval_loader(batch_size, is_distributed,
                                         testdev=testdev, legacy=legacy, data_dir=data_dir),
-        img_size=(640,640),
+        img_size=IMAGE_SIZE,
         # img_size=(416,416),
         confthre=0.001,
         nmsthre=0.65,
@@ -249,7 +249,7 @@ def yolox_s(weight_path=None):
         model.load_state_dict(ckpt["model"])
     in_dict ={
     "model": model,
-    "inputs":[torch.randn((1,3,640,640))]
+    "inputs":[torch.randn((1,3,IMAGE_SIZE[0],IMAGE_SIZE[1]))]
     }
     return in_dict
 
@@ -336,7 +336,7 @@ def write_numpy_to_file(data, fileName):
 @onnx_infer_func.register("infer_yolox_small_plot")
 def infer_yolox_small_plot(executor):
     image_path = executor.dataset
-    input_shape = (640, 640)
+    input_shape = IMAGE_SIZE
     origin_img = cv2.imread(image_path)
     img, ratio = preprocess(origin_img, input_shape)
     img = img.astype(np.uint8)

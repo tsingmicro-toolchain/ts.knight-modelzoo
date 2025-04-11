@@ -80,6 +80,9 @@ Github工程地址：https://github.com/meituan/YOLOv6/tree/0.4.1
 
 -   执行量化及编译命令
 
+	模型输入shape默认为（1，3，640，640），如需修改，请修改`yolov6s.py`中`IMAGE_SIZE`定义：
+    ![alt text](image.png)
+
 	在容器内执行如下量化命令，具体量化、编译参数可见yolov6s_config.json。
 
     	Knight --chip TX5368AV200 build --run-config data/yolov6s_config.json

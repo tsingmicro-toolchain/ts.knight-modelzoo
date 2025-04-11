@@ -20,7 +20,7 @@ from utils.metrics import ap_per_class
 from utils.torch_utils import select_device
 from models.common import DetectMultiBackend
 from utils.plots import Annotator, colors, save_one_box
-
+IMAGE_SIZE = (640, 640)
 names = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
         'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
         'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee',
@@ -207,7 +207,7 @@ def yolov5s_7(weight_path=None):
     setattr(model.model.model, name, identity)
     in_dict = {
         "model": model.model,
-        "inputs": [torch.randn((1,3,640,640))],
+        "inputs": [torch.randn((1,3,IMAGE_SIZE[0],IMAGE_SIZE[1]))],
         "concrete_args":{"augment":False,"profile":False,"visualize":False,"val":True}
     }
     return in_dict
@@ -265,7 +265,7 @@ def yolov5s_quant(executor):
         im0 = img
         nb, _, height, width = im0.shape  # batch size, channels, height, width
         whwh = torch.Tensor([width, height, width, height])
-        img, ratio, (dw,dh) = letterbox_my(img.squeeze(0).permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img, ratio, (dw,dh) = letterbox_my(img.squeeze(0).permute(1,2,0).numpy(), IMAGE_SIZE, auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
         #img = img.float()  # uint8 to fp16/32
         #img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -404,7 +404,7 @@ def yolov5s_infer(executor):
     for path, img, im0s, vid_cap, s in dataset:
         print(img.shape)
         img = torch.from_numpy(img)
-        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), (640,640), auto=False, stride=32)
+        img, ratio, (dw,dh) = letterbox_my(img.permute(1,2,0).numpy(), IMAGE_SIZE, auto=False, stride=32)
         img = torch.from_numpy(img.transpose(2,0,1))
         #img = img.float()  # uint8 to fp16/32
         #img /= 255.0  # 0 - 255 to 0.0 - 1.0

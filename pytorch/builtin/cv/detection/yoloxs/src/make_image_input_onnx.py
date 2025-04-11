@@ -4,7 +4,7 @@ import argparse
 import os
 import cv2
 from yolox.data.data_augment import preproc as preprocess
-
+from yolox_s import IMAGE_SIZE
 DEBUG=0
 parser = argparse.ArgumentParser(description='make input data scripts')
 parser.add_argument(
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     proc_mode= FLAGS.proc_mode
     imgsz = FLAGS.img_size
     origin_img = cv2.imread(input)
-    img, ratio = preprocess(origin_img, imgsz)
+    img, ratio = preprocess(origin_img, IMAGE_SIZE)
     img = img.astype(np.uint8)
     img = img[None, :, :, :]
     outpath = os.path.join(outpath, "model_input.bin")

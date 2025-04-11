@@ -74,6 +74,10 @@ Github工程地址：https://github.com/ultralytics/ultralytics
 	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov8s/src/yolov8s.py```
 
 -   执行量化命令及编译
+    
+	模型输入shape默认为（1，3，640，640），如需修改，请修改`yolov8s_quant.py`中`IMAGE_SIZE`定义：
+
+    ![alt text](image2.png)
 
 	在容器内执行如下量化命令，具体量化、编译参数可见yolov8s_config.json。
 

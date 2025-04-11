@@ -20,6 +20,7 @@ from ts_utils.metrics import ap_per_class
 from onnx_quantize_tool.common.register import onnx_infer_func, pytorch_model
 from ts_utils.datasets import LoadImages
 from ts_utils.plots import Annotator, colors, save_one_box 
+from yolov8s_quant import IMAGE_SIZE
 # parameters
 config_yolov5s={
 'nc': 4,  # number of classes
@@ -263,7 +264,7 @@ def yolov8s_infer(executor):
         os.makedirs(save_dir, exist_ok=True)
     # Load model
     run = executor.forward
-    imgsz = (640, 640)
+    imgsz = IMAGE_SIZE
    
 
 

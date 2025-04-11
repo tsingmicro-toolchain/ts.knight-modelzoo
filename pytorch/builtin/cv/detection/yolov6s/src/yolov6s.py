@@ -18,7 +18,7 @@ from yolov6.utils.nms import non_max_suppression
 from yolov6.utils.general import download_ckpt
 from yolov6.utils.checkpoint import load_checkpoint
 from yolov6.utils.torch_utils import time_sync, get_model_info
-
+IMAGE_SIZE = (640, 640)
 #deprecated
 @pytorch_model.register("yolov6s")
 def yolov6s(weight_path=None):
@@ -32,7 +32,7 @@ def yolov6s(weight_path=None):
             layer.switch_to_deploy()
     in_dict = {
         "model": model,
-        "inputs": [torch.randn((1, 3, 640, 640))]
+        "inputs": [torch.randn((1, 3, IMAGE_SIZE[0], IMAGE_SIZE[1]))]
     }
     return in_dict
 
@@ -85,7 +85,7 @@ class Evaler:
             model = load_checkpoint(weights, map_location=self.device)
             self.stride = int(model.stride.max())
             if self.device.type != 'cpu':
-                model(torch.zeros(1, 3, self.img_size, self.img_size).to(self.device).type_as(next(model.parameters())))
+                model(torch.zeros(1, 3, IMAGE_SIZE[0], IMAGE_SIZE[1]).to(self.device).type_as(next(model.parameters())))
             # switch to deploy
             from yolov6.layers.common import RepVGGBlock
             for layer in model.modules():
@@ -554,7 +554,7 @@ class Evaler:
 
         context, bindings, binding_addrs, trt_batch_size = init_engine(engine)
         assert trt_batch_size >= self.batch_size, f'The batch size you set is {self.batch_size}, it must <= tensorrt binding batch size {trt_batch_size}.'
-        tmp = torch.randn(self.batch_size, 3, self.img_size, self.img_size).to(self.device)
+        tmp = torch.randn(self.batch_size, 3, IMAGE_SIZE[0], IMAGE_SIZE[1]).to(self.device)
         # warm up for 10 times
         for _ in range(10):
             binding_addrs['images'] = int(tmp.data_ptr())

@@ -88,7 +88,8 @@ class BaseRecLabelDecode(object):
                 for text_id in text_index[batch_idx][selection]:
                     char_list.append(self.character[text_id])
             except:
-                print("error in rec_postprocess line 88")
+                pass
+                #print("error in rec_postprocess line 88")
             if text_prob is not None:
                 conf_list = text_prob[batch_idx][selection]
             else:

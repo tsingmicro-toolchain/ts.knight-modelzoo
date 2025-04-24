@@ -12,7 +12,7 @@
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/ocrV3_rec/quant",
         "user-defined-script": "src/infer_ocr.py",
-        "data": "data/rec_b1.pd",
+        "data": "data/rec_b1_10.pd",
         "output-name": "linear_43.tmp_1"
     },
     "compile": {

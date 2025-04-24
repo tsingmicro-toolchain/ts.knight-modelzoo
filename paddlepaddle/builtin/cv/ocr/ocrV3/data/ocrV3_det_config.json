@@ -12,7 +12,7 @@
         "run-mode": "quant",
         "save-dir": "/TS-KnightDemo/Output/ocrV3_det/quant",
         "user-defined-script": "src/infer_ocr.py",
-        "data": "data/det_b1.pd"
+        "data": "data/det_b1_10.pd"
     },
     "compile": {
         "onnx": "/TS-KnightDemo/Output/ocrV3_det/quant/ocrV3_det_quantize.onnx",

@@ -88,7 +88,7 @@
 ### 2. 仿真
 
     #准备bin数据
-    python src/make_image_input_onnx.py --input data/ILSVRC2012_val_00000056_n02930766.jpg --outpath /TS-KnightDemo/Output/resnet50/npu
+    python src/make_image_input_onnx.py --input data/ILSVRC2012_val_00000056_n02930766.JPEG --outpath /TS-KnightDemo/Output/resnet50/npu
     #仿真
     Knight --chip TX5368AV200 run --run-config data/resnet50_config.json
 	#仿真输出txt文件转numpy

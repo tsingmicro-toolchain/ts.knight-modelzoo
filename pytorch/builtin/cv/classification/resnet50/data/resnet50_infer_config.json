@@ -7,6 +7,6 @@
         "run-mode": "infer",
         "save-dir": "/TS-KnightDemo/Output/resnet50/quant",
         "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/classification/resnet50/src/resnet50.py",
-        "data": "data/demo.jpg"
+        "data": "data/ILSVRC2012_val_00000056_n02930766.JPEG"
     }
 }

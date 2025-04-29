@@ -7,6 +7,7 @@ import argparse
 from onnx import helper
 from onnx import TensorProto
 from replace import *
+from onnx_quantize_tool.utils.constants import chip_map, CHIP_CONVERT_MAP
 
 LOG = logging.getLogger(__name__)
 

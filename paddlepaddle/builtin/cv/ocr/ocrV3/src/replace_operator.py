@@ -169,7 +169,7 @@ if __name__ == '__main__':
     args, unknown = parser.parse_known_args()
     if unknown:
         for i in unknown:
-            print_red_strings('Not support param: {}'.format(i))
+            print('Not support param: {}'.format(i))
         sys.exit(-1)
     if args.output is None:
         accelerate_model_path = args.model[:-5] + '_speed.onnx'
@@ -177,4 +177,4 @@ if __name__ == '__main__':
         accelerate_model_path = args.output
     replace = ReplaceBaseModel(args.model, accelerate_model_path)
     model_speed = replace.replace_pyop_operator()
-    print_green_strings('Sucessfully generating accelerate model: {}'.format(accelerate_model_path))
+    print('Sucessfully generating accelerate model: {}'.format(accelerate_model_path))

@@ -1,0 +1,11 @@
+{
+    "chip": "TX5336AV200",
+    "quant": {
+        "model": "/TS-KnightDemo/output/yolo-world/quant/yolo-world-v2-s-image_quantize.onnx",
+        "infer-func": "infer_yoloworld",
+        "run-mode": "infer",
+        "save-dir": "/TS-KnightDemo/output/yolo-world/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolo-world/src/infer_yoloworld.py",
+        "data": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolo-world/test_data/bus.jpg"
+    }
+}

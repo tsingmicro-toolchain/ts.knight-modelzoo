@@ -1,0 +1,12 @@
+{
+    "chip": "TX5336AV200",
+    "quant": {
+        "model": "/TS-KnightDemo/output/yolonas_s/quant/yolo_nas_s_quantize.onnx",
+        "framework": "onnx",
+        "infer-func": "infer_yolo_nas",
+        "run-mode": "infer",
+        "data": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/test_data/bus.jpg",
+        "save-dir": "/TS-KnightDemo/output/yolonas_s/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/src/infer_yolo_nas.py"
+    }
+}

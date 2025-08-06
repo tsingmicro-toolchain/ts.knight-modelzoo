@@ -1,0 +1,53 @@
+{
+    "chip": "TX5336AV200",
+    "quant": {
+        "model": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolo-world/weight/yolo-world-v2-s-image.onnx",
+        "framework": "onnx",
+        "infer-func": "infer_common",
+        "bit-width": "8",
+        "quant-mode": "mse",
+        "run-mode": "quant",
+        "iteration": 10,
+        "dump": true,
+        "save-dir": "/TS-KnightDemo/output/yolo-world/quant",
+        "user-defined-script": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolo-world/src/infer_common.py",
+        "input-configs": [
+            {
+                "input_name": "images",
+                "quant_data_format": "Image",
+                "data_dir": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolo-world/data/images",
+                "color_space": "RGB",
+                "mean": [
+                    0,
+                    0,
+                    0
+                ],
+                "std": [
+                    255.0,
+                    255.0,
+                    255.0
+                ],
+                "quantize_input_dtype": "uint8"
+            },
+            {
+                "input_name": "text",
+                "quant_data_format": "Numpy",
+                "data_dir": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolo-world/data/texts"
+            }
+        ]
+    },
+    "compile": {
+        "onnx": "/TS-KnightDemo/output/yolo-world/quant/yolo-world-v2-s-image_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/output/yolo-world/rne"
+    },
+    "run": {
+        "input": "/TS-KnightDemo/Output/yolo-world/npu/model_input.bin",
+        "format": "nchw",
+        "model": "/TS-KnightDemo/Output/yolo-world/npu/yolo-world-v2-s-image_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/yolo-world/npu/"
+    },
+    "profiling": {
+        "model": "/TS-KnightDemo/Output/yolo-world/npu/yolo-world-v2-s-image_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/yolo-world/npu"
+    }
+}

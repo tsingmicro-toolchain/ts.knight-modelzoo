@@ -1,0 +1,1 @@
+Knight --chip TX5368AV200 build --run-config data/yolov8s_config.json

@@ -8,6 +8,8 @@
 
 Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 
+数据集（COCO）：https://cocodataset.org/
+
 ## 资源准备
 
 
@@ -17,12 +19,15 @@ Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 	```git clone https://github.com/tsingmicro-toolchain/ts.knight-modelzoo.git```
 
 ## Knight环境准备
+1. 数据集资源下载
 
-1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.0.0.11.build1.tar.gz为例演示。
+	COCO数据集是一个可用于图像检测（image detection），语义分割（semantic segmentation）和图像标题生成（image captioning）的大规模数据集。这里需要下载coco128数据集。下载请前往[COCO官网](https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128_with_yaml.zip)。
+
+1. 联系清微智能获取Knight工具链版本包 ```ReleaseDeliverables/ts.knight-x.x.x.x.tar.gz ```。下面以ts.knight-3.4.0.2.build3.tar.gz为例演示。
 
 2. 检查docker环境
 
-	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.0.11.pdf》。
+	​默认服务器中已安装docker（版本>=19.03）, 如未安装可参考文档ReleaseDocuments/《TS.Knight-使用指南综述_V3.4.2.pdf》。
 	
 	```
 	docker -v   
@@ -31,13 +36,13 @@ Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 3. 加载镜像
 	
 	```
-	docker load -i ts.knight-3.0.0.11.build1.tar.gz
+	docker load -i ts.knight-3.4.0.2.build3.tar.gz
 	```
 
 4. 启动docker容器
 
 	```
-	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.0.0.11.build1 /bin/bash
+	docker run -v ${localhost_dir}/ts.knight-modelzoo:/ts.knight-modelzoo -it ts.knight:3.4.0.2.build3 /bin/bash
 	```
 	
 	localhost_dir为宿主机目录。
@@ -45,47 +50,49 @@ Github工程地址：https://github.com/Deci-AI/super-gradients/tree/master
 
 ## 模型部署流程
 
-### 1. 量化
-
-这里采用随机数量化，不输出精度指标。
+### 1. 量化&编译
 
 -   模型转换函数、推理函数准备
 	
-	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/src/export.py```推理函数使用自带的```infer_auto.py```，安装yolox工程中所需依赖包。
+	已提供量化依赖的模型转换和推理函数py文件: ```/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/src/export.py```推理函数使用自带的```infer_common.py```。
 
--   执行量化命令
+-   执行build命令
 
-	在容器内执行如下量化命令，生成量化后的文件 yolov6_quantize.onnx 存放在 -s 指定输出目录。
+	在容器内执行如下量化&编译命令，具体量化、编译参数可见 yolonas\_s_config.json。
 
-    	Knight --chip TX5368AV200 quant onnx -m yolo_nas_s 
-    		-f pytorch  
-    		-uds /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/src/export.py  
-    		-if infer_auto 
-			-s ./tmp/yolonas_s 
+    	Knight build --run-config data/yolonas_s_config.json
 
+-	量化后模型推理
+	首先需要修改infer\_yolo_nas.py反量化系数：
 
-### 2. 编译
+	![alt text](image.png)
 
-
-    Knight --chip TX5368AV200 compile --onnx yolonas_s_quantize.onnx --outpath .
+    	Knight quant --run-config data/yolonas_s_infer_config.json
 
 
-### 3. 仿真
+### 2. 仿真
 
     #准备bin数据
-    python3 src/make_image_input_onnx.py  --input /ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/data/images/train2017 --outpath . 
+    python3 src/make_image_input_onnx.py  --input test_data/bus.jpg --outpath /TS-KnightDemo/Output/yolonas_s/npu
     #仿真
-    Knight --chip TX5368AV200 sim --input model_input.bin --weight yolonas_s_quantize_r.weight --config  yolonas_s_quantize_r.cfg --outpath .
+    Knight run --run-config data/yolonas_s_config.json
+	#仿真输出txt文件转numpy
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolonas_s/npu/result_model_heads_Softmax_output_0_p.txt --save-dir /TS-KnightDemo/Output/yolonas_s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolonas_s/npu/result-_model_heads_Softmax_1_output_0_p.txt --save-dir /TS-KnightDemo/Output/yolonas_s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolonas_s/npu/result-_model_heads_Softmax_2_output_0_p.txt --save-dir /TS-KnightDemo/Output/yolonas_s/npu/
+	show_sim_result --sim-data /TS-KnightDemo/Output/yolonas_s/npu/result-1127_p.txt --save-dir /TS-KnightDemo/Output/yolonas_s/npu/
+	#模型后处理
+	python src/post_process.py --image test_data/bus.jpg --numpys /TS-KnightDemo/Output/yolonas_s/npu/result_model_heads_Softmax_output_0_p.npy /TS-KnightDemo/Output/yolonas_s/npu/result-_model_heads_Softmax_1_output_0_p.npy /TS-KnightDemo/Output/yolonas_s/npu/result-_model_heads_Softmax_2_output_0_p.npy /TS-KnightDemo/Output/yolonas_s/npu/result-1127_p.npy --scales 0.003256865 0.003747179 0.003707352 0.002899949 --save_dir /TS-KnightDemo/Output/yolonas_s/npu/
 
-### 4. 性能分析
+### 3. 性能分析
 
 ```
-Knight --chip TX5368AV200 profiling --config  yolonas_s_quantize_r.cfg --outpath .
+Knight --chip TX5336AV200 profiling --run-config data/yolonas_s_config.json
 ```
 
-### 5. 仿真库
+### 4. 仿真库
 
-### 6. 板端部署
+### 5. 板端部署
 
 
 

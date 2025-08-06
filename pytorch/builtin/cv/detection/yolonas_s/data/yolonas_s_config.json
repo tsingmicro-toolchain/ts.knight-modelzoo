@@ -1,34 +1,49 @@
 {
+    "chip": "TX5336AV200",
     "quant": {
-        "model": "yolov3",
-        "weight": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolov3/weight/yolov3-tiny.pt",
-        "framework": "pytorch",
-        "infer-func": "yolov3_quant",
-        "bit-width": 8,
-        "quant-mode": "min_max",
-        "batch-size": 1,
-        "iteration": 1,
+        "model": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/weight/yolo_nas_s.onnx",
+        "framework": "onnx",
+        "infer-func": "infer_common",
+        "bit-width": "8",
+        "quant-mode": "mse",
+        "iteration": 10,
         "run-mode": "quant",
-        "save-dir": "/TS-KnightDemo/Output/yolov3/quant",
-        "user-defined-script": "src/yolov3.py",
-        "data": "data/coco128.yaml",
-        "quantize-input-dtype": "uint8",
-        "mean": "0 0 0",
-        "std": "255 255 255",
-        "output-name": "/heads/Concat_1_output_0 1648",
+        "dump": true,
+        "save-dir": "/TS-KnightDemo/output/yolonas_s/quant",
+        "user-defined-script": "/opt/Quantize/onnx_examples/infer_common.py",
+        "output-name":  "/model/heads/Softmax_output_0 /model/heads/Softmax_1_output_0 /model/heads/Softmax_2_output_0 1127",
+        "input-configs": [
+            {
+                "input_name": "input",
+                "quant_data_format": "Image",
+                "data_dir": "/ts.knight-modelzoo/pytorch/builtin/cv/detection/yolonas_s/data/images/train2017",
+                "color_space": "RGB",
+                "mean": [
+                    0,
+                    0,
+                    0
+                ],
+                "std": [
+                    255.0,
+                    255.0,
+                    255.0
+                ],
+                "quantize_input_dtype": "uint8"
+            }
+        ]
     },
     "compile": {
-        "onnx": "/TS-KnightDemo/Output/yolov3/quant/yolov3_quantize.onnx",
-        "save-dir": "/TS-KnightDemo/Output/yolov3/npu"
+        "onnx": "/TS-KnightDemo/output/yolonas_s/quant/yolo_nas_s_quantize.onnx",
+        "save-dir": "/TS-KnightDemo/output/yolonas_s/rne"
     },
     "run": {
-        "input": "/TS-KnightDemo/Output/yolov3/npu/model_input.bin",
+        "input": "/TS-KnightDemo/Output/yolonas_s/npu/model_input.bin",
         "format": "nchw",
-        "model": "/TS-KnightDemo/Output/yolov3/npu/yolov3_quantize_r.tsmodel",
-        "save-dir": "/TS-KnightDemo/Output/yolov3/npu/"
+        "model": "/TS-KnightDemo/Output/yolonas_s/npu/yolo_nas_s_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/yolonas_s/npu/"
     },
     "profiling": {
-        "model": "/TS-KnightDemo/Output/yolov3/npu/yolov3_quantize_r.tsmodel",
-        "save-dir": "/TS-KnightDemo/Output/yolov3/npu"
+        "model": "/TS-KnightDemo/Output/yolonas_s/npu/yolo_nas_s_quantize_r.tsmodel",
+        "save-dir": "/TS-KnightDemo/Output/yolonas_s/npu"
     }
 }
